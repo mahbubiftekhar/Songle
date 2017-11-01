@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.android.synthetic.main.activity_main3.*
 
 
@@ -171,12 +172,31 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         val name = intent.getStringArrayExtra("name")
         val numberofPoints = intent.getIntExtra("numberofmarkers",0)
 
-        println("%%%%%%%%"+classification.get(0))
-       println("+++++++"+numberofPoints)
         for(i in 0..numberofPoints){
             val longlat = LatLng(PointsLat[i].toDouble(),PointsLong[i].toDouble())
-            mMap.addMarker(MarkerOptions().position(longlat).title("Hello world"))
+            if(classification[i] == "interesting"){
+            mMap.addMarker(MarkerOptions().position(longlat).title("Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.interesting))
+            }
+            else if (classification[i] == "veryinteresting"){
+                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.veryinteresting))
 
+            }
+            else if (classification[i] == "boring"){
+                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.boring))
+
+            }
+            else if (classification[i] == "notboring"){
+                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.notboring))
+
+            }
+            else if (classification[i] == "unclassified"){
+                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified))
+
+            }
+            else {
+                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified))
+
+            }
         }
 
         // Add a marker in Sydney and move the camera

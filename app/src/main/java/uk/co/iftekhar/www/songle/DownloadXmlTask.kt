@@ -39,29 +39,18 @@ class DownloadXmlTask() : AsyncTask<String, Void, List<Entry>>() {
 
     @Throws(IOException::class)
     private fun downloadUrl(urlString: String): InputStream {
-        //println(">>>>> in downloadUrl --- connecting to '$urlString'")
         val url = URL(urlString)
-        //println(">>>>> in downloadUrl --- just before openConnection")
         val conn = url.openConnection() as HttpURLConnection
-        //println(">>>>> in downloadUrl --- just after openConnection")
-        // Also available: HttpsURLConnection
-
-        //println(">>>>> in downloadUrl --- setting parameters")
         conn.readTimeout = 10000 // milliseconds
         conn.connectTimeout = 15000 // milliseconds
         conn.requestMethod = "GET"
         conn.doInput = true
-        // Starts the query
-
-        ///  println(">>>>> in downloadUrl --- just before connect()")
         conn.connect()
-        // println(">>>>> in downloadUrl --- exiting and returning inputStream")
         return conn.inputStream
     }
 
     override fun onPostExecute(result: List<Entry>) {
         super.onPostExecute(result)
-        /*Once finnished this Async task, call the map */
     }
 }
 data class Entry(val number: String, val artist: String, val title: String, val link: String )
