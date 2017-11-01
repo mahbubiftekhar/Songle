@@ -26,6 +26,7 @@ class SongLyricActivity : AppCompatActivity() {
             // setting layout_width and layout_height using layout parameters
             button_dynamic.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             button_dynamic.text = SongTitles_music.get(IndexCount)
+            //button_dynamic.setLayoutParams(LinearLayout.LayoutParams(10, 100))
 
             var SongNum = "";
             if(IndexCount < 10){

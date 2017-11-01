@@ -7,12 +7,14 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.content.Intent
 import android.net.Uri
+import android.R.attr.button
+
+
 
 
 class MusicActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        val NumberOfSongs_music = intent.getIntExtra("NumberOfSongs",0); /*receives the data from ActivityMain*/
+        val NumberOfSongs_music = intent.getIntExtra("NumberOfSongs",0) /*receives the data from ActivityMain*/
         val SongLinks_music = intent.getStringArrayExtra("SongLinks");
         val SongTitles_music = intent.getStringArrayExtra("SongTitles");
 
@@ -27,6 +29,7 @@ class MusicActivity : AppCompatActivity() {
         // setting layout_width and layout_height using layout parameters
         button_dynamic.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         button_dynamic.text = SongTitles_music.get(IndexCount)
+            //button_dynamic.setLayoutParams(LinearLayout.LayoutParams(10, 100))
 
             val url = "https://www.youtube.com/watch?v="+(SongLinks_music[IndexCount]).drop(17)
             button_dynamic.setOnClickListener {

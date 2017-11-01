@@ -51,6 +51,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_maps)
         /* Obtain the SupportMapFragment and get notified when the map is ready to be used. */
         val mapFragment = supportFragmentManager
@@ -164,9 +165,23 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
+        val PointsLong = intent.getStringArrayExtra("PointsLong") /*receives PointsLong data from ActivityMain*/
+        val PointsLat = intent.getStringArrayExtra("PointsLat") /*receives PointsLang data from ActivityMain*/
+        val classification = intent.getStringArrayExtra("classification")
+        val name = intent.getStringArrayExtra("name")
+        val numberofPoints = intent.getIntExtra("numberofmarkers",0)
+
+        println("%%%%%%%%"+classification.get(0))
+       println("+++++++"+numberofPoints)
+        for(i in 0..numberofPoints){
+            val longlat = LatLng(PointsLat[i].toDouble(),PointsLong[i].toDouble())
+            mMap.addMarker(MarkerOptions().position(longlat).title("Hello world"))
+
+        }
+
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(55.94438, -3.18701)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.addMarker(MarkerOptions().position(sydney).title("Appleton Tower"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         mMap.setMaxZoomPreference(22.0f) /*maximum view is building level*/
         mMap.setMinZoomPreference(16.0f) /*minimum view is street level */
