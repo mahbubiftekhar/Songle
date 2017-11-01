@@ -1,6 +1,5 @@
 package uk.co.iftekhar.www.songle
 
-import android.content.res.Resources
 import android.os.AsyncTask
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
@@ -9,7 +8,6 @@ import java.net.HttpURLConnection
 import java.net.URL
 import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
-import javax.net.ssl.HttpsURLConnection
 
 class DownloadKmlTask() : AsyncTask<String, Void, List<EntryKml>>() {
 
@@ -81,9 +79,13 @@ private fun readFeed(ParserKML: XmlPullParser): List<EntryKml> {
         println(">>>>>> in readFeed() - found ${ParserKML.name}")
         // Starts by looking for the EntryKml tag
         println(">>>>>>>>" + ParserKML.name)
-        if (ParserKML.name == "Document") {
+        if (ParserKML.name == "Document" ) {
             entrieskml.add(readEntryKml(ParserKML))
-        } else {
+        }else if(ParserKML.name == "Placemark"){
+            entrieskml.add(readEntryKml2(ParserKML))
+
+        }
+        else {
             skip(ParserKML)
                  println(">>>>>> skipped here in readfeed")
         }
@@ -94,6 +96,30 @@ private fun readFeed(ParserKML: XmlPullParser): List<EntryKml> {
 private fun readEntryKml(ParserKML: XmlPullParser): EntryKml {
     println(">>>>>> in readEntryKml()")
     ParserKML.require(XmlPullParser.START_TAG, ns, "Document")
+    var name = ""
+    var description = ""
+    var styleUrl = ""
+    var Point = ""
+    while (ParserKML.next() != XmlPullParser.END_TAG) {
+        println(">>>>>" + ParserKML.name)
+        if (ParserKML.eventType != XmlPullParser.START_TAG)
+            continue
+        if (ParserKML.name == "Placemark")
+            continue
+        when(ParserKML.name){
+            "name" -> name = readName(ParserKML)
+            "description" -> description = readDescription(ParserKML)
+            "styleUrl" -> styleUrl = readStyleUrl(ParserKML)
+            "Point" -> Point = readPoint(ParserKML)
+            else -> skip(ParserKML)
+        }
+    }
+    return EntryKml(name, description, styleUrl, Point)
+}
+@Throws(XmlPullParserException::class, IOException::class)
+private fun readEntryKml2(ParserKML: XmlPullParser): EntryKml {
+    println(">>>>>> in readEntryKml()")
+    ParserKML.require(XmlPullParser.START_TAG, ns, "Placemark")
     var name = ""
     var description = ""
     var styleUrl = ""
@@ -137,22 +163,28 @@ private fun readDescription(ParserKML: XmlPullParser): String {
 }
 
 @Throws(IOException::class, XmlPullParserException::class)
-private fun readPoint(ParserKML: XmlPullParser): String {
-    println(">>>>>> in readPoint()")
-    //ParserKML.require(XmlPullParser.START_TAG, ns, "Point")
-    var Point = "" //readcoordinates(ParserKML)
-    //ParserKML.require(XmlPullParser.END_TAG, ns, "Point")
-    println(">>>>>>Point: "+Point)
-    return Point
+private fun readPoint(parser: XmlPullParser): String {
+    parser.require(XmlPullParser.START_TAG, ns, "Point")
+    var coords  = ""
+    while (parser.next() != XmlPullParser.END_TAG) {
+        if (parser.eventType != XmlPullParser.START_TAG) {
+            continue
+        }
+        val theName = parser.name
+        if (theName == "coordinates") {
+            coords = readCoordinates(parser)
+        } else { skip(parser)
+        }
+    }
+    println(">>>>>>>>>Point"+coords)
+    return coords
 }
 
 @Throws(IOException::class, XmlPullParserException::class)
-private fun readcoordinates(ParserKML: XmlPullParser): String {
-    println(">>>>>> in readreadcoordinates()")
-    ParserKML.require(XmlPullParser.START_TAG, ns, "coordinates")
-    var coordinates = readText(ParserKML)
-    ParserKML.require(XmlPullParser.END_TAG, ns, "coordinates")
-    println(">>>>>>coordinates: "+coordinates)
+private fun readCoordinates(parser: XmlPullParser): String {
+    parser.require(XmlPullParser.START_TAG, ns, "coordinates")
+    val coordinates = readText(parser)
+    parser.require(XmlPullParser.END_TAG, ns, "coordinates")
     return coordinates
 }
 
@@ -181,7 +213,7 @@ private fun readText(ParserKML: XmlPullParser): String {
 private fun skip(ParserKML: XmlPullParser) {
     println(">>>>>> in skip()")
     if (ParserKML.eventType != XmlPullParser.START_TAG) {
-        throw IllegalStateException()
+        //throw IllegalStateException()
     }
     var depth = 1
     while (depth != 0) {

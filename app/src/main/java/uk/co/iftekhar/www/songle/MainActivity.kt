@@ -125,6 +125,19 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            SONGLYRICS.setOnClickListener {
+            val SongTitles = arrayOfNulls<String>(numberofsongs)
+            for (i in 0..numberofsongs - 1) {
+
+                val b = Parsed.get()[i].title
+                SongTitles[i] = b
+            }
+            val intent = Intent(this, SongLyricActivity::class.java)
+            intent.putExtra("NumberOfSongs", numberofsongs)
+            intent.putExtra("SongTitles", SongTitles)
+            startActivity(intent)
+            }
+
             HOWTOPLAY.setOnClickListener {
                 println(">>>>>>>> THIS IS PRINTING BEFORE KML activity started")
                 val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/01/map1.kml"

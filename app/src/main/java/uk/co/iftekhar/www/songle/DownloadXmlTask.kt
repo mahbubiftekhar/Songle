@@ -61,6 +61,7 @@ class DownloadXmlTask() : AsyncTask<String, Void, List<Entry>>() {
 
     override fun onPostExecute(result: List<Entry>) {
         super.onPostExecute(result)
+        /*Once finnished this Async task, call the map */
     }
 }
 data class Entry(val number: String, val artist: String, val title: String, val link: String )

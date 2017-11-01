@@ -60,6 +60,12 @@
             android:padding="10dp"/>
         <Button android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:text="@string/SONYLYRICS"
+            android:id="@+id/SONGLYRICS"
+            android:padding="10dp"/>
+
+        <Button android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:text="@string/EXPLAINGAME"
             android:id="@+id/HOWTOPLAY"
             android:padding="10dp"/>
