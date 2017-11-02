@@ -25,7 +25,7 @@ class SongLyricActivity : AppCompatActivity() {
         for (i in 0..NumberOfSongs_music-1) { /*creates enough buttons for each song, and says what the buttons do */
             val button_dynamic = Button(this)
             // setting layout_width and layout_height using layout parameters
-            button_dynamic.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            button_dynamic.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             button_dynamic.text = SongTitles_music.get(IndexCount)
             //button_dynamic.setLayoutParams(LinearLayout.LayoutParams(10, 100))
 

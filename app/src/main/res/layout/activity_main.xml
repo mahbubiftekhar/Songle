@@ -1,51 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
 <ScrollView
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="368dp"
-    android:layout_height="495dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:layout_editor_absoluteY="8dp"
     tools:layout_editor_absoluteX="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="16dp">
 
-        <TextView android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <TextView android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:padding="10dp"
             android:text="Welcome to Songle!"
             android:textAlignment="center"
             android:textStyle="bold"
             />
 
-        <Button android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Button android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/LEVEL1"
             android:id="@+id/LEVEL1_BUTTON"
             android:padding="10dp"/>
-        <Button android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Button android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/LEVEL2"
             android:id="@+id/LEVEL2_BUTTON"
             android:padding="10dp"/>
-        <Button android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Button android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/LEVEL3"
             android:id="@+id/LEVEL3_BUTTON"
             android:padding="10dp"/>
-        <Button android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Button android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/LEVEL4"
             android:id="@+id/LEVEL4_BUTTON"
             android:padding="10dp"/>
-        <Button android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Button android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/LEVEL5"
             android:id="@+id/LEVEL5BUTTON"
             android:padding="10dp"/>
@@ -53,29 +50,22 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1" />
-        <Button android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Button android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/MUSIC"
             android:id="@+id/MUSICBUTTON"
             android:padding="10dp"/>
-        <Button android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Button android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/SONYLYRICS"
             android:id="@+id/SONGLYRICS"
             android:padding="10dp"/>
 
-        <Button android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Button android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/EXPLAINGAME"
             android:id="@+id/HOWTOPLAY"
             android:padding="10dp"/>
 
-
-
-
     </LinearLayout>
-
-
-
-
 </ScrollView>
