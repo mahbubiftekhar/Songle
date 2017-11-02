@@ -21,28 +21,12 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import kotlinx.android.synthetic.main.activity_main3.*
+import kotlinx.android.synthetic.main.activity_main2.*
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener, LocationListener {
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                message.setText(R.string.title_home)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_dashboard -> {
-                message.setText(R.string.title_dashboard)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_notifications -> {
-                message.setText(R.string.title_notifications)
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
+
     private lateinit var mMap: GoogleMap
     private lateinit var mGoogleApiClient: GoogleApiClient
     val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
@@ -182,19 +166,19 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
             }
             else if (classification[i] == "boring"){
-                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.boring))
+                mMap.addMarker(MarkerOptions().position(longlat).title("boring")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.boring))
 
             }
             else if (classification[i] == "notboring"){
-                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.notboring))
+                mMap.addMarker(MarkerOptions().position(longlat).title("notboring")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.notboring))
 
             }
             else if (classification[i] == "unclassified"){
-                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified))
+                mMap.addMarker(MarkerOptions().position(longlat).title("unclassified")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified))
 
             }
             else {
-                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified))
+                mMap.addMarker(MarkerOptions().position(longlat).title("unclassified")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified))
 
             }
         }
