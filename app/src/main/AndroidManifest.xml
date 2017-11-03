@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -51,20 +52,8 @@
             android:name=".HowToPlay"
             android:label="@string/title_activity_how_to_play"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".AndroidMapsActivity"
-            android:label="@string/title_activity_android_maps" />
-        <activity
-            android:name=".Main3Activity"
-            android:label="@string/title_activity_main3" />
         <activity android:name=".SongLyricActivity" />
-        <activity
-            android:name=".CorrectGuessScreen"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_correct_guess_screen"
-            android:theme="@style/FullscreenTheme" />
-        <activity android:name=".CorrectGuess" />
-        <activity android:name=".IncorrectGuess"></activity>
+        <activity android:name=".CorrectSplash" />
     </application>
 
 </manifest>

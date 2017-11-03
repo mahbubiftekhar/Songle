@@ -116,6 +116,12 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("SongTitles", SongTitles)
             intent.putExtra("THESONGNAME", THESONGNAME)
             intent.putExtra("THESONGLINK", THESONGLINK)
+
+            //These are used after the user has guessed the songs
+            intent.putExtra("CURRENTLEVEL", Level)
+            intent.putExtra("SONGLINKYOUTUBE",SongLinks[RandomNumberinRange-1]) //Pass song link Youtube
+            intent.putExtra("SONGLINKLYRIC", RandomNumberinRange) // Pass song link Lyrics
+
             startActivity(intent)
 
         }

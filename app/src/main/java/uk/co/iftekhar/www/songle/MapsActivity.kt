@@ -1,6 +1,7 @@
 package uk.co.iftekhar.www.songle
-
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.support.v7.app.AppCompatActivity
@@ -21,6 +22,8 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import android.os.Vibrator;
+import com.google.android.gms.maps.model.PointOfInterest
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -39,6 +42,18 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+
+        fun correctguess () {
+            val LEVEL = intent.getStringExtra("CURRENTLEVEL");
+            val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE");
+            val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC");
+            val intent = Intent(this, CorrectSplash::class.java)
+            intent.putExtra("LEVEL", LEVEL);
+            println("!!!!!!!! In Maps Activity" + LEVEL);
+            intent.putExtra("SONGYOUTUBELINK", SONGYOUTUBELINK)
+            intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
+            startActivity(intent)
+        }
         /* Obtain the SupportMapFragment and get notified when the map is ready to be used. */
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -74,18 +89,27 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(options.get(position) == options.get(0)) {
                     Toast.makeText(this@MapsActivity, "You have ${numberOfTriesLeft} guesses, GOOD LUCK!!", Toast.LENGTH_SHORT).show()
+                    val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    vibratorService.vibrate(300)
                 }
                 else if(THESONGNAME == options.get(position)){
+                    val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    vibratorService.vibrate(300)
                     Toast.makeText(this@MapsActivity, "Correct! Well done", Toast.LENGTH_SHORT).show()
-                //do something if the user gets the correct song
-                } else {
+                    correctguess() // Call function to switch activities
+                    //do something if the user gets the correct song
+                    //
+                    } else {
                     numberOfTriesLeft = numberOfTriesLeft-1;
                     Toast.makeText(this@MapsActivity, "Incorrect, ${numberOfTriesLeft} tries left", Toast.LENGTH_SHORT).show()
+                    val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    vibratorService.vibrate(300)
                 }
             }
         }
 
     }
+
     override fun onStart() {
         super.onStart()
         mGoogleApiClient.connect()
@@ -113,6 +137,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     }
 
     override fun onConnected(connectionHint: Bundle?) {
+
         try {
             createLocationRequest(); } catch (ise: IllegalStateException) {
             println("IllegalStateException thrown [onConnected]");
@@ -130,6 +155,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         }
     }
 
+
     override fun onLocationChanged(current: Location?) {
         if (current == null) {
             println("[onLocationChanged] Location unknown")
@@ -138,9 +164,12 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             (${current.getLatitude()},
             ${current.getLongitude()})"""
             )
+
+
         }
 // Do something with current location
-// ...
+// ... Here is where I should check for the distance between the points and the
+
     }
 
     override fun onConnectionSuspended(flag: Int) {
@@ -168,8 +197,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         val earthRadius = 6371000.0 //meters
         val dLat = Math.toRadians((lat2 - lat1).toDouble())
         val dLng = Math.toRadians((lng2 - lng1).toDouble())
-        val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1.toDouble())) * Math.cos(Math.toRadians(lat2.toDouble())) *
-                Math.sin(dLng / 2) * Math.sin(dLng / 2)
+        val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1.toDouble())) * Math.cos(Math.toRadians(lat2.toDouble())) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
         val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
         val dist = (earthRadius * c).toFloat()
 
@@ -184,7 +212,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         val name = intent.getStringArrayExtra("name")
         val numberofPoints = intent.getIntExtra("numberofmarkers",0)
 
-        for(i in 0..numberofPoints){
+        for(i in 0..numberofPoints){ /*adding the markers, with the correct icon to each depending on classification*/
             val longlat = LatLng(PointsLat[i].toDouble(),PointsLong[i].toDouble())
             if(classification[i] == "interesting"){
             mMap.addMarker(MarkerOptions().position(longlat).title("Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.interesting))
@@ -210,7 +238,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
             }
         }
-
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(55.94438, -3.18701)
         mMap.addMarker(MarkerOptions().position(sydney).title("Appleton Tower"))
