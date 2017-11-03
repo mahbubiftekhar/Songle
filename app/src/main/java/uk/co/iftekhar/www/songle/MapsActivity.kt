@@ -5,10 +5,10 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.util.FloatMath
+import android.view.View
+import android.widget.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -21,12 +21,10 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import kotlinx.android.synthetic.main.activity_main2.*
-
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener, LocationListener {
-
+    private var numberOfTriesLeft = 5
     private lateinit var mMap: GoogleMap
     private lateinit var mGoogleApiClient: GoogleApiClient
     val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
@@ -34,13 +32,15 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private lateinit var mLastLocation: Location
     val TAG = "MapsActivity"
 
+    lateinit var  Spinner: Spinner
+    lateinit var result : TextView
+    //val name = intent.getStringArrayExtra("SongTitles")!!;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_maps)
         /* Obtain the SupportMapFragment and get notified when the map is ready to be used. */
-        val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         /* Get notified when the map is ready to be used. Long´running
@@ -53,15 +53,43 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build()
+        val THESONGNAME = intent.getStringExtra("THESONGNAME");
+        println("$$$$$$" + THESONGNAME)
+        val THESONGLINK = intent.getStringExtra("THESONGLINK");
 
+        /*Find the id of spinner*/
+        Spinner =  findViewById<View>(R.id.spinner) as Spinner
+        result = findViewById<View>(R.id.tv_result) as TextView
+        Spinner.bringToFront()
+        /*set an adapter with strings array*/
+        val options = intent.getStringArrayExtra("SongTitles")
+        val adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, options)
+        Spinner.adapter = adapter;
+
+        /*set click listener*/
+        Spinner.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,options)
+        Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if(options.get(position) == options.get(0)) {
+                    Toast.makeText(this@MapsActivity, "You have ${numberOfTriesLeft} guesses, GOOD LUCK!!", Toast.LENGTH_SHORT).show()
+                }
+                else if(THESONGNAME == options.get(position)){
+                    Toast.makeText(this@MapsActivity, "Correct! Well done", Toast.LENGTH_SHORT).show()
+                //do something if the user gets the correct song
+                } else {
+                    numberOfTriesLeft = numberOfTriesLeft-1;
+                    Toast.makeText(this@MapsActivity, "Incorrect, ${numberOfTriesLeft} tries left", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
     }
-
     override fun onStart() {
         super.onStart()
         mGoogleApiClient.connect()
     }
-
     override fun onStop() {
         super.onStop()
         if (mGoogleApiClient.isConnected) {
@@ -201,6 +229,3 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     }
 
 }
-
-
-

@@ -54,7 +54,6 @@ class HowToPlay : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_how_to_play, menu)
         return true
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -86,7 +85,6 @@ class HowToPlay : AppCompatActivity() {
             return 3
         }
     }
-
     /**
      * A placeholder fragment containing a simple view.
      */

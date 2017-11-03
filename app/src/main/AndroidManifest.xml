@@ -57,7 +57,14 @@
         <activity
             android:name=".Main3Activity"
             android:label="@string/title_activity_main3" />
-        <activity android:name=".SongLyricActivity"></activity>
+        <activity android:name=".SongLyricActivity" />
+        <activity
+            android:name=".CorrectGuessScreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_correct_guess_screen"
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".CorrectGuess" />
+        <activity android:name=".IncorrectGuess"></activity>
     </application>
 
 </manifest>

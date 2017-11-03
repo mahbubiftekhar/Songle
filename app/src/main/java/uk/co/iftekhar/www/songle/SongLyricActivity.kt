@@ -11,10 +11,8 @@ import android.net.Uri
 
 class SongLyricActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
         val NumberOfSongs_music = intent.getIntExtra("NumberOfSongs",0); /*receives the data from ActivityMain*/
         val SongTitles_music = intent.getStringArrayExtra("SongTitles");
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music)
         val ll_main: LinearLayout = findViewById(R.id.ll_main_layout) //as LinearLayout

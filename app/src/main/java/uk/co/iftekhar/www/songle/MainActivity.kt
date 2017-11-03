@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" /* The link for downloading the XML with song information */
         val XMLSongs = DownloadXmlTask()
         val Parsed = XMLSongs.execute(XMLSONGS)
-
         var numberofsongs = (Parsed.get().lastIndex) + 1 /*Number of songs in XML, please note 0 is the start */
 
         fun Random.nextInt(range: IntRange): Int { /*creates a random number */
@@ -82,6 +81,17 @@ class MainActivity : AppCompatActivity() {
             val PointsLat = arrayOfNulls<String>(numberofPoints+1)
             val classification = arrayOfNulls<String>(numberofPoints+1)
             val name = arrayOfNulls<String>(numberofPoints+1)
+            val SongTitles = arrayOfNulls<String>(numberofsongs+1)
+            val SongLinks = arrayOfNulls<String>(numberofsongs+1)
+            for (i in 0..numberofsongs-1) {
+                val a = Parsed.get()[i].link
+                SongLinks[i] = a
+            }
+            SongTitles[0] = "Guess the song!!"
+            for (i in 1..numberofsongs) {
+                val b = Parsed.get()[i-1].title
+                SongTitles[i] = b
+            }
             for (i in 0..numberofPoints) {
                 val a = KMLParsed.get()[i].Point
                 val input = a
@@ -93,12 +103,19 @@ class MainActivity : AppCompatActivity() {
                 val c = KMLParsed.get()[i].name
                 name[i] = c;
             }
+            val THESONGNAME = SongTitles[RandomNumberinRange];
+            val THESONGLINK = SongLinks[RandomNumberinRange];
+            println("£££££££"+THESONGNAME);
             val intent = Intent(this, MapsActivity::class.java)
             intent.putExtra("numberofmarkers", numberofPoints) /*passing number of markers */
             intent.putExtra("PointsLat", PointsLat)
             intent.putExtra("PointsLong", PointsLong)
             intent.putExtra("classification", classification)
             intent.putExtra("name", name)
+            intent.putExtra("SongLinks", SongLinks)
+            intent.putExtra("SongTitles", SongTitles)
+            intent.putExtra("THESONGNAME", THESONGNAME)
+            intent.putExtra("THESONGLINK", THESONGLINK)
             startActivity(intent)
 
         }
@@ -123,14 +140,11 @@ class MainActivity : AppCompatActivity() {
         }
         MUSICBUTTON.setOnClickListener{
                 val SongLinks = arrayOfNulls<String>(numberofsongs)
-                for (i in 0..numberofsongs - 1) {
+                val SongTitles = arrayOfNulls<String>(numberofsongs)
+                for (i in 0..numberofsongs-1) {
 
                     val a = Parsed.get()[i].link
                     SongLinks[i] = a
-                }
-                val SongTitles = arrayOfNulls<String>(numberofsongs)
-                for (i in 0..numberofsongs - 1) {
-
                     val b = Parsed.get()[i].title
                     SongTitles[i] = b
                 }
@@ -143,8 +157,7 @@ class MainActivity : AppCompatActivity() {
 
             SONGLYRICS.setOnClickListener {
             val SongTitles = arrayOfNulls<String>(numberofsongs)
-            for (i in 0..numberofsongs - 1) {
-
+            for (i in 0..numberofsongs-1) {
                 val b = Parsed.get()[i].title
                 SongTitles[i] = b
             }
