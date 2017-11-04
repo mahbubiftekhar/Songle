@@ -23,10 +23,12 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import android.os.Vibrator;
-import com.google.android.gms.maps.model.PointOfInterest
+import android.os.CountDownTimer
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener, LocationListener {
+
+
     private var numberOfTriesLeft = 5
     private lateinit var mMap: GoogleMap
     private lateinit var mGoogleApiClient: GoogleApiClient
@@ -37,34 +39,70 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     lateinit var  Spinner: Spinner
     lateinit var result : TextView
-    //val name = intent.getStringArrayExtra("SongTitles")!!;
+    lateinit private var countDownTimer: CountDownTimer
+    var timer: CountDownTimer? = null
 
+    private fun startTimer(minutes:Long){
+        countDownTimer = object : CountDownTimer(minutes, 60000){
+            override fun onTick(p0: Long) {
+                if(p0.toInt() == 60000){/* 1 MINUTE LEFT */
+                    val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    vibratorService.vibrate(600)
+                    Toast.makeText(this@MapsActivity, "${Math.round(p0*0.001f/60)} minute left", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this@MapsActivity, "${Math.round(p0*0.001f/60)} minutes left", Toast.LENGTH_SHORT).show()
+                    /* X MINUTE LEFT WHERE X = {2,3,4,...9} */
+                }
+            }
+            override fun onFinish() {
+            incorrectguess()
+            }
+        }.start()
+        countDownTimer.start()
+
+    }
+
+    private fun stop(){
+        /*cancel the timer */
+        countDownTimer.cancel()
+    }
+    override fun onBackPressed() {
+        /*Overriding on back pressed, otherwise user
+        can go back to previous maps and we do not want that*/
+        super.onBackPressed()
+        /*Send the user back to MainActivity */
+        stop() /* */
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+    fun correctguess () {
+        val LEVEL = intent.getStringExtra("CURRENTLEVEL");
+        val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE");
+        val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC");
+        val intent = Intent(this, CorrectSplash::class.java)
+        intent.putExtra("LEVEL", LEVEL);
+        intent.putExtra("SONGYOUTUBELINK", SONGYOUTUBELINK)
+        intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
+        startActivity(intent)
+    }
+    fun incorrectguess () {
+        //If the timer runs out, or if the user guesses too many times
+        val LEVEL = intent.getStringExtra("CURRENTLEVEL");
+        val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE");
+        val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC");
+        val intent = Intent(this, IncorrectSplash::class.java)
+        intent.putExtra("LEVEL", LEVEL);
+        intent.putExtra("SONGYOUTUBELINK", SONGYOUTUBELINK)
+        intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
+        startActivity(intent)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-        fun correctguess () {
-            val LEVEL = intent.getStringExtra("CURRENTLEVEL");
-            val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE");
-            val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC");
-            val intent = Intent(this, CorrectSplash::class.java)
-            intent.putExtra("LEVEL", LEVEL);
-            intent.putExtra("SONGYOUTUBELINK", SONGYOUTUBELINK)
-            intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
-            startActivity(intent)
-        }
 
-        fun incorrectguess () {
-            println("$$$$$ we are getting to incorrectguess")
-            val LEVEL = intent.getStringExtra("CURRENTLEVEL");
-            val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE");
-            val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC");
-            val intent = Intent(this, IncorrectSplash::class.java)
-            intent.putExtra("LEVEL", LEVEL);
-            intent.putExtra("SONGYOUTUBELINK", SONGYOUTUBELINK)
-            intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
-            startActivity(intent)
-        }
+
+
         /* Obtain the SupportMapFragment and get notified when the map is ready to be used. */
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -99,13 +137,13 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(options.get(position) == options.get(0)) {
-                    Toast.makeText(this@MapsActivity, "You have ${numberOfTriesLeft} guesses, GOOD LUCK!!", Toast.LENGTH_SHORT).show()
                     val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     vibratorService.vibrate(300)
                 }
                 else if(THESONGNAME == options.get(position)){
                     val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     vibratorService.vibrate(300)
+                    stop() /*CORRECT GUESS thus stop the timer */
                     Toast.makeText(this@MapsActivity, "Correct! Well done", Toast.LENGTH_SHORT).show()
                     correctguess() // Call function to switch activities
                     //do something if the user gets the correct song
@@ -122,7 +160,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         }
 
     }
-
     override fun onStart() {
         super.onStart()
         mGoogleApiClient.connect()
@@ -182,7 +219,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         }
 // Do something with current location
 // ... Here is where I should check for the distance between the points and the
-
     }
 
     override fun onConnectionSuspended(flag: Int) {
@@ -266,6 +302,19 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         }
         // Add ”My location” button to the user interface
         mMap.uiSettings.isMyLocationButtonEnabled = true
+        val LEVEL = intent.getStringExtra("CURRENTLEVEL");
+        if(LEVEL == "5"){
+            startTimer(1080000) //18 minutes
+        } else if (LEVEL == "4"){
+            startTimer(1020000) // 17 minutest
+        }else if (LEVEL == "3"){
+            startTimer(960000) // 16 minutes
+        }
+        else if (LEVEL == "2"){
+            startTimer(900000) //15 minutes
+        }
+        else {
+            startTimer(840000) //14 minutes
+        }
     }
-
-}
+    }

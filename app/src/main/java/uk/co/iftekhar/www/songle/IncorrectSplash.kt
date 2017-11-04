@@ -1,9 +1,12 @@
 package uk.co.iftekhar.www.songle
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_incorrect_splash.*
 import java.util.*
 
@@ -16,7 +19,19 @@ class IncorrectSplash : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
+    private fun isNetworkConnected(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
+        val networkInfo = connectivityManager.activeNetworkInfo // 2
+        return networkInfo != null && networkInfo.isConnected // 3
+    }
 
+    fun networkChecker (){
+        if(isNetworkConnected()==false){
+            Toast.makeText(this@IncorrectSplash, "Check your internet connection", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, NetworkIssue()::class.java)
+            startActivity(intent)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incorrect_splash)
@@ -92,19 +107,19 @@ class IncorrectSplash : AppCompatActivity() {
         val SONGYOUTUBELINK = intent.getStringExtra("SONGYOUTUBELINK")
         val SONGLYRICLINK = intent.getStringExtra("SONGLYRICLINK")
         val LEVEL = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
-        println("!!!!!" + LEVEL);
         YOUTUBELINK.setOnClickListener {
-            //val YOUTUBELINK = Button(this)
+            networkChecker()
             val url = "https://www.youtube.com/watch?v="+(SONGYOUTUBELINK).drop(17)
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
         LYRICLINK.setOnClickListener {
-            println("%%" + SONGLYRICLINK)
+            networkChecker()
             val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/" + SONGLYRICLINK + "/words.txt"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
         SAMELEVEL.setOnClickListener {
-            bulkWord(LEVEL) /*RELOAD THE SAME LEVEL*/
+            networkChecker()
+            bulkWord(LEVEL) /*RELOAD THE SAME LEVEL FOR THE USER*/
         }
 
     }

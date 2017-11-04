@@ -1,9 +1,12 @@
 package uk.co.iftekhar.www.songle
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_correct_splash.*
 import java.util.*
 
@@ -17,6 +20,19 @@ class CorrectSplash : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun isNetworkConnected(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
+        val networkInfo = connectivityManager.activeNetworkInfo // 2
+        return networkInfo != null && networkInfo.isConnected // 3
+    }
+
+    fun networkChecker (){
+        if(isNetworkConnected()==false){
+            Toast.makeText(this@CorrectSplash, "Check your internet connection", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, NetworkIssue()::class.java)
+            startActivity(intent)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_correct_splash)
@@ -97,35 +113,35 @@ class CorrectSplash : AppCompatActivity() {
         val LEVEL = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
         println("!!!!!" + LEVEL);
         YOUTUBELINK.setOnClickListener {
+            networkChecker()
             //val YOUTUBELINK = Button(this)
             val url = "https://www.youtube.com/watch?v="+(SONGYOUTUBELINK).drop(17)
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
         LYRICLINK.setOnClickListener {
+            networkChecker()
             println("%%" + SONGLYRICLINK)
             val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/" + SONGLYRICLINK + "/words.txt"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
         SAMELEVEL.setOnClickListener {
+            networkChecker()
             bulkWord(LEVEL) /*RELOAD THE SAME LEVEL*/
         }
         NEXTLEVEL.setOnClickListener {
+            networkChecker()
             if(LEVEL == "5"){
                 println("$$" + "4")
                 bulkWord("4") /*RELOAD THE NEXT LEVEL*/
             } else if (LEVEL == "4"){
-                println("$$" + "3")
                 bulkWord("3") /*RELOAD THE NEXT LEVEL*/
             }else if (LEVEL == "3"){
-                println("$$" + "2")
                 bulkWord("2") /*RELOAD THE NEXT LEVEL*/
             }
             else if (LEVEL == "2"){
-                println("$$" + "1")
                 bulkWord("1") /*RELOAD THE NEXT LEVEL*/
             }
             else {
-                println("$$" + "1")
                 bulkWord("1") /*RELOAD THE NEXT LEVEL*/
             }
         }

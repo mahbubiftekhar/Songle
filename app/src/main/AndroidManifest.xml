@@ -48,13 +48,14 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".MusicActivity" />
-        <activity
-            android:name=".HowToPlay"
-            android:label="@string/title_activity_how_to_play"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SongLyricActivity" />
         <activity android:name=".CorrectSplash" />
-        <activity android:name=".IncorrectSplash"></activity>
+        <activity android:name=".IncorrectSplash" />
+        <activity
+            android:name=".FAQ"
+            android:label="@string/title_activity_faq"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".NetworkIssue"></activity>
     </application>
 
 </manifest>
