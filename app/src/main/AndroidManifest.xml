@@ -54,6 +54,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SongLyricActivity" />
         <activity android:name=".CorrectSplash" />
+        <activity android:name=".IncorrectSplash"></activity>
     </application>
 
 </manifest>

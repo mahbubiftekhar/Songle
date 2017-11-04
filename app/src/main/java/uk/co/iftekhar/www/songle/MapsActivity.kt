@@ -49,7 +49,18 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC");
             val intent = Intent(this, CorrectSplash::class.java)
             intent.putExtra("LEVEL", LEVEL);
-            println("!!!!!!!! In Maps Activity" + LEVEL);
+            intent.putExtra("SONGYOUTUBELINK", SONGYOUTUBELINK)
+            intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
+            startActivity(intent)
+        }
+
+        fun incorrectguess () {
+            println("$$$$$ we are getting to incorrectguess")
+            val LEVEL = intent.getStringExtra("CURRENTLEVEL");
+            val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE");
+            val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC");
+            val intent = Intent(this, IncorrectSplash::class.java)
+            intent.putExtra("LEVEL", LEVEL);
             intent.putExtra("SONGYOUTUBELINK", SONGYOUTUBELINK)
             intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
             startActivity(intent)
@@ -99,7 +110,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                     correctguess() // Call function to switch activities
                     //do something if the user gets the correct song
                     //
-                    } else {
+                    } else if (numberOfTriesLeft == 1) {
+                    incorrectguess()
+                } else {
                     numberOfTriesLeft = numberOfTriesLeft-1;
                     Toast.makeText(this@MapsActivity, "Incorrect, ${numberOfTriesLeft} tries left", Toast.LENGTH_SHORT).show()
                     val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator

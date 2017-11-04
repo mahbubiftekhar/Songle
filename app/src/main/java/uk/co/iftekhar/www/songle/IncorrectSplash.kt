@@ -4,10 +4,10 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import kotlinx.android.synthetic.main.activity_correct_splash.*
+import kotlinx.android.synthetic.main.activity_incorrect_splash.*
 import java.util.*
 
-class CorrectSplash : AppCompatActivity() {
+class IncorrectSplash : AppCompatActivity() {
     override fun onBackPressed() {
         /*Overriding on back pressed, otherwise user
         can go back to previous maps and we do not want that*/
@@ -19,18 +19,15 @@ class CorrectSplash : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_correct_splash)
+        setContentView(R.layout.activity_incorrect_splash)
         fun Random.nextInt(range: IntRange): Int { /*creates a random number */
             return range.start + nextInt(range.last - range.start)
         }
-
-
         fun bulkWord (Level: String) {
             val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" /* The link for downloading the XML with song information */
             val XMLSongs = DownloadXmlTask()
             val Parsed = XMLSongs.execute(XMLSONGS)
             var numberofsongs = (Parsed.get().lastIndex) + 1 /*Number of songs in XML, please note 0 is the start */
-
             var URLNUMBER = "";
             val random = Random()
             val RandomNumberinRange = random.nextInt(1..numberofsongs) /*Random number in range for the button to open */
@@ -108,26 +105,6 @@ class CorrectSplash : AppCompatActivity() {
         }
         SAMELEVEL.setOnClickListener {
             bulkWord(LEVEL) /*RELOAD THE SAME LEVEL*/
-        }
-        NEXTLEVEL.setOnClickListener {
-            if(LEVEL == "5"){
-                println("$$" + "4")
-                bulkWord("4") /*RELOAD THE NEXT LEVEL*/
-            } else if (LEVEL == "4"){
-                println("$$" + "3")
-                bulkWord("3") /*RELOAD THE NEXT LEVEL*/
-            }else if (LEVEL == "3"){
-                println("$$" + "2")
-                bulkWord("2") /*RELOAD THE NEXT LEVEL*/
-            }
-            else if (LEVEL == "2"){
-                println("$$" + "1")
-                bulkWord("1") /*RELOAD THE NEXT LEVEL*/
-            }
-            else {
-                println("$$" + "1")
-                bulkWord("1") /*RELOAD THE NEXT LEVEL*/
-            }
         }
 
     }
