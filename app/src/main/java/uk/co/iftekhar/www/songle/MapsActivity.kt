@@ -41,14 +41,13 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     lateinit var  Spinner: Spinner
     lateinit var result : TextView
-    lateinit var countDownTimer: CountDownTimer
     val timer = Timer()
 
     fun startTimer(minutes:Long){
         Toast.makeText(this@MapsActivity, "You have ${minutes/60000} minutes! GOOD LUCK!!", Toast.LENGTH_LONG).show()
         val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibratorService.vibrate(600)
-        timer.schedule(timerTask { incorrectguess() }, 360000)
+        timer.schedule(timerTask { incorrectguess() }, minutes)
     }
     private fun endTimer () {
         timer.cancel()
@@ -79,6 +78,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         startActivity(intent)
     }
     fun incorrectguess () {
+        endTimer()// end the timer
         //If the timer runs out, or if the user guesses too many times
         val LEVEL = intent.getStringExtra("CURRENTLEVEL")
         val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE")
@@ -133,7 +133,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                 else if(THESONGNAME == options[position]){
                     val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     vibratorService.vibrate(300)
-                    countDownTimer.cancel() /*CORRECT GUESS thus stop the timer */
                     Toast.makeText(this@MapsActivity, "Correct! Well done", Toast.LENGTH_SHORT).show()
                     correctguess() // Call function to switch activities
                     //do something if the user gets the correct song
@@ -148,7 +147,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                 }
             }
         }
-
     }
     override fun onStart() {
         super.onStart()
@@ -317,4 +315,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
         //otherwise it is not timered
     }
+
+
     }
