@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_correct_splash.*
+import org.jetbrains.anko.alert
 import java.util.*
 
 class CorrectSplash : AppCompatActivity() {
@@ -41,7 +42,7 @@ class CorrectSplash : AppCompatActivity() {
         }
 
 
-        fun bulkWord (Level: String) {
+        fun bulkWord (Level: String, Timed: Boolean) {
             val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" /* The link for downloading the XML with song information */
             val XMLSongs = DownloadXmlTask()
             val Parsed = XMLSongs.execute(XMLSONGS)
@@ -99,6 +100,7 @@ class CorrectSplash : AppCompatActivity() {
             intent.putExtra("SongTitles", SongTitles)
             intent.putExtra("THESONGNAME", THESONGNAME)
             intent.putExtra("THESONGLINK", THESONGLINK)
+            intent.putExtra("Timed",Timed)
 
             //These are used after the user has guessed the songs
             intent.putExtra("CURRENTLEVEL", Level)
@@ -126,23 +128,84 @@ class CorrectSplash : AppCompatActivity() {
         }
         SAMELEVEL.setOnClickListener {
             networkChecker()
-            bulkWord(LEVEL) /*RELOAD THE SAME LEVEL*/
+
+            alert("Want a challenge with timed play?"){
+                positiveButton("Yes, bring it on!") {
+                    bulkWord(LEVEL, true) /*Easiest, most words with lots of classificatins */
+                }
+                negativeButton("No Thanks!") {
+                    bulkWord(LEVEL,false) /*Easiest, most words with lots of classificatins */
+
+                    //Don't do anything as the user has changed there mind
+                    //
+                }
+            }.show()
         }
         NEXTLEVEL.setOnClickListener {
             networkChecker()
             if(LEVEL == "5"){
-                println("$$" + "4")
-                bulkWord("4") /*RELOAD THE NEXT LEVEL*/
+                alert("Want a challenge with timed play?"){
+                    positiveButton("Yes, bring it on!") {
+                        bulkWord(LEVEL, true) /*Easiest, most words with lots of classificatins */
+                    }
+                    negativeButton("No Thanks!") {
+                        bulkWord(LEVEL,false) /*Easiest, most words with lots of classificatins */
+
+                        //Don't do anything as the user has changed there mind
+                        //
+                    }
+                }.show()
             } else if (LEVEL == "4"){
-                bulkWord("3") /*RELOAD THE NEXT LEVEL*/
+                alert("Want a challenge with timed play?"){
+                    positiveButton("Yes, bring it on!") {
+                        bulkWord(LEVEL, true) /*Easiest, most words with lots of classificatins */
+                    }
+                    negativeButton("No Thanks!") {
+                        bulkWord(LEVEL,false) /*Easiest, most words with lots of classificatins */
+
+                        //Don't do anything as the user has changed there mind
+                        //
+                    }
+                }.show()
             }else if (LEVEL == "3"){
-                bulkWord("2") /*RELOAD THE NEXT LEVEL*/
+                alert("Want a challenge with timed play?"){
+                    positiveButton("Yes, bring it on!") {
+                        bulkWord(LEVEL, true) /*Easiest, most words with lots of classificatins */
+                    }
+                    negativeButton("No Thanks!") {
+                        bulkWord(LEVEL,false) /*Easiest, most words with lots of classificatins */
+
+                        //Don't do anything as the user has changed there mind
+                        //
+                    }
+                }.show()
             }
             else if (LEVEL == "2"){
-                bulkWord("1") /*RELOAD THE NEXT LEVEL*/
+                alert("Want a challenge with timed play?"){
+                    positiveButton("Yes, bring it on!") {
+                        bulkWord(LEVEL, true) /*Easiest, most words with lots of classificatins */
+                    }
+                    negativeButton("No Thanks!") {
+                        bulkWord(LEVEL,false) /*Easiest, most words with lots of classificatins */
+
+                        //Don't do anything as the user has changed there mind
+                        //
+                    }
+                }.show()
+
             }
             else {
-                bulkWord("1") /*RELOAD THE NEXT LEVEL*/
+                alert("Want a challenge with timed play?"){
+                    positiveButton("Yes, bring it on!") {
+                        bulkWord(LEVEL, true) /*Easiest, most words with lots of classificatins */
+                    }
+                    negativeButton("No Thanks!") {
+                        bulkWord(LEVEL,false) /*Easiest, most words with lots of classificatins */
+
+                        //Don't do anything as the user has changed there mind
+                        //
+                    }
+                }.show()
             }
         }
 

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_incorrect_splash.*
+import org.jetbrains.anko.alert
 import java.util.*
 
 class IncorrectSplash : AppCompatActivity() {
@@ -38,7 +39,7 @@ class IncorrectSplash : AppCompatActivity() {
         fun Random.nextInt(range: IntRange): Int { /*creates a random number */
             return range.start + nextInt(range.last - range.start)
         }
-        fun bulkWord (Level: String) {
+        fun bulkWord (Level: String, Timed: Boolean) {
             val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" /* The link for downloading the XML with song information */
             val XMLSongs = DownloadXmlTask()
             val Parsed = XMLSongs.execute(XMLSONGS)
@@ -95,6 +96,7 @@ class IncorrectSplash : AppCompatActivity() {
             intent.putExtra("SongTitles", SongTitles)
             intent.putExtra("THESONGNAME", THESONGNAME)
             intent.putExtra("THESONGLINK", THESONGLINK)
+            intent.putExtra("Timed",Timed)
 
             //These are used after the user has guessed the songs
             intent.putExtra("CURRENTLEVEL", Level)
@@ -119,7 +121,17 @@ class IncorrectSplash : AppCompatActivity() {
         }
         SAMELEVEL.setOnClickListener {
             networkChecker()
-            bulkWord(LEVEL) /*RELOAD THE SAME LEVEL FOR THE USER*/
+            alert("Want a challenge with timed play?"){
+                positiveButton("Yes, bring it on!") {
+                    bulkWord(LEVEL, true) /*Easiest, most words with lots of classificatins */
+                }
+                negativeButton("No Thanks!") {
+                    bulkWord(LEVEL,false) /*Easiest, most words with lots of classificatins */
+
+                    //Don't do anything as the user has changed there mind
+                    //
+                }
+            }.show()
         }
 
     }

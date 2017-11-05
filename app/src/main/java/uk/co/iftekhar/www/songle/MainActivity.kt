@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.net.ConnectivityManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.alert
 import java.util.*
 
 
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         val networkInfo = connectivityManager.activeNetworkInfo // 2
         return networkInfo != null && networkInfo.isConnected // 3
     }
-    fun bulkWord (Level: String) {
+    fun bulkWord (Level: String, Timed: Boolean) {
         var URLNUMBER = ""
         val random = Random()
         val RandomNumberinRange = random.nextInt(1..numberofsongs) /*Random number in range for the button to open */
@@ -49,7 +50,9 @@ class MainActivity : AppCompatActivity() {
         val KMLmap = DownloadKmlTask()
         val KMLParsed = KMLmap.execute(KMLMAPSURL)
         val numberofPoints = KMLParsed.get().lastIndex
+        //        val TIMER = intent.getBooleanExtra("TIMER", false)
 
+        println("$$"+Timed)
         val PointsLong = arrayOfNulls<String>(numberofPoints+1)
         val PointsLat = arrayOfNulls<String>(numberofPoints+1)
         val classification = arrayOfNulls<String>(numberofPoints+1)
@@ -80,6 +83,10 @@ class MainActivity : AppCompatActivity() {
         val THESONGLINK = SongLinks[RandomNumberinRange]
         println("£££££££"+THESONGNAME)
         val intent = Intent(this, MapsActivity::class.java)
+
+        intent.putExtra("Timed",Timed)
+
+
         intent.putExtra("numberofmarkers", numberofPoints) /*passing number of markers */
         intent.putExtra("PointsLat", PointsLat)
         intent.putExtra("PointsLong", PointsLong)
@@ -120,26 +127,71 @@ class MainActivity : AppCompatActivity() {
 
         LEVEL1_BUTTON.setOnClickListener {
             networkChecker()
-            bulkWord("5") /*Easiest, most words with lots of classificatins */
+            alert("Want a challenge with timed play?"){
+                positiveButton("Yes, bring it on!") {
+                    bulkWord("5", true) /*Easiest, most words with lots of classificatins */
+                }
+                negativeButton("No Thanks!") {
+                    bulkWord("5",false) /*Easiest, most words with lots of classificatins */
+
+                    //Don't do anything as the user has changed there mind
+                    //
+                }
+            }.show()
         }
         LEVEL2_BUTTON.setOnClickListener {
             networkChecker()
-            bulkWord("4")
-
+            alert("Want a challenge with timed play?"){
+                positiveButton("Yes, bring it on!") {
+                    bulkWord("4", true)
+                    //timed play
+                }
+                negativeButton("No Thanks!") {
+                    bulkWord("4",false)
+                    //No timed play
+                }
+            }.show()
         }
+
         LEVEL3_BUTTON.setOnClickListener {
             networkChecker()
-            bulkWord("3")
+            alert("Want a challenge with timed play?"){
+                positiveButton("Yes, bring it on!") {
+                    bulkWord("3", true)
+                    //timed play
+                }
+                negativeButton("No Thanks!") {
+                    bulkWord("3",false)
+                    //No timed play
+                }
+            }.show()
 
         }
         LEVEL4_BUTTON.setOnClickListener {
             networkChecker()
-            bulkWord("2")
-
+            alert("Want a challenge with timed play?"){
+                positiveButton("Yes, bring it on!"){
+                    bulkWord("2", true)
+                    //timed play
+                }
+                negativeButton("No Thanks!") {
+                    bulkWord("2",false)
+                    //No timed play
+                }
+            }.show()
         }
         LEVEL5BUTTON.setOnClickListener {
             networkChecker()
-            bulkWord("1")
+            alert("Want a challenge with timed play?"){
+                positiveButton("Yes, bring it on!"){
+                    bulkWord("1", true)
+                    //timed play
+                }
+                negativeButton("No Thanks!") {
+                    bulkWord("1",false)
+                    //No timed play
+                }
+            }.show()
         /*Hardest, least words with no classificatins */
         }
         MUSICBUTTON.setOnClickListener{

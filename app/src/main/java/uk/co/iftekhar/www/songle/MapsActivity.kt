@@ -24,10 +24,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import android.os.Vibrator;
 import android.os.CountDownTimer
+import org.jetbrains.anko.alert
+import java.util.*
+import kotlin.concurrent.timerTask
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener, LocationListener {
-
 
     private var numberOfTriesLeft = 5
     private lateinit var mMap: GoogleMap
@@ -39,38 +41,34 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     lateinit var  Spinner: Spinner
     lateinit var result : TextView
-    lateinit private var countDownTimer: CountDownTimer
+    lateinit var countDownTimer: CountDownTimer
+    val timer = Timer()
 
-    private fun startTimer(minutes:Long){
-        countDownTimer = object : CountDownTimer(minutes, 60000){
-            override fun onTick(p0: Long) {
-                if(p0.toInt() == 60000){/* 1 MINUTE LEFT */
-                    val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                    vibratorService.vibrate(600)
-                    Toast.makeText(this@MapsActivity, "${Math.round(p0*0.001f/60)} minute left", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this@MapsActivity, "${Math.round(p0*0.001f/60)} minutes left", Toast.LENGTH_SHORT).show()
-                    /* X MINUTE LEFT WHERE X = {2,3,4,...9} */
-                }
-            }
-            override fun onFinish() {
-            incorrectguess()
-            }
-        }.start()
-        countDownTimer.start()
-
+    fun startTimer(minutes:Long){
+        Toast.makeText(this@MapsActivity, "You have ${minutes/60000} minutes! GOOD LUCK!!", Toast.LENGTH_LONG).show()
+        val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibratorService.vibrate(600)
+        timer.schedule(timerTask { incorrectguess() }, 360000)
     }
-
+    private fun endTimer () {
+        timer.cancel()
+      //cancel the timer
+    }
     override fun onBackPressed() {
-        /*Overriding on back pressed, otherwise user
-        can go back to previous maps and we do not want that*/
-        countDownTimer.cancel() /* Stop the timer */
-        super.onBackPressed()
-        /*Send the user back to MainActivity */
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        alert("End game?"){
+            yesButton {
+                endTimer()
+                super.onBackPressed()
+            }
+            noButton {
+              //Don't do anything as the user has changed there mind
+            }
+        }.show()
+
     }
+
     fun correctguess () {
+        endTimer()
         val LEVEL = intent.getStringExtra("CURRENTLEVEL")
         val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE")
         val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC")
@@ -94,8 +92,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-
-
 
 
         /* Obtain the SupportMapFragment and get notified when the map is ready to be used. */
@@ -160,6 +156,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     }
     override fun onStop() {
         super.onStop()
+
         if (mGoogleApiClient.isConnected) {
             mGoogleApiClient.disconnect()
         }
@@ -173,7 +170,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         mLocationRequest.priority =
                 LocationRequest.PRIORITY_HIGH_ACCURACY
         /* Can we access the user’s current location? */
-        val permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        val permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient, mLocationRequest, this)
@@ -184,7 +181,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
         try {
             createLocationRequest(); } catch (ise: IllegalStateException) {
-            println("IllegalStateException thrown [onConnected]");
+            println("IllegalStateException thrown [onConnected]")
         }
         /* Can we access the user’s current location? */
         if (ContextCompat.checkSelfPermission(this,
@@ -195,7 +192,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         } else {
             ActivityCompat.requestPermissions(this,
                     arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
         }
     }
 
@@ -297,18 +294,27 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         // Add ”My location” button to the user interface
         mMap.uiSettings.isMyLocationButtonEnabled = true
         val LEVEL = intent.getStringExtra("CURRENTLEVEL")
-        if(LEVEL == "5"){
-            startTimer(1080000) //18 minutes
-        } else if (LEVEL == "4"){
-            startTimer(1020000) // 17 minutest
-        }else if (LEVEL == "3"){
-            startTimer(960000) // 16 minutes
+        val TIMER = intent.getBooleanExtra("Timed", false)
+        println("$$$ we are getting ${TIMER}")
+        if(LEVEL == "5" && TIMER ){
+            startTimer(1200000)
+            println("%%GOTHERE5")
+        } else if (LEVEL == "4" && TIMER){
+            println("%%GOTHERE4")
+            startTimer(1080000)
+        }else if (LEVEL == "3" && TIMER){
+            println("%%GOTHERE3")
+            startTimer(960000)
         }
-        else if (LEVEL == "2"){
-            startTimer(900000) //15 minutes
+        else if (LEVEL == "2" && TIMER){
+            println("%%GOTHERE2")
+            startTimer(840000 ) //15 minutes
         }
-        else {
-            startTimer(840000) //14 minutes
+        else if (TIMER){
+            println("%%GOTHERE1")
+            startTimer(720000) //14 minutes
         }
+
+        //otherwise it is not timered
     }
     }
