@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2072A4"
     tools:context="uk.co.iftekhar.www.songle.CorrectSplash"
     tools:layout_editor_absoluteY="81dp">
 
@@ -51,9 +52,9 @@
         android:layout_height="67dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="Sorry, try again!!"
+        android:text="Try again"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="40dp"
         app:layout_constraintBottom_toTopOf="@+id/SAMELEVEL"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="uk.co.iftekhar.www.songle.CorrectSplash"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    android:background="#2072A4">
 
     <Button
         android:id="@+id/YOUTUBELINK"
@@ -68,9 +69,9 @@
         android:layout_height="77dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="GREAT JOB!!"
+        android:text="Great Job!!"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="40dp"
         app:layout_constraintBottom_toTopOf="@+id/SAMELEVEL"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -15,8 +15,8 @@ import android.R.attr.button
 class MusicActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val NumberOfSongs_music = intent.getIntExtra("NumberOfSongs",0) /*receives the data from ActivityMain*/
-        val SongLinks_music = intent.getStringArrayExtra("SongLinks");
-        val SongTitles_music = intent.getStringArrayExtra("SongTitles");
+        val SongLinks_music = intent.getStringArrayExtra("SongLinks")
+        val SongTitles_music = intent.getStringArrayExtra("SongTitles")
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music)

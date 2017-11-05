@@ -3,31 +3,12 @@ package uk.co.iftekhar.www.songle
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.GoogleMap
 import android.net.ConnectivityManager
-import android.net.ConnectivityManager.TYPE_BLUETOOTH
-import android.net.ConnectivityManager.TYPE_ETHERNET
-import android.net.ConnectivityManager.TYPE_MOBILE
-import android.net.ConnectivityManager.TYPE_VPN
-import android.net.ConnectivityManager.TYPE_WIFI
-import android.os.Handler
-import android.sax.StartElementListener
-import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import java.util.Arrays.asList
-
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,8 +29,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private var receiver = NetworkReceiver()
-    val SPLASH_SCREEN_TIME = 4000 /* time to show splashscreen */
 
     private fun isNetworkConnected(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
@@ -57,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         return networkInfo != null && networkInfo.isConnected // 3
     }
     fun bulkWord (Level: String) {
-        var URLNUMBER = "";
+        var URLNUMBER = ""
         val random = Random()
         val RandomNumberinRange = random.nextInt(1..numberofsongs) /*Random number in range for the button to open */
         if(RandomNumberinRange < 10) {
@@ -69,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/"+URLNUMBER+"/map"+Level+".kml"
         val KMLmap = DownloadKmlTask()
         val KMLParsed = KMLmap.execute(KMLMAPSURL)
-        val numberofPoints = KMLParsed.get().lastIndex;
+        val numberofPoints = KMLParsed.get().lastIndex
 
         val PointsLong = arrayOfNulls<String>(numberofPoints+1)
         val PointsLat = arrayOfNulls<String>(numberofPoints+1)
@@ -90,16 +69,16 @@ class MainActivity : AppCompatActivity() {
             val a = KMLParsed.get()[i].Point
             val input = a
             var result: List<String> = input.split(",").map { it.trim() } /*String into List  */
-            PointsLong[i] = result.get(0)
-            PointsLat[i] = result.get(1)
+            PointsLong[i] = result[0]
+            PointsLat[i] = result[1]
             val b = KMLParsed.get()[i].description
-            classification[i] = b;
+            classification[i] = b
             val c = KMLParsed.get()[i].name
-            name[i] = c;
+            name[i] = c
         }
-        val THESONGNAME = SongTitles[RandomNumberinRange];
-        val THESONGLINK = SongLinks[RandomNumberinRange];
-        println("£££££££"+THESONGNAME);
+        val THESONGNAME = SongTitles[RandomNumberinRange]
+        val THESONGLINK = SongLinks[RandomNumberinRange]
+        println("£££££££"+THESONGNAME)
         val intent = Intent(this, MapsActivity::class.java)
         intent.putExtra("numberofmarkers", numberofPoints) /*passing number of markers */
         intent.putExtra("PointsLat", PointsLat)
@@ -114,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("CURRENTLEVEL", Level)
         intent.putExtra("SONGLINKYOUTUBE",SongLinks[RandomNumberinRange-1]) //Pass song link Youtube
         intent.putExtra("SONGLINKLYRIC", URLNUMBER) // Pass song number converted into a string
-        println("$$ in maine" + URLNUMBER)
         startActivity(intent)
     }
 
@@ -129,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun networkChecker (){
-        if(isNetworkConnected()==false){
+        if(!isNetworkConnected()){
             Toast.makeText(this@MainActivity, "Check your internet connection", Toast.LENGTH_LONG).show()
             val intent = Intent(this, NetworkIssue()::class.java)
             startActivity(intent)

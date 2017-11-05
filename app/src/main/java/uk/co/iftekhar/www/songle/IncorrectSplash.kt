@@ -43,7 +43,7 @@ class IncorrectSplash : AppCompatActivity() {
             val XMLSongs = DownloadXmlTask()
             val Parsed = XMLSongs.execute(XMLSONGS)
             var numberofsongs = (Parsed.get().lastIndex) + 1 /*Number of songs in XML, please note 0 is the start */
-            var URLNUMBER = "";
+            var URLNUMBER = ""
             val random = Random()
             val RandomNumberinRange = random.nextInt(1..numberofsongs) /*Random number in range for the button to open */
             if(RandomNumberinRange < 10) {
@@ -75,16 +75,16 @@ class IncorrectSplash : AppCompatActivity() {
                 val a = KMLParsed.get()[i].Point
                 val input = a
                 var result: List<String> = input.split(",").map { it.trim() } /*String into List  */
-                PointsLong[i] = result.get(0)
-                PointsLat[i] = result.get(1)
+                PointsLong[i] = result[0]
+                PointsLat[i] = result[1]
                 val b = KMLParsed.get()[i].description
-                classification[i] = b;
+                classification[i] = b
                 val c = KMLParsed.get()[i].name
-                name[i] = c;
+                name[i] = c
             }
-            val THESONGNAME = SongTitles[RandomNumberinRange];
-            val THESONGLINK = SongLinks[RandomNumberinRange];
-            println("£££££££"+THESONGNAME);
+            val THESONGNAME = SongTitles[RandomNumberinRange]
+            val THESONGLINK = SongLinks[RandomNumberinRange]
+            println("£££££££"+THESONGNAME)
             val intent = Intent(this, MapsActivity::class.java)
             intent.putExtra("numberofmarkers", numberofPoints) /*passing number of markers */
             intent.putExtra("PointsLat", PointsLat)

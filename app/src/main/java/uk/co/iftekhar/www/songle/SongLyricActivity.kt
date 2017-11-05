@@ -11,8 +11,8 @@ import android.net.Uri
 
 class SongLyricActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val NumberOfSongs_music = intent.getIntExtra("NumberOfSongs",0); /*receives the data from ActivityMain*/
-        val SongTitles_music = intent.getStringArrayExtra("SongTitles");
+        val NumberOfSongs_music = intent.getIntExtra("NumberOfSongs",0) /*receives the data from ActivityMain*/
+        val SongTitles_music = intent.getStringArrayExtra("SongTitles")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music)
         val ll_main: LinearLayout = findViewById(R.id.ll_main_layout) //as LinearLayout
@@ -27,7 +27,7 @@ class SongLyricActivity : AppCompatActivity() {
             button_dynamic.text = SongTitles_music.get(IndexCount)
             //button_dynamic.setLayoutParams(LinearLayout.LayoutParams(10, 100))
 
-            var SongNum = "";
+            var SongNum = ""
             if(SongNumber < 10){
                 SongNum = "0" + (SongNumber).toString()
             }else {SongNum = (SongNumber).toString()}

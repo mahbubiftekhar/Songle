@@ -34,13 +34,12 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private lateinit var mGoogleApiClient: GoogleApiClient
     val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
     var mLocationPermissionGranted = false
-    private lateinit var mLastLocation: Location
+    private var mLastLocation: Location? = null
     val TAG = "MapsActivity"
 
     lateinit var  Spinner: Spinner
     lateinit var result : TextView
     lateinit private var countDownTimer: CountDownTimer
-    var timer: CountDownTimer? = null
 
     private fun startTimer(minutes:Long){
         countDownTimer = object : CountDownTimer(minutes, 60000){
@@ -62,36 +61,32 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     }
 
-    private fun stop(){
-        /*cancel the timer */
-        countDownTimer.cancel()
-    }
     override fun onBackPressed() {
         /*Overriding on back pressed, otherwise user
         can go back to previous maps and we do not want that*/
+        countDownTimer.cancel() /* Stop the timer */
         super.onBackPressed()
         /*Send the user back to MainActivity */
-        stop() /* */
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
     fun correctguess () {
-        val LEVEL = intent.getStringExtra("CURRENTLEVEL");
-        val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE");
-        val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC");
+        val LEVEL = intent.getStringExtra("CURRENTLEVEL")
+        val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE")
+        val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC")
         val intent = Intent(this, CorrectSplash::class.java)
-        intent.putExtra("LEVEL", LEVEL);
+        intent.putExtra("LEVEL", LEVEL)
         intent.putExtra("SONGYOUTUBELINK", SONGYOUTUBELINK)
         intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
         startActivity(intent)
     }
     fun incorrectguess () {
         //If the timer runs out, or if the user guesses too many times
-        val LEVEL = intent.getStringExtra("CURRENTLEVEL");
-        val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE");
-        val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC");
+        val LEVEL = intent.getStringExtra("CURRENTLEVEL")
+        val SONGYOUTUBELINK = intent.getStringExtra("SONGLINKYOUTUBE")
+        val SONGLYRICLINK = intent.getStringExtra("SONGLINKLYRIC")
         val intent = Intent(this, IncorrectSplash::class.java)
-        intent.putExtra("LEVEL", LEVEL);
+        intent.putExtra("LEVEL", LEVEL)
         intent.putExtra("SONGYOUTUBELINK", SONGYOUTUBELINK)
         intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
         startActivity(intent)
@@ -117,9 +112,8 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build()
-        val THESONGNAME = intent.getStringExtra("THESONGNAME");
-        println("$$$$$$" + THESONGNAME)
-        val THESONGLINK = intent.getStringExtra("THESONGLINK");
+        val THESONGNAME = intent.getStringExtra("THESONGNAME")
+        val THESONGLINK = intent.getStringExtra("THESONGLINK")
 
         /*Find the id of spinner*/
         Spinner =  findViewById<View>(R.id.spinner) as Spinner
@@ -128,7 +122,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         /*set an adapter with strings array*/
         val options = intent.getStringArrayExtra("SongTitles")
         val adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, options)
-        Spinner.adapter = adapter;
+        Spinner.adapter = adapter
 
         /*set click listener*/
         Spinner.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,options)
@@ -136,14 +130,14 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if(options.get(position) == options.get(0)) {
+                if(options[position] == options[0]) {
                     val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     vibratorService.vibrate(300)
                 }
-                else if(THESONGNAME == options.get(position)){
+                else if(THESONGNAME == options[position]){
                     val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     vibratorService.vibrate(300)
-                    stop() /*CORRECT GUESS thus stop the timer */
+                    countDownTimer.cancel() /*CORRECT GUESS thus stop the timer */
                     Toast.makeText(this@MapsActivity, "Correct! Well done", Toast.LENGTH_SHORT).show()
                     correctguess() // Call function to switch activities
                     //do something if the user gets the correct song
@@ -302,7 +296,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         }
         // Add ”My location” button to the user interface
         mMap.uiSettings.isMyLocationButtonEnabled = true
-        val LEVEL = intent.getStringExtra("CURRENTLEVEL");
+        val LEVEL = intent.getStringExtra("CURRENTLEVEL")
         if(LEVEL == "5"){
             startTimer(1080000) //18 minutes
         } else if (LEVEL == "4"){
