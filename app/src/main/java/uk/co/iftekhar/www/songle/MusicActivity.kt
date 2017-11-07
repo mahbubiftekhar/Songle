@@ -28,7 +28,7 @@ class MusicActivity : AppCompatActivity() {
             val button_dynamic = Button(this)
         // setting layout_width and layout_height using layout parameters
         button_dynamic.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        button_dynamic.text = SongTitles_music.get(IndexCount)
+            button_dynamic.text = SongTitles_music.get(IndexCount)
             val url = "https://www.youtube.com/watch?v="+(SongLinks_music[IndexCount]).drop(17)
             button_dynamic.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))

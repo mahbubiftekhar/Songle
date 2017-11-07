@@ -9,32 +9,24 @@ import java.net.URL
 import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 
-class DownloadXmlTask() : AsyncTask<String, Void, List<Entry>>() {
+class DownloadXmlTask(private val caller : MapsActivity): AsyncTask<String, Void, List<Entry>>() {
 
     override fun doInBackground(vararg urls: String): List<Entry> {
         return try {
             loadXmlFromNetwork(urls[0])
         } catch (e: IOException) {
-            // Always print the stacktrace!
             e.printStackTrace()
             emptyList<Entry>()
         } catch (e: XmlPullParserException) {
-            // Always print the stacktrace!
             e.printStackTrace()
             emptyList<Entry>()
         }
     }
 
     private fun loadXmlFromNetwork(urlString: String): List<Entry>  {
-        //System.out.println(">>>>>> THIS IS PRINTING DOWNLOADXMLTASK1")
-        // val result = StringBuilder()
-        //System.out.println(">>>>>> JUST BEFORE STREAM")
         val stream = downloadUrl(urlString)
-        //System.out.println(">>>>>> JUST AFTER STREAM")
-        //Do something with stream e.g. parse as XML, build result
         val XMLSongsArrayList = parse(stream)
-        //System.out.println(">>>>>> THIS IS PRINTING DOWNLOADXMLTASK - AFTER STREAM")
-        return XMLSongsArrayList;
+        return XMLSongsArrayList
     }
 
     @Throws(IOException::class)
@@ -51,6 +43,7 @@ class DownloadXmlTask() : AsyncTask<String, Void, List<Entry>>() {
 
     override fun onPostExecute(result: List<Entry>) {
         super.onPostExecute(result)
+        caller.downloadCompleteXML(result)
     }
 }
 data class Entry(val number: String, val artist: String, val title: String, val link: String )

@@ -1,6 +1,5 @@
 package uk.co.iftekhar.www.songle
 
-import android.content.Intent
 import android.os.AsyncTask
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
@@ -10,8 +9,7 @@ import java.net.URL
 import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 
-class DownloadKmlTask() : AsyncTask<String, Void, List<EntryKml>>() {
-
+class DownloadKmlTask(private val caller : MapsActivity) : AsyncTask<String, Void, List<EntryKml>>() {
     override fun doInBackground(vararg urls: String): List<EntryKml> {
         return try {
             loadKMLFromNetwork(urls[0])
@@ -23,8 +21,8 @@ class DownloadKmlTask() : AsyncTask<String, Void, List<EntryKml>>() {
             emptyList<EntryKml>()
         }
     }
-
     private fun loadKMLFromNetwork(urlString: String): List<EntryKml>  {
+        println("%%" + urlString )
         val stream = downloadUrl(urlString)
         val KMLSongsArrayList = parseKML(stream)
         return KMLSongsArrayList;
@@ -49,6 +47,7 @@ class DownloadKmlTask() : AsyncTask<String, Void, List<EntryKml>>() {
 
     override fun onPostExecute(result: List<EntryKml>) {
         super.onPostExecute(result)
+        caller.downloadCompleteKML(result)
 
     }
 }
@@ -57,7 +56,6 @@ data class EntryKml(val name: String, val description: String, val styleUrl: Str
 private val ns: String? = null
 @Throws(XmlPullParserException::class, IOException::class)
 fun parseKML(input : InputStream): List<EntryKml> {
-    println(">>>>>> in parse()")
     input.use {
         val ParserKML = Xml.newPullParser()
         ParserKML.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES,
