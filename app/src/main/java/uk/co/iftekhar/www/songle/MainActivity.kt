@@ -116,12 +116,14 @@ class MainActivity : AppCompatActivity(){
         }
         MUSICBUTTON.setOnClickListener{
             networkChecker()
-
+            val intent = Intent(this, MusicActivity()::class.java)
+            startActivity(intent)
         }
 
         SONGLYRICS.setOnClickListener {
             networkChecker()
-
+            val intent = Intent(this, SongLyricActivity()::class.java)
+            startActivity(intent)
 
         }
             HOWTOPLAY.setOnClickListener {

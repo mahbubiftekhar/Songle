@@ -1,34 +1,36 @@
 package uk.co.iftekhar.www.songle
 
 import android.os.AsyncTask
+import android.util.Xml
+import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import android.util.Xml
-import org.xmlpull.v1.XmlPullParser
 
-//interface DownloadCompleteListenerXML {
-//    fun downloadCompleteXML(result: List<Entry>)
-//}
-class DownloadXmlTask(private val caller : MapsActivity): AsyncTask<String, Void, List<Entry>>() {
+/**
+ * Created by MAHBUBIFTEKHAR on 07/11/2017.
+ */
 
-    override fun doInBackground(vararg urls: String): List<Entry> {
+
+class DownloadL(private val caller :SongLyricActivity): AsyncTask<String, Void, List<EntryA>>() {
+
+    override fun doInBackground(vararg urls: String): List<EntryA> {
         return try {
             loadXmlFromNetwork(urls[0])
         } catch (e: IOException) {
             e.printStackTrace()
-            emptyList<Entry>()
+            emptyList<EntryA>()
         } catch (e: XmlPullParserException) {
             e.printStackTrace()
-            emptyList<Entry>()
+            emptyList<EntryA>()
         }
     }
 
-    private fun loadXmlFromNetwork(urlString: String): List<Entry>  {
+    private fun loadXmlFromNetwork(urlString: String): List<EntryA>  {
         val stream = downloadUrl(urlString)
-        val XMLSongsArrayList = parse(stream)
+        val XMLSongsArrayList = parseL(stream)
         return XMLSongsArrayList
     }
 
@@ -44,16 +46,15 @@ class DownloadXmlTask(private val caller : MapsActivity): AsyncTask<String, Void
         return conn.inputStream
     }
 
-    override fun onPostExecute(result: List<Entry>) {
+    override fun onPostExecute(result: List<EntryA>) {
         super.onPostExecute(result)
-        caller.downloadCompleteXML(result)
-
+        caller.downloadCompleteL(result)
     }
 }
-data class Entry(val number: String, val artist: String, val title: String, val link: String )
+data class EntryA(val number: String, val artist: String, val title: String, val link: String )
 private val ns: String? = null
 @Throws(XmlPullParserException::class, IOException::class)
-fun parse(input : InputStream): List<Entry> {
+fun parseL(input : InputStream): List<EntryA> {
     //println(">>>>>> in parse()")
     input.use {
         val parser = Xml.newPullParser()
@@ -65,9 +66,9 @@ fun parse(input : InputStream): List<Entry> {
     }
 }
 @Throws(XmlPullParserException::class, IOException::class)
-private fun readFeed(parser: XmlPullParser): List<Entry> {
+private fun readFeed(parser: XmlPullParser): List<EntryA> {
     //println(">>>>>> in readFeed()")
-    val entries = ArrayList<Entry>()
+    val entries = ArrayList<EntryA>()
     //println(">>>>>> in readFeed() --- require feed ")
     parser.require(XmlPullParser.START_TAG, ns, "Songs")
     while (parser.next() != XmlPullParser.END_TAG) {
@@ -75,9 +76,7 @@ private fun readFeed(parser: XmlPullParser): List<Entry> {
         if (parser.eventType != XmlPullParser.START_TAG) {
             continue
         }
-        //println(">>>>>> in readFeed() - found ${parser.name}")
-        // Starts by looking for the entry tag
-        //println(">>>>>>>>" + parser.name)
+
         if (parser.name == "Song") {
             entries.add(readEntry(parser))
         } else {
@@ -88,7 +87,7 @@ private fun readFeed(parser: XmlPullParser): List<Entry> {
     return entries
 }
 @Throws(XmlPullParserException::class, IOException::class)
-private fun readEntry(parser: XmlPullParser): Entry {
+private fun readEntry(parser: XmlPullParser): EntryA {
     //println(">>>>>> in readEntry()")
 
     parser.require(XmlPullParser.START_TAG, ns, "Song")
@@ -110,7 +109,7 @@ private fun readEntry(parser: XmlPullParser): Entry {
         }
     }
     //println(">>>>>>"+number+ artist+ title+ link)
-    return Entry(number, artist, title, link)
+    return EntryA(number, artist, title, link)
 }
 
 @Throws(IOException::class, XmlPullParserException::class)

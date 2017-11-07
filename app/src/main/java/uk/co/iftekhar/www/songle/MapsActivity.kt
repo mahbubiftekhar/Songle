@@ -239,7 +239,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             SongTitles[i] = b
         }
         RandomNumberinRange = (1..numberofsongs).random()
-        println("HERE + ${RandomNumberinRange}");
+        println("HERE + ${RandomNumberinRange}")
         println("%%" + SongTitles[RandomNumberinRange])
         YoutubeLinkOfCurrentSong = SongLinks[RandomNumberinRange-1] as String
         LyricLinkOfCurrentSong = RandomNumberinRange.toString()
@@ -289,7 +289,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         val LEVEL = intent.getStringExtra("Level")
         println("HERE2 + ${RandomNumberinRange}");
         //RandomNumberinRange = (1..numberofsongs+1).random()
-        var SONGNUMBER = "";
+        var SONGNUMBER = ""
         if(RandomNumberinRange < 10){
             val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/0" + RandomNumberinRange +"/map"+ LEVEL +".kml"
             val KMLmap = DownloadKmlTask(this)
