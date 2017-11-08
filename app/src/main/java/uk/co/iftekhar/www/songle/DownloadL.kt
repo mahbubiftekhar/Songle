@@ -15,6 +15,7 @@ import java.net.URL
 
 
 class DownloadL(private val caller :SongLyricActivity): AsyncTask<String, Void, List<EntryA>>() {
+    //This is used for the SongLyricsActivity, obtains the information to display the buttons with all the song lyrics
 
     override fun doInBackground(vararg urls: String): List<EntryA> {
         return try {

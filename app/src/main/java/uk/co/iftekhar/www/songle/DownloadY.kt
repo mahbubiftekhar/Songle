@@ -11,6 +11,7 @@ import org.xmlpull.v1.XmlPullParser
 
 class DownloadY(private val caller : MusicActivity): AsyncTask<String, Void, List<EntryK>>() {
 
+    //This is used for the MusicActivity, obtains the information
     override fun doInBackground(vararg urls: String): List<EntryK> {
         return try {
             loadXmlFromNetwork(urls[0])

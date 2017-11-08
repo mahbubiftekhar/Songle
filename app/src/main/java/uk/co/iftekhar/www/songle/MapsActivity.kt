@@ -24,6 +24,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import android.os.Vibrator;
 import android.os.CountDownTimer
+import com.google.android.gms.maps.model.Marker
 import org.jetbrains.anko.alert
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -118,7 +119,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
         val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
         val XMLSongs = DownloadXmlTask(this)
-        val xml = XMLSongs.execute(XMLSONGS) // Run XML async task
+        XMLSongs.execute(XMLSONGS) // Run XML async task
     }
     override fun onStart() {
         super.onStart()
@@ -169,11 +170,12 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             (${current.getLatitude()},
             ${current.getLongitude()})"""
             )
-
-
         }
 // Do something with current location
 // ... Here is where I should check for the distance between the points and the
+        //Here I have to interate over the possible markers, find the closest, see if its in the distance specified and then
+        //display the song if applicable
+
     }
     override fun onConnectionSuspended(flag: Int) {
         println(" >>>> onConnectionSuspended")
@@ -326,6 +328,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         println("%%%" + result)
         for(i in 0..numberofPoints-1){ /*adding the markers, with the correct icon to each depending on classification*/
             val longlat = LatLng(PointsLat[i]!!.toDouble(),PointsLong[i]!!.toDouble())
+            var name = "Marker" + i.toString()
             if(classification[i] == "interesting"){
                 mMap.addMarker(MarkerOptions().position(longlat).title("Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.interesting))
             }

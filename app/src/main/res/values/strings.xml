@@ -34,19 +34,34 @@
         "Question: What is the difference between the different levels?\n"
         "Answer \n"
         "Each level has a different amounts of words and amount of categorization of the words and timer length. \n\n"
-        "EASY - 100% OF THE WORDS, 4 Categories and 18 minutes \n"
-        "NORMAL - 100% OF THE WORDS, 3 Categories and 17 minutes \n "
+        "EASY - 100% OF THE WORDS, 4 Categories and 20 minutes \n"
+        "NORMAL - 100% OF THE WORDS, 3 Categories and 18 minutes \n "
         "HARD - 75% OF THE WORDS, 3 Categories and 16 minutes \n"
-        "INSANE - 50% OF THE WORDS, 2 Categories and 15 minutes \n"
-        "IMPOSSIBLE - 25% OF THE WORDS, 0 Categories and 14 minutes \n\n\n"
+        "INSANE - 50% OF THE WORDS, 2 Categories and 14 minutes \n"
+        "IMPOSSIBLE - 25% OF THE WORDS, 0 Categories and 12 minutes \n\n\n"
 
-        "Question: Can I pick the song? \n"
+        "Question: How many attempts do I get to guess the song? \n"
         "Answer:\n"
-        "No! That would be too easy ;-) \n\n\n"
+        "You get 5 attempts, regardless of weather you play timed or non timed \n\n\n"
 
-        "Question: How many attempts do I get to guess? \n"
+        "Question: What do I need to play this game? \n"
         "Answer:\n"
-        "No! That would be too easy ;-) \n\n\n"
+        "You need a working data connection (preferably 4G for speed) and GPS enabled,
+        you must also give the app permission for location services \n\n\n"
+
+        "Question: How many songs are there? \n"
+        "Answer:\n"
+        "Currently there are 18 songs, although we are adding new songs all the time!
+        Don't worry, the app will update when this happens :-)\n\n\n"
+
+        "Question: Can this app work offline? \n"
+        "Answer:\n"
+        "Not exactly, if you have a connection until the markers are in place that is fine, but you can only complete that game,
+        You cannot load another game - including reloading the same level - unless you have a data connection, you also need location
+        services at all times (otherwise its not much of a location puzzle game)
+        \n\n\n"
+
+
 
 
 
