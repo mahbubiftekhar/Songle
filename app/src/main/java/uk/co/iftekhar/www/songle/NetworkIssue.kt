@@ -11,9 +11,7 @@ class NetworkIssue : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_network_issue)
 
-
         NETWORKISSUEBUTTON.setOnClickListener {
-
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             //Starts the main activity

@@ -22,8 +22,7 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import android.os.Vibrator;
-import android.os.CountDownTimer
+import android.os.Vibrator
 import com.google.android.gms.maps.model.Marker
 import org.jetbrains.anko.alert
 import java.util.*
@@ -31,19 +30,23 @@ import kotlin.concurrent.timerTask
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener, LocationListener {
-    private var RandomNumberinRange = 0; //defining RandomNumberInRange to allow both AsyncTasks to access it.
+    private var RandomNumberinRange = 0 //defining RandomNumberInRange to allow both AsyncTasks to access it.
     var  YoutubeLinkOfCurrentSong = ""
     var  LyricLinkOfCurrentSong = ""
     private var numberOfTriesLeft = 5
     private lateinit var mMap: GoogleMap
     private lateinit var mGoogleApiClient: GoogleApiClient
     val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
-    var mLocationPermissionGranted = false
+    //var mLocationPermissionGranted = false
     private var mLastLocation: Location? = null
-    val TAG = "MapsActivity"
+    //val TAG = "MapsActivity"
     lateinit var  Spinner: Spinner
     lateinit var result : TextView
     val timer = Timer()
+    var NumberOfMarkers = 0
+    val markersformap: MutableList<Marker> = arrayListOf()
+    var words : List<List<String>> = arrayListOf()
+
 
     fun startTimer(minutes:Long){
         Toast.makeText(this@MapsActivity, "You have ${minutes/60000} minutes! GOOD LUCK!!", Toast.LENGTH_LONG).show()
@@ -51,9 +54,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         vibratorService.vibrate(500)
         timer.schedule(timerTask {
             if(RandomNumberinRange < 10){
-                incorrectguess(YoutubeLinkOfCurrentSong, "0"+ LyricLinkOfCurrentSong) // Call function to switch activities
+                incorrectguess("0"+ LyricLinkOfCurrentSong) // Call function to switch activities
             } else {
-                incorrectguess(YoutubeLinkOfCurrentSong, LyricLinkOfCurrentSong)} }, minutes)
+                incorrectguess(LyricLinkOfCurrentSong)} }, minutes)
     }
     private fun endTimer () {
         timer.cancel()      //cancel the timer
@@ -75,29 +78,29 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     }
     fun ClosedRange<Int>.random() = Random().nextInt(endInclusive - start) +  start
 
-    fun correctguess (YOUTUBELINK: String? , LYRICLINK : String?) {
+    fun correctguess (LYRICLINK : String?) {
         endTimer()
         val LEVEL = intent.getStringExtra("Level")
         val SONGLYRICLINK = LYRICLINK
-        val SONGYOUTUBELINK = YOUTUBELINK
         val intent = Intent(this, CorrectSplash::class.java)
         intent.putExtra("LEVEL", LEVEL)
         intent.putExtra("SONGYOUTUBELINK", YoutubeLinkOfCurrentSong)
         intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
         startActivity(intent)
     }
-    fun incorrectguess (YOUTUBELINK: String? , LYRICLINK : String?) {
+    fun incorrectguess (LYRICLINK : String?) {
+        println("%% we are getting here")
         endTimer()// end the timer
         //If the timer runs out, or if the user guesses too many times
         val LEVEL = intent.getStringExtra("Level")
         val SONGLYRICLINK = LYRICLINK
-        val SONGYOUTUBELINK = YOUTUBELINK
         val intent = Intent(this, IncorrectSplash::class.java)
         intent.putExtra("LEVEL", LEVEL)
         intent.putExtra("SONGYOUTUBELINK", YoutubeLinkOfCurrentSong)
         intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
         startActivity(intent)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -170,13 +173,51 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             (${current.getLatitude()},
             ${current.getLongitude()})"""
             )
-        }
-// Do something with current location
-// ... Here is where I should check for the distance between the points and the
-        //Here I have to interate over the possible markers, find the closest, see if its in the distance specified and then
-        //display the song if applicable
 
+        }
+        if (current != null) { // null check to ensure we don't try to distance between null and an point
+            distanceChecker(current.getLatitude(), current.getLongitude())
+        }
     }
+
+    fun distanceChecker(Lat: Double, Long: Double) {
+
+        fun distFrom(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Boolean {
+            val earthRadius = 6371000.0 //meters
+            val dLat = Math.toRadians((lat2 - lat1))
+            val dLng = Math.toRadians((lng2 - lng1))
+            val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
+            val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+            val dist = (earthRadius * c).toFloat()
+            return (dist <= 20)/*return if the distance is less than 10 */
+        }
+        for(i in 0..markersformap.size-1){
+            val marker = markersformap[i]
+            if(distFrom(marker.position.latitude, marker.position.longitude, Lat, Long)) {
+
+                println("!! THIS IS THE START")
+                val markerTag = markersformap[i].tag.toString()
+                val splitedTag: List<String> = markerTag.split(":").map { it.trim() } /*String into List, for getting long and lat  */
+                val lineNumber = splitedTag[0].toInt()
+                val positionNumber = splitedTag[1].toInt()
+                val word = words[lineNumber-1][positionNumber-1]
+                val markerClassification = markersformap[i].title // Gets the classification
+                val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                vibratorService.vibrate(400)
+                Toast.makeText(this@MapsActivity, "Classification: $markerClassification Word: $word", Toast.LENGTH_LONG).show()
+                println("!! WORD $word")
+                println("!! CLASSIFICATIOM $markerClassification")
+                println("!! CLASSIFICATIOM $markerTag")
+
+
+                markersformap[i].remove() // remove from map
+                markersformap.removeAt(i) // remove from ArrayList
+                println("!! THIS IS THE END")
+                break
+            }
+        }
+    }
+
     override fun onConnectionSuspended(flag: Int) {
         println(" >>>> onConnectionSuspended")
     }
@@ -197,15 +238,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-    fun distFrom(lat1: Float, lng1: Float, lat2: Float, lng2: Float): Boolean {
-        val earthRadius = 6371000.0 //meters
-        val dLat = Math.toRadians((lat2 - lat1).toDouble())
-        val dLng = Math.toRadians((lng2 - lng1).toDouble())
-        val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1.toDouble())) * Math.cos(Math.toRadians(lat2.toDouble())) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
-        val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-        val dist = (earthRadius * c).toFloat()
-        return (dist <= 10)/*return the distance */
-    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -228,7 +260,16 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     fun downloadCompleteXML(result1: List<Entry>){
         //This part should execute by the call back from OnPostExecute
-        var numberofsongs = (result1.size) /*Number of songs in XML, please note 0 is the start */
+        val numberofsongs = (result1.size) /*Number of songs in XML, please note 0 is the start */
+        RandomNumberinRange = (1..numberofsongs).random()
+        val LEVEL = intent.getStringExtra("Level")
+        val WordsDoc = DownloadDOC(this) // Execute the Async task for downloading and parsing the words
+        if(RandomNumberinRange < 10){
+            WordsDoc.execute("0" +RandomNumberinRange.toString()) // To make "9" into "09"
+        } else {
+            WordsDoc.execute(RandomNumberinRange.toString())
+        }
+        //End of KML
         val SongTitles = arrayOfNulls<String>(numberofsongs+1)
         val SongLinks = arrayOfNulls<String>(numberofsongs+1)
         for (i in 0..numberofsongs-1) {
@@ -240,8 +281,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             val b = result1[i-1].title
             SongTitles[i] = b
         }
-        RandomNumberinRange = (1..numberofsongs).random()
-        println("HERE + ${RandomNumberinRange}")
+        println("HERE + $RandomNumberinRange")
         println("%%" + SongTitles[RandomNumberinRange])
         YoutubeLinkOfCurrentSong = SongLinks[RandomNumberinRange-1] as String
         LyricLinkOfCurrentSong = RandomNumberinRange.toString()
@@ -267,31 +307,26 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                     vibratorService.vibrate(300)
                     Toast.makeText(this@MapsActivity, "Correct! Well done", Toast.LENGTH_SHORT).show()
                     if(RandomNumberinRange < 10){
-                        correctguess(SongLinks[RandomNumberinRange], "0"+RandomNumberinRange.toString() ) // Call function to switch activities
+                        correctguess("0"+RandomNumberinRange.toString() ) // Call function to switch activities
                     } else {
-                        correctguess(SongLinks[RandomNumberinRange], RandomNumberinRange.toString() ) // Call function to switch activities
+                        correctguess(RandomNumberinRange.toString() ) // Call function to switch activities
                     }
-                    //do something if the user gets the correct song
-                    //
+
                 } else if (numberOfTriesLeft == 1) {
+                    println("%% we are geti here")
                     if(RandomNumberinRange < 10){
-                        incorrectguess(SongLinks[RandomNumberinRange], "0"+RandomNumberinRange.toString() ) // Call function to switch activities
+                        incorrectguess("0"+RandomNumberinRange.toString() ) // Call function to switch activities
                     } else {
-                        incorrectguess(SongLinks[RandomNumberinRange], RandomNumberinRange.toString() ) // Call function to switch activities
+                        incorrectguess(RandomNumberinRange.toString() ) // Call function to switch activities
                     }
                 } else {
-                    numberOfTriesLeft = numberOfTriesLeft-1;
-                    Toast.makeText(this@MapsActivity, "Incorrect, ${numberOfTriesLeft} tries left", Toast.LENGTH_SHORT).show()
+                    numberOfTriesLeft -= 1
+                    Toast.makeText(this@MapsActivity, "Incorrect, $numberOfTriesLeft tries left", Toast.LENGTH_SHORT).show()
                     val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     vibratorService.vibrate(300)
                 }
             }
         }
-        //Start the backgroud thread for downloading the KLM
-        val LEVEL = intent.getStringExtra("Level")
-        println("HERE2 + ${RandomNumberinRange}");
-        //RandomNumberinRange = (1..numberofsongs+1).random()
-        var SONGNUMBER = ""
         if(RandomNumberinRange < 10){
             val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/0" + RandomNumberinRange +"/map"+ LEVEL +".kml"
             val KMLmap = DownloadKmlTask(this)
@@ -301,22 +336,27 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             val KMLmap = DownloadKmlTask(this)
             KMLmap.execute(KMLMAPSURL)
         }
-
+    }
+    fun downloadCompletDOC(result: List<List<String>>?){
+        //executed after the
+        words = result!!
+        println("%%" + words)
     }
 
     fun downloadCompleteKML(result: List<EntryKml>) {
         //This part should execute by the call back from OnPostExecute
-        var numberofPoints = result.size
+        val numberofPoints = result.size
+        NumberOfMarkers = numberofPoints
         println("))))" + numberofPoints)
-        var PointsLong = arrayOfNulls<String>(numberofPoints+1)
-        var PointsLat = arrayOfNulls<String>(numberofPoints+1)
-        var classification = arrayOfNulls<String>(numberofPoints+1)
-        var name = arrayOfNulls<String>(numberofPoints+1)
+        val PointsLong = arrayOfNulls<String>(numberofPoints+1)
+        val PointsLat = arrayOfNulls<String>(numberofPoints+1)
+        val classification = arrayOfNulls<String>(numberofPoints+1)
+        val name = arrayOfNulls<String>(numberofPoints+1)
 
         for (i in 0..numberofPoints-1) {
             val a = result[i].Point
             val input = a
-            var result2: List<String> = input.split(",").map { it.trim() } /*String into List  */
+            val result2: List<String> = input.split(",").map { it.trim() } /*String into List, for getting long and lat  */
             PointsLong[i] = result2[0]
             PointsLat[i] = result2[1]
             val theDescription = result[i].description
@@ -324,32 +364,39 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             val theName = result[i].name
             name[i] = theName
         }
-        println("%%%%numofpoints"+numberofPoints)
-        println("%%%" + result)
+       // println("$$$" + Arrays.toString(name))
+
         for(i in 0..numberofPoints-1){ /*adding the markers, with the correct icon to each depending on classification*/
             val longlat = LatLng(PointsLat[i]!!.toDouble(),PointsLong[i]!!.toDouble())
-            var name = "Marker" + i.toString()
             if(classification[i] == "interesting"){
-                mMap.addMarker(MarkerOptions().position(longlat).title("Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.interesting))
+                val marker = mMap.addMarker(MarkerOptions().position(longlat).title("Interesting").icon(BitmapDescriptorFactory.fromResource(R.drawable.interesting)))
+                marker.tag = name[i]
+                markersformap.add(marker)
             }
             else if (classification[i] == "veryinteresting"){
-                mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.veryinteresting))
-
+                val marker =  mMap.addMarker(MarkerOptions().position(longlat).title("Very Interesting").icon(BitmapDescriptorFactory.fromResource(R.drawable.veryinteresting)))
+                marker.tag = name[i]
+                markersformap.add(marker)
             }
             else if (classification[i] == "boring"){
-                mMap.addMarker(MarkerOptions().position(longlat).title("boring")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.boring))
-
+                val marker = mMap.addMarker(MarkerOptions().position(longlat).title("boring").icon(BitmapDescriptorFactory.fromResource(R.drawable.boring)))
+                marker.tag = name[i]
+                markersformap.add(marker)
             }
             else if (classification[i] == "notboring"){
-                mMap.addMarker(MarkerOptions().position(longlat).title("notboring")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.notboring))
-
+                val marker =  mMap.addMarker(MarkerOptions().position(longlat).title("notboring").icon(BitmapDescriptorFactory.fromResource(R.drawable.notboring)))
+                marker.tag = name[i]
+                markersformap.add(marker)
             }
             else if (classification[i] == "unclassified"){
-                mMap.addMarker(MarkerOptions().position(longlat).title("unclassified")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified))
-
+                val marker=  mMap.addMarker(MarkerOptions().position(longlat).title("unclassified").icon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified)))
+                marker.tag = name[i]
+                markersformap.add(marker)
             }
             else {
-                mMap.addMarker(MarkerOptions().position(longlat).title("unclassified")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified))
+                val marker = mMap.addMarker(MarkerOptions().position(longlat).title("unclassified").icon(BitmapDescriptorFactory.fromResource(R.drawable.unclassified)))
+                marker.tag = name[i]
+                markersformap.add(marker)
             }
         }
         val LEVEL = intent.getStringExtra("Level")

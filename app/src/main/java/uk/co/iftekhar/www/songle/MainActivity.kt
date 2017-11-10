@@ -6,10 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.net.ConnectivityManager
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
-import java.util.*
 class MainActivity : AppCompatActivity(){
     var networkPref = "any" /* Have preset network communication as any */
     private inner class NetworkReceiver : BroadcastReceiver() { /*network receiver - from slidse */

@@ -131,7 +131,6 @@ private fun readNumber(parser: XmlPullParser): String {
     parser.require(XmlPullParser.START_TAG, ns, "Number")
     val number = readText(parser)
     parser.require(XmlPullParser.END_TAG, ns, "Number")
-    //println(">>>>>>number: "+number)
     return number
 }
 
@@ -139,7 +138,7 @@ private fun readNumber(parser: XmlPullParser): String {
 private fun readLink(parser: XmlPullParser): String {
     //println(">>>>>> in readLink()")
     parser.require(XmlPullParser.START_TAG, ns, "Link")
-    var link = readText(parser)
+    val link = readText(parser)
     parser.require(XmlPullParser.END_TAG, ns, "Link")
     //println(">>>>>>link: "+link)
     return link

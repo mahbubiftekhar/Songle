@@ -5,11 +5,9 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_correct_splash.*
 import org.jetbrains.anko.alert
-import java.util.*
 
 class CorrectSplash : AppCompatActivity() {
     override fun onBackPressed() {
@@ -27,7 +25,7 @@ class CorrectSplash : AppCompatActivity() {
     }
 
     fun networkChecker (){
-        if(isNetworkConnected()==false){
+        if(!isNetworkConnected()){
             Toast.makeText(this@CorrectSplash, "Check your internet connection", Toast.LENGTH_LONG).show()
             val intent = Intent(this, NetworkIssue()::class.java)
             startActivity(intent)
@@ -56,7 +54,7 @@ class CorrectSplash : AppCompatActivity() {
         LYRICLINK.setOnClickListener {
             networkChecker()
             println("%%" + SONGLYRICLINK)
-            val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/" + SONGLYRICLINK + "/words.txt"
+            val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
         SAMELEVEL.setOnClickListener {

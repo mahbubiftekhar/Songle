@@ -5,11 +5,9 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_correct_splash.*
 import org.jetbrains.anko.alert
-import java.util.*
 
 class IncorrectSplash : AppCompatActivity() {
     override fun onBackPressed() {
@@ -26,7 +24,7 @@ class IncorrectSplash : AppCompatActivity() {
     }
 
     fun networkChecker (){
-        if(isNetworkConnected()==false){
+        if(!isNetworkConnected()){
             Toast.makeText(this@IncorrectSplash, "Check your internet connection", Toast.LENGTH_LONG).show()
             val intent = Intent(this, NetworkIssue()::class.java)
             startActivity(intent)
@@ -41,7 +39,7 @@ class IncorrectSplash : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_correct_splash)
+        setContentView(R.layout.activity_incorrect_splash)
 
         val SONGYOUTUBELINK = intent.getStringExtra("SONGYOUTUBELINK")
         val SONGLYRICLINK = intent.getStringExtra("SONGLYRICLINK")
@@ -54,7 +52,7 @@ class IncorrectSplash : AppCompatActivity() {
         LYRICLINK.setOnClickListener {
             networkChecker()
             println("%%" + SONGLYRICLINK)
-            val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/" + SONGLYRICLINK + "/words.txt"
+            val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
         SAMELEVEL.setOnClickListener {

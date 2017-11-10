@@ -26,17 +26,16 @@ class SongLyricActivity : AppCompatActivity() {
             val button_dynamic = Button(this)
             // setting layout_width and layout_height using layout parameters
             button_dynamic.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            button_dynamic.text = SongTitles_music.get(IndexCount) + " - Lyrics"
-            //button_dynamic.setLayoutParams(LinearLayout.LayoutParams(10, 100))
+            button_dynamic.text = SongTitles_music[IndexCount] + " - Lyrics"
 
             var SongNum = ""
             if (SongNumber < 10) {
-                SongNum = "0" + (SongNumber).toString()
+                 SongNum = "0" + (SongNumber).toString()
             } else {
-                SongNum = (SongNumber).toString()
+                 SongNum = (SongNumber).toString()
             }
-            SongNumber = SongNumber + 1
-            val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/" + SongNum + "/words.txt"
+            SongNumber += 1
+            val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SongNum/words.txt"
             button_dynamic.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }

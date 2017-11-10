@@ -7,10 +7,6 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.content.Intent
 import android.net.Uri
-import android.R.attr.button
-
-
-
 
 class MusicActivity : AppCompatActivity() {
     fun downloadCompleteY(result: List<EntryK>) {
@@ -28,7 +24,7 @@ class MusicActivity : AppCompatActivity() {
             val button_dynamic = Button(this)
             // setting layout_width and layout_height using layout parameters
             button_dynamic.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            button_dynamic.text = SongTitles_music.get(i)
+            button_dynamic.text = SongTitles_music[i]
             val url = "https://www.youtube.com/watch?v="+ (SongLinks_music[i])!!.drop(17)
             button_dynamic.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
