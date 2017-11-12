@@ -9,6 +9,9 @@ import java.net.URL
 import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 
+
+//THIS FILE HAS BEEN ADAPTED FROM THE SLIDES FOR CSLP TO WORK FOR THIS USE
+
 class DownloadY(private val caller : MusicActivity): AsyncTask<String, Void, List<EntryK>>() {
 
     //This is used for the MusicActivity, obtains the information

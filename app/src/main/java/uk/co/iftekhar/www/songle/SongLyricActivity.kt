@@ -12,6 +12,7 @@ import android.net.Uri
 class SongLyricActivity : AppCompatActivity() {
 
     fun downloadCompleteL(result: List<EntryA>) {
+        /* This will execute upon the async task being finnished */
         val NumberOfSongs_music = result.size
         val SongTitles_music = arrayOfNulls<String>(NumberOfSongs_music)
         for(i in 0..NumberOfSongs_music-1) {
@@ -40,7 +41,6 @@ class SongLyricActivity : AppCompatActivity() {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }
             IndexCount++
-
             ll_main.addView(button_dynamic)
         }
     }

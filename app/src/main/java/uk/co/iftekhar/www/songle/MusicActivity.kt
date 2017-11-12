@@ -29,10 +29,8 @@ class MusicActivity : AppCompatActivity() {
             button_dynamic.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }
-
             ll_main.addView(button_dynamic) }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music)
@@ -40,13 +38,5 @@ class MusicActivity : AppCompatActivity() {
         val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
         val Songs = DownloadY(this)
         Songs.execute(XMLSONGS) // Run XML async task
-
-
-
-
-
-
     }
-
-
 }

@@ -46,30 +46,34 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     var NumberOfMarkers = 0
     val markersformap: MutableList<Marker> = arrayListOf()
     var words : List<List<String>> = arrayListOf()
+    var FindClosestMarker = false
 
 
-    fun startTimer(minutes:Long){
+    fun startTimer(minutes:Long){ // Timer for use if the user wants to do timed play
+        //give the user notice of how long they have to play the game
         Toast.makeText(this@MapsActivity, "You have ${minutes/60000} minutes! GOOD LUCK!!", Toast.LENGTH_LONG).show()
         val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vibratorService.vibrate(500)
-        timer.schedule(timerTask {
+        vibratorService.vibrate(500) // vibrate for 500 miliseconds
+        timer.schedule(timerTask { //Change activity if user fails to complete task in given time
             if(RandomNumberinRange < 10){
                 incorrectguess("0"+ LyricLinkOfCurrentSong) // Call function to switch activities
             } else {
                 incorrectguess(LyricLinkOfCurrentSong)} }, minutes)
     }
-    private fun endTimer () {
+    private fun endTimer () { // function to end the timer
         timer.cancel()      //cancel the timer
     }
-    fun switchBackToMain (){
+    fun switchBackToMain (){ //function to change activity to main activity
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
-    override fun onBackPressed() {
+    override fun onBackPressed() { // override the back button, so they user reaslises they will end the game
         alert("End game?"){
             yesButton {
                 endTimer()
+                FindClosestMarker = false
                 switchBackToMain()
+
             }
             noButton {
               //Don't do anything as the user has changed there mind
@@ -80,21 +84,27 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     fun correctguess (LYRICLINK : String?) {
         endTimer()
+        FindClosestMarker = false // So no new markers are collected
         val LEVEL = intent.getStringExtra("Level")
         val SONGLYRICLINK = LYRICLINK
         val intent = Intent(this, CorrectSplash::class.java)
+        /*
+        Pass some parameters to the new activity for the buttons to allow the user to watch video online, lyrics and next level
+         */
         intent.putExtra("LEVEL", LEVEL)
         intent.putExtra("SONGYOUTUBELINK", YoutubeLinkOfCurrentSong)
         intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
         startActivity(intent)
     }
     fun incorrectguess (LYRICLINK : String?) {
-        println("%% we are getting here")
         endTimer()// end the timer
-        //If the timer runs out, or if the user guesses too many times
+        FindClosestMarker = false
         val LEVEL = intent.getStringExtra("Level")
         val SONGLYRICLINK = LYRICLINK
         val intent = Intent(this, IncorrectSplash::class.java)
+        /*
+        Pass some parameters to the new activity for the buttons to allow the user to watch video online, lyrics and same level
+         */
         intent.putExtra("LEVEL", LEVEL)
         intent.putExtra("SONGYOUTUBELINK", YoutubeLinkOfCurrentSong)
         intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
@@ -120,9 +130,10 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                 .build()
 
 
+        // Run XML async task
         val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
         val XMLSongs = DownloadXmlTask(this)
-        XMLSongs.execute(XMLSONGS) // Run XML async task
+        XMLSongs.execute(XMLSONGS)
     }
     override fun onStart() {
         super.onStart()
@@ -175,7 +186,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             )
 
         }
-        if (current != null) { // null check to ensure we don't try to distance between null and an point
+        if (current != null && FindClosestMarker == true) { // null check to ensure we don't try to distance between null and an point
             distanceChecker(current.getLatitude(), current.getLongitude())
         }
     }
@@ -183,13 +194,14 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     fun distanceChecker(Lat: Double, Long: Double) {
 
         fun distFrom(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Boolean {
+            //This function gets the distance between two GPS coordinates
             val earthRadius = 6371000.0 //meters
             val dLat = Math.toRadians((lat2 - lat1))
             val dLng = Math.toRadians((lng2 - lng1))
             val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
             val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
             val dist = (earthRadius * c).toFloat()
-            return (dist <= 20)/*return if the distance is less than 10 */
+            return (dist <= 50)/*return if the distance is less than 10 */
         }
         for(i in 0..markersformap.size-1){
             val marker = markersformap[i]
@@ -204,11 +216,10 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                 val markerClassification = markersformap[i].title // Gets the classification
                 val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 vibratorService.vibrate(400)
-                Toast.makeText(this@MapsActivity, "Classification: $markerClassification Word: $word", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MapsActivity, "Classification: $markerClassification  Word: $word", Toast.LENGTH_LONG).show()
                 println("!! WORD $word")
                 println("!! CLASSIFICATIOM $markerClassification")
                 println("!! CLASSIFICATIOM $markerTag")
-
 
                 markersformap[i].remove() // remove from map
                 markersformap.removeAt(i) // remove from ArrayList
@@ -261,15 +272,31 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     fun downloadCompleteXML(result1: List<Entry>){
         //This part should execute by the call back from OnPostExecute
         val numberofsongs = (result1.size) /*Number of songs in XML, please note 0 is the start */
-        RandomNumberinRange = (1..numberofsongs).random()
-        val LEVEL = intent.getStringExtra("Level")
-        val WordsDoc = DownloadDOC(this) // Execute the Async task for downloading and parsing the words
+
+        RandomNumberinRange = (1..numberofsongs).random() // pick a random number
+
+        val LEVEL = intent.getStringExtra("Level") // get the level the user selected
+
+        // Execute the Async task for downloading and parsing the words
+        val WordsDoc = DownloadDOC(this)
         if(RandomNumberinRange < 10){
             WordsDoc.execute("0" +RandomNumberinRange.toString()) // To make "9" into "09"
         } else {
             WordsDoc.execute(RandomNumberinRange.toString())
         }
-        //End of KML
+
+        //Execute KML Async
+        if(RandomNumberinRange < 10){
+            val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/0" + RandomNumberinRange +"/map"+ LEVEL +".kml"
+            val KMLmap = DownloadKmlTask(this)
+            KMLmap.execute(KMLMAPSURL)
+        } else {
+            val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/"+RandomNumberinRange+"/map"+ LEVEL +".kml"
+            val KMLmap = DownloadKmlTask(this)
+            KMLmap.execute(KMLMAPSURL)
+        }
+
+        //Obtain SongTitles and SongLinks
         val SongTitles = arrayOfNulls<String>(numberofsongs+1)
         val SongLinks = arrayOfNulls<String>(numberofsongs+1)
         for (i in 0..numberofsongs-1) {
@@ -281,8 +308,11 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             val b = result1[i-1].title
             SongTitles[i] = b
         }
+        //Prints for testing
         println("HERE + $RandomNumberinRange")
         println("%%" + SongTitles[RandomNumberinRange])
+
+        //Set up the spinner to allow users to guess the song
         YoutubeLinkOfCurrentSong = SongLinks[RandomNumberinRange-1] as String
         LyricLinkOfCurrentSong = RandomNumberinRange.toString()
         Spinner =  findViewById<View>(R.id.spinner) as Spinner
@@ -327,32 +357,26 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                 }
             }
         }
-        if(RandomNumberinRange < 10){
-            val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/0" + RandomNumberinRange +"/map"+ LEVEL +".kml"
-            val KMLmap = DownloadKmlTask(this)
-            KMLmap.execute(KMLMAPSURL)
-        } else {
-            val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/"+RandomNumberinRange+"/map"+ LEVEL +".kml"
-            val KMLmap = DownloadKmlTask(this)
-            KMLmap.execute(KMLMAPSURL)
-        }
     }
     fun downloadCompletDOC(result: List<List<String>>?){
-        //executed after the
+        //executed after the DownloadDOC async task has finnished
         words = result!!
         println("%%" + words)
+        FindClosestMarker = true
+
     }
 
     fun downloadCompleteKML(result: List<EntryKml>) {
         //This part should execute by the call back from OnPostExecute
         val numberofPoints = result.size
         NumberOfMarkers = numberofPoints
-        println("))))" + numberofPoints)
+        println("))))" + numberofPoints) // Testing
         val PointsLong = arrayOfNulls<String>(numberofPoints+1)
         val PointsLat = arrayOfNulls<String>(numberofPoints+1)
         val classification = arrayOfNulls<String>(numberofPoints+1)
         val name = arrayOfNulls<String>(numberofPoints+1)
 
+        //Fill up the above arrays
         for (i in 0..numberofPoints-1) {
             val a = result[i].Point
             val input = a
@@ -364,8 +388,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             val theName = result[i].name
             name[i] = theName
         }
-       // println("$$$" + Arrays.toString(name))
-
+        //Add markers on the map according to the map with the corresponding images
         for(i in 0..numberofPoints-1){ /*adding the markers, with the correct icon to each depending on classification*/
             val longlat = LatLng(PointsLat[i]!!.toDouble(),PointsLong[i]!!.toDouble())
             if(classification[i] == "interesting"){
@@ -399,6 +422,8 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                 markersformap.add(marker)
             }
         }
+        //If the user has selected timed, the timer will be started depending on the level they selected
+        //If the user didn't select timed, the timer will not start.
         val LEVEL = intent.getStringExtra("Level")
         val TIMER = intent.getBooleanExtra("Timed", false)
         if(LEVEL == "5" && TIMER ){

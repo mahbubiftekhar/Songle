@@ -9,9 +9,8 @@ import java.net.URL
 import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 
-//interface DownloadCompleteListenerXML {
-//    fun downloadCompleteXML(result: List<Entry>)
-//}
+//THIS FILE HAS BEEN ADAPTED FROM THE SLIDES FOR CSLP TO WORK FOR THIS USE
+
 class DownloadXmlTask(private val caller : MapsActivity): AsyncTask<String, Void, List<Entry>>() {
 
     override fun doInBackground(vararg urls: String): List<Entry> {

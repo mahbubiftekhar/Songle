@@ -130,9 +130,6 @@ class CorrectSplash : AppCompatActivity() {
                     }
                     negativeButton("No Thanks!") {
                         bulkwork("2", false)
-
-                        //Don't do anything as the user has changed there mind
-                        //
                     }
                 }.show()
             }

@@ -10,13 +10,9 @@ class NetworkIssue : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_network_issue)
-
         NETWORKISSUEBUTTON.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            //Starts the main activity
+            startActivity(intent) /*Start the main activity when button clicked*/
         }
     }
-
-
 }

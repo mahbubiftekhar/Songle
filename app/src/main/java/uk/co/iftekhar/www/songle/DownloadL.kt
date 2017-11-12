@@ -13,7 +13,7 @@ import java.net.URL
  * Created by MAHBUBIFTEKHAR on 07/11/2017.
  */
 
-
+//THIS FILE HAS BEEN ADAPTED FROM THE SLIDES FOR CSLP TO WORK FOR THIS USE
 class DownloadL(private val caller :SongLyricActivity): AsyncTask<String, Void, List<EntryA>>() {
     //This is used for the SongLyricsActivity, obtains the information to display the buttons with all the song lyrics
 
