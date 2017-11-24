@@ -49,16 +49,16 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     var FindClosestMarker = false
 
 
-    fun startTimer(minutes:Long){ // Timer for use if the user wants to do timed play
+    fun startTimer(seconds:Long){ // Timer for use if the user wants to do timed play
         //give the user notice of how long they have to play the game
-        Toast.makeText(this@MapsActivity, "You have ${minutes/60000} minutes! GOOD LUCK!!", Toast.LENGTH_LONG).show()
+        Toast.makeText(this@MapsActivity, "You have ${seconds/60000} minutes! GOOD LUCK!!", Toast.LENGTH_LONG).show()
         val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibratorService.vibrate(500) // vibrate for 500 miliseconds
         timer.schedule(timerTask { //Change activity if user fails to complete task in given time
             if(RandomNumberinRange < 10){
                 incorrectguess("0"+ LyricLinkOfCurrentSong) // Call function to switch activities
             } else {
-                incorrectguess(LyricLinkOfCurrentSong)} }, minutes)
+                incorrectguess(LyricLinkOfCurrentSong)} }, seconds)
     }
     private fun endTimer () { // function to end the timer
         timer.cancel()      //cancel the timer
@@ -201,7 +201,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
             val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
             val dist = (earthRadius * c).toFloat()
-            return (dist <= 50)/*return if the distance is less than 10 */
+            return (dist <= 12)/*return if the distance is less than 10 */
         }
         for(i in 0..markersformap.size-1){
             val marker = markersformap[i]

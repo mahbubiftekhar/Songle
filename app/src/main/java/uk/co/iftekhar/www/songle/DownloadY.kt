@@ -12,7 +12,7 @@ import org.xmlpull.v1.XmlPullParser
 
 //THIS FILE HAS BEEN ADAPTED FROM THE SLIDES FOR CSLP TO WORK FOR THIS USE
 
-class DownloadY(private val caller : MusicActivity): AsyncTask<String, Void, List<EntryK>>() {
+class DownloadY(private val caller: MusicActivity) : AsyncTask<String, Void, List<EntryK>>() {
 
     //This is used for the MusicActivity, obtains the information
     override fun doInBackground(vararg urls: String): List<EntryK> {
@@ -27,7 +27,7 @@ class DownloadY(private val caller : MusicActivity): AsyncTask<String, Void, Lis
         }
     }
 
-    private fun loadXmlFromNetwork(urlString: String): List<EntryK>  {
+    private fun loadXmlFromNetwork(urlString: String): List<EntryK> {
         val stream = downloadUrl(urlString)
         val XMLSongsArrayList = parseY(stream)
         return XMLSongsArrayList
@@ -50,10 +50,12 @@ class DownloadY(private val caller : MusicActivity): AsyncTask<String, Void, Lis
         caller.downloadCompleteY(result)
     }
 }
-data class EntryK(val number: String, val artist: String, val title: String, val link: String )
+
+data class EntryK(val number: String, val artist: String, val title: String, val link: String)
+
 private val ns: String? = null
 @Throws(XmlPullParserException::class, IOException::class)
-fun parseY(input : InputStream): List<EntryK> {
+fun parseY(input: InputStream): List<EntryK> {
     //println(">>>>>> in parse()")
     input.use {
         val parser = Xml.newPullParser()
@@ -64,6 +66,7 @@ fun parseY(input : InputStream): List<EntryK> {
         return readFeed(parser)
     }
 }
+
 @Throws(XmlPullParserException::class, IOException::class)
 private fun readFeed(parser: XmlPullParser): List<EntryK> {
     //println(">>>>>> in readFeed()")
@@ -87,6 +90,7 @@ private fun readFeed(parser: XmlPullParser): List<EntryK> {
     }
     return entries
 }
+
 @Throws(XmlPullParserException::class, IOException::class)
 private fun readEntry(parser: XmlPullParser): EntryK {
     //println(">>>>>> in readEntry()")
@@ -100,7 +104,7 @@ private fun readEntry(parser: XmlPullParser): EntryK {
         //println(">>>>>"+parser.name)
         if (parser.eventType != XmlPullParser.START_TAG)
             continue
-        when(parser.name){
+        when (parser.name) {
             "Number" -> number = readNumber(parser)
             "Artist" -> artist = readArtist(parser)
             "Title" -> title = readTitle(parser)
@@ -155,6 +159,7 @@ private fun readArtist(parser: XmlPullParser): String {
     //println(">>>>>>artist: "+artist)
     return artist
 }
+
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readText(parser: XmlPullParser): String {
     //println(">>>>>> in readText()")
@@ -166,6 +171,7 @@ private fun readText(parser: XmlPullParser): String {
     }
     return result
 }
+
 @Throws(XmlPullParserException::class, IOException::class)
 private fun skip(parser: XmlPullParser) {
     //println(">>>>>> in skip()")

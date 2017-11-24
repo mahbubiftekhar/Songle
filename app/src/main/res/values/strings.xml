@@ -11,7 +11,7 @@
     <string name="LEVEL4">Insane</string>
     <string name="LEVEL5">Impossible</string>
     <string name="SONYLYRICS">Song Lyrics</string>
-    <string name="EXPLAINGAME">How to play</string>
+    <string name="EXPLAINGAME">"FAQ's"</string>
     <string name="MUSIC">Listen on Youtube!</string>
     <string name="GUESSTHESONG">Guess the song!</string>
     <string name="title_activity_how_to_play">HowToPlay</string>

@@ -46,10 +46,14 @@
 
         <activity
             android:name=".MapsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".MusicActivity" />
-        <activity android:name=".SongLyricActivity" />
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MusicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SongLyricActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".CorrectSplash" />
         <activity android:name=".IncorrectSplash" />
         <activity

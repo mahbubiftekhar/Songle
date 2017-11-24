@@ -15,7 +15,7 @@ class SongLyricActivity : AppCompatActivity() {
         /* This will execute upon the async task being finnished */
         val NumberOfSongs_music = result.size
         val SongTitles_music = arrayOfNulls<String>(NumberOfSongs_music)
-        for(i in 0..NumberOfSongs_music-1) {
+        for (i in 0..NumberOfSongs_music - 1) {
             SongTitles_music[i] = result[i].title
         }
         val ll_main: LinearLayout = findViewById(R.id.ll_main_layout) //as LinearLayout
@@ -29,11 +29,14 @@ class SongLyricActivity : AppCompatActivity() {
             button_dynamic.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             button_dynamic.text = SongTitles_music[IndexCount] + " - Lyrics"
 
+            /*if the song number is single digit,
+            we need to ensure that a 0 is in front
+            e.g. 9 -> 09*/
             var SongNum = ""
             if (SongNumber < 10) {
-                 SongNum = "0" + (SongNumber).toString()
+                SongNum = "0" + (SongNumber).toString()
             } else {
-                 SongNum = (SongNumber).toString()
+                SongNum = (SongNumber).toString()
             }
             SongNumber += 1
             val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SongNum/words.txt"
@@ -44,6 +47,7 @@ class SongLyricActivity : AppCompatActivity() {
             ll_main.addView(button_dynamic)
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
