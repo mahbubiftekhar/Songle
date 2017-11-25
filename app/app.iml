@@ -146,14 +146,19 @@
     <orderEntry type="library" name="play-services-maps-11.0.4" level="project" />
     <orderEntry type="library" name="support-compat-26.1.0" level="project" />
     <orderEntry type="library" name="constraint-layout-solver-1.0.2" level="project" />
+    <orderEntry type="library" name="okio-1.13.0" level="project" />
+    <orderEntry type="library" name="retrofit-2.3.0" level="project" />
+    <orderEntry type="library" name="converter-gson-2.3.0" level="project" />
     <orderEntry type="library" name="annotations-13.0" level="project" />
     <orderEntry type="library" scope="TEST" name="javax.inject-1" level="project" />
+    <orderEntry type="library" name="gson-2.7" level="project" />
     <orderEntry type="library" name="support-annotations-26.1.0" level="project" />
     <orderEntry type="library" name="support-v4-26.1.0" level="project" />
     <orderEntry type="library" name="animated-vector-drawable-26.1.0" level="project" />
     <orderEntry type="library" name="support-fragment-26.1.0" level="project" />
     <orderEntry type="library" name="runtime-1.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="kxml2-2.3.0" level="project" />
+    <orderEntry type="library" name="okhttp-3.8.0" level="project" />
     <orderEntry type="library" name="common-1.0.0" level="project" />
     <orderEntry type="library" name="1_common-1.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="javawriter-2.1.1" level="project" />

@@ -25,6 +25,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,13 +55,17 @@
         <activity
             android:name=".SongLyricActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".CorrectSplash" />
-        <activity android:name=".IncorrectSplash" />
+        <activity android:name=".CorrectSplash"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".IncorrectSplash"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".FAQ"
             android:label="@string/title_activity_faq"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".NetworkIssue"></activity>
+        <activity android:name=".NetworkIssue" />
+        <activity android:name=".ScoreScreen"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

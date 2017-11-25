@@ -23,6 +23,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import android.os.Vibrator
+import android.preference.PreferenceManager
 import com.google.android.gms.maps.model.Marker
 import org.jetbrains.anko.alert
 import java.util.*
@@ -47,7 +48,30 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     val markersformap: MutableList<Marker> = arrayListOf()
     var words : List<List<String>> = arrayListOf()
     var FindClosestMarker = false
+    private var start = 0L
 
+    fun SaveInt(key:String, value:Int) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val editor = sharedPreferences.edit()
+        editor.putInt(key, value)
+        editor.commit()
+    }
+    fun SaveLong(key:String, value:Long) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val editor = sharedPreferences.edit()
+        editor.putLong(key, value)
+        editor.commit()
+    }
+    fun LoadInt(key:String):Int {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val savedValue = sharedPreferences.getInt(key, 0)
+        return savedValue
+    }
+    fun LoadLong(key:String):Long {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val savedValue = sharedPreferences.getLong(key, 0.toLong())
+        return savedValue
+    }
 
     fun startTimer(seconds:Long){ // Timer for use if the user wants to do timed play
         //give the user notice of how long they have to play the game
@@ -68,24 +92,70 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         startActivity(intent)
     }
     override fun onBackPressed() { // override the back button, so they user reaslises they will end the game
-        alert("End game?"){
-            yesButton {
-                endTimer()
-                FindClosestMarker = false
+        alert("End the game?") {
+            positiveButton("Yes, end game") {
                 switchBackToMain()
-
+                //Switch user to the main screen and end the game
             }
-            noButton {
-              //Don't do anything as the user has changed there mind
+            negativeButton("No!, Stay!") {
+                //Do nothing, the user changed their minds.
             }
         }.show()
     }
     fun ClosedRange<Int>.random() = Random().nextInt(endInclusive - start) +  start
-
     fun correctguess (LYRICLINK : String?) {
         endTimer()
         FindClosestMarker = false // So no new markers are collected
         val LEVEL = intent.getStringExtra("Level")
+        if(LEVEL.toInt() == 5){
+            val a = LoadInt("EASY_LEVEL")
+            SaveInt("EASY_LEVEL", a+1)
+            val time = (System.currentTimeMillis() - start)/1000
+            println("%%%%"+time)
+            val sd = LoadLong("BEST_TIME_EASY")
+            if(time<sd || sd == 0.toLong()){
+                println("%% we are getting here yay ")
+                SaveLong("BEST_TIME_EASY", time)
+            }
+        } else if(LEVEL.toInt() == 4) {
+            val a = LoadInt("NORMAL_LEVEL")
+            SaveInt("NORMAL_LEVEL", a+1)
+            val time = (System.currentTimeMillis() - start)/1000
+            println("%%%%"+time)
+            val sd = LoadLong("BEST_TIME_NORMAL")
+            if(time<sd || sd == 0.toLong()){
+                SaveLong("BEST_TIME_NORMAL", time)
+            }
+        } else if (LEVEL.toInt() ==3 ){
+            val a = LoadInt("HARD_LEVEL")
+            SaveInt("HARD_LEVEL", a+1)
+            val time = (System.currentTimeMillis() - start)/1000
+            val sd = LoadLong("BEST_TIME_HARD")
+            println("%%%%"+time)
+            if(time<sd || sd == 0.toLong()){
+                SaveLong("BEST_TIME_HARD", time)
+            }
+        }else if(LEVEL.toInt() == 2){
+            val a = LoadInt("INSANE_LEVEL")
+            SaveInt("INSANE_LEVEL", a+1)
+            val time = (System.currentTimeMillis() - start)/1000
+            val sd = LoadLong("BEST_TIME_INSANE")
+            println("%%%%"+time)
+            if(time<sd || sd == 0.toLong()){
+                SaveLong("BEST_TIME_INSANE", time)
+            }
+        }else if(LEVEL.toInt() == 1){
+            val a = LoadInt("IMPOSSIBLE_LEVEL")
+            SaveInt("IMPOSSIBLE_LEVEL", a+1)
+            val time = (System.currentTimeMillis() - start)/1000
+            println("%%%%"+time)
+            val sd = LoadLong("BEST_TIME_IMPOSSIBLE")
+            if(time<sd || sd == 0.toLong()){
+                SaveLong("BEST_TIME_IMPOSSIBLE", time)
+            }
+        }
+
+
         val SONGLYRICLINK = LYRICLINK
         val intent = Intent(this, CorrectSplash::class.java)
         /*
@@ -343,7 +413,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                     }
 
                 } else if (numberOfTriesLeft == 1) {
-                    println("%% we are geti here")
                     if(RandomNumberinRange < 10){
                         incorrectguess("0"+RandomNumberinRange.toString() ) // Call function to switch activities
                     } else {
@@ -439,6 +508,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         else if (TIMER){
             startTimer(720000) //14 minutes
         }
+        start = System.currentTimeMillis()
     }
 
  }

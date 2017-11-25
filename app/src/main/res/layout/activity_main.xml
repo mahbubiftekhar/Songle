@@ -16,61 +16,115 @@
         android:layout_marginBottom="10dp"
         android:background="#2072A4">
 
-        <TextView android:layout_width="match_parent"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0dp"
+            android:text="Welcome to Songle!"
+            android:textAlignment="center"
+            android:textColor="#f5f5f5"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/LEVEL1_BUTTON"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"
-            android:textColor="#f5f5f5"
-            android:text="Welcome to Songle!"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textAlignment="center"
-            />
-
-        <Button android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/LEVEL1"
-            android:id="@+id/LEVEL1_BUTTON"
-            android:padding="10dp"/>
+            android:background="@drawable/buttonxml"
+            android:text="@string/LEVEL1" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
         <Button android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/LEVEL2"
             android:id="@+id/LEVEL2_BUTTON"
+            android:background="@drawable/buttonxml"
             android:padding="10dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
         <Button android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/LEVEL3"
+            android:background="@drawable/buttonxml"
             android:id="@+id/LEVEL3_BUTTON"
             android:padding="10dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
         <Button android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/LEVEL4"
+            android:background="@drawable/buttonxml"
             android:id="@+id/LEVEL4_BUTTON"
             android:padding="10dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
         <Button android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/LEVEL5"
+            android:background="@drawable/buttonxml"
             android:id="@+id/LEVEL5BUTTON"
             android:padding="10dp"/>
         <View
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="23dp"
             android:layout_weight="1" />
         <Button android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/MUSIC"
             android:id="@+id/MUSICBUTTON"
+            android:background="@drawable/buttonxml"
             android:padding="10dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
         <Button android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/SONYLYRICS"
+            android:background="@drawable/buttonxml"
             android:id="@+id/SONGLYRICS"
             android:padding="10dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
+        <Button android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Score"
+            android:background="@drawable/buttonxml"
+            android:id="@+id/SCORE"
+            android:padding="10dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
 
         <Button android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/EXPLAINGAME"
+            android:background="@drawable/buttonxml"
             android:id="@+id/HOWTOPLAY"
             android:padding="10dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" />
+
+
 
     </LinearLayout>
 </ScrollView>

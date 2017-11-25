@@ -3,14 +3,34 @@ package uk.co.iftekhar.www.songle
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.net.ConnectivityManager
+import android.preference.PreferenceManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 
+
+
+
 class MainActivity : AppCompatActivity() {
+    var okToContinue = false
+    lateinit var result: List<Entry>
+    fun SaveInt(key:String, value:Int) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val editor = sharedPreferences.edit()
+        editor.putInt(key, value)
+        editor.commit()
+    }
+    fun LoadInt(key:String):Int {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val savedValue = sharedPreferences.getInt(key, 0)
+        return savedValue
+    }
+
+
     var networkPref = "any" /* Have preset network communication as any */
 
     private inner class NetworkReceiver : BroadcastReceiver() { /*network receiver - from slidse */
@@ -59,7 +79,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
+    fun XMLdownloadComplete (result1: List<Entry>) {
+        result = result1
+    }
     fun bulkwork(Level: String, Timed: Boolean) {
         /*
         Function that will be called from the different buttons,
@@ -88,6 +110,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }.show()
         }
+        SCORE.setOnClickListener {
+            val intent = Intent(this, ScoreScreen::class.java)
+            startActivity(intent)
+        }
         LEVEL2_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
             alert("Want a challenge with timed play?") {
@@ -109,7 +135,7 @@ class MainActivity : AppCompatActivity() {
                     bulkwork("3", true)
                     //timed play
                 }
-                negativeButton("No Thanks!") {
+                negativeButton( "No Thanks!") {
                     bulkwork("3", false)
                     //No timed play
                 }
@@ -161,4 +187,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
+
 }
