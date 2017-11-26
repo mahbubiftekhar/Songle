@@ -14,7 +14,6 @@ import org.jetbrains.anko.alert
 
 class MainActivity : AppCompatActivity() {
     var okToContinue = false
-    lateinit var result: List<Entry>
     var numberofsongs = 0
     lateinit var SongTitles: Array<String?>
     lateinit var SongLinks: Array<String?>

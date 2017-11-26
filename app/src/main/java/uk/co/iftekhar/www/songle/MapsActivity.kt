@@ -57,13 +57,13 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         editor.putInt(key, value)
-        editor.commit()
+        editor.apply()
     }
     fun SaveLong(key:String, value:Long) {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         editor.putLong(key, value)
-        editor.commit()
+        editor.apply()
     }
     fun LoadInt(key:String):Int {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)

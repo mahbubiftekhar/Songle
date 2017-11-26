@@ -9,8 +9,6 @@ import java.net.URL
 import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 
-//THIS FILE HAS BEEN ADAPTED FROM THE SLIDES FROM CSLP, MODIFIED AND ADDED TO WHERE NEEDED
-
 class DownloadKmlTask(private val caller: MapsActivity) : AsyncTask<String, Void, List<EntryKml>>() {
     override fun doInBackground(vararg urls: String): List<EntryKml> {
         return try {
