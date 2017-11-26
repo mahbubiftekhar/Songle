@@ -1,294 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+<ScrollView
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="8dp"
+    tools:layout_editor_absoluteX="8dp"
+    android:background="#2072A4"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/topButton"
-        android:layout_width="fill_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text="SCORE OVERVIEW"
-        android:textColor="#FF0000"
-        android:textSize="30dip"
-        android:textStyle="bold" />
-    <LinearLayout
-        android:id="@+id/bottomButtons"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal" >
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        android:background="#2072A4">
 
+        <TextView
+            android:id="@+id/topButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/score_overview"
+            android:textColor="#FF0000"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/total_score"
+            android:textColor="#FF0000"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/Score"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:text="@string/LEVEL1"
+            android:textColor="#FF0000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/LEVEL1_SCORE"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/LEVEL1_TIME"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:text="@string/LEVEL2"
+            android:textColor="#FF0000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/LEVEL2_SCORE"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/LEVEL2_TIME"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:text="@string/LEVEL3"
+            android:textColor="#FF0000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/LEVEL3_SCORE"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/LEVEL3_TIME"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:text="@string/LEVEL4"
+            android:textColor="#FF0000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/LEVEL4_SCORE"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/LEVEL4_TIME"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textAlignment="center"
+            android:text="@string/LEVEL5"
+            android:textColor="#FF0000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/LEVEL5_SCORE"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/LEVEL5_TIME"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#0000FF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@id/bottomButtons"
-        android:layout_below="@id/topButton"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center" >
-
-        <TableRow
-            android:layout_gravity="center"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="170dp"
-                android:layout_height="fill_parent"
-                android:text="Total Score"
-                android:textColor="#FF0000"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:text="    "
-                android:textSize="20dip"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/Score"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow1">
-
-            <TextView
-                android:id="@+id/textView1"
-                android:paddingRight="20dp" />
-
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow11">
-
-            <TextView
-                android:id="@+id/textView11"
-                android:paddingRight="20dp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_gravity="center"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="93dp"
-                android:layout_height="fill_parent"
-                android:text="@string/LEVEL1"
-                android:textColor="#FF0000"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/LEVEL1_SCORE"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:text="        "
-                android:textSize="20dip"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/LEVEL1_TIME"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow10">
-
-            <TextView
-                android:id="@+id/textView10"
-                android:paddingRight="20dp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="354dp"
-            android:layout_height="73dp"
-            android:layout_gravity="center"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/LEVEL2"
-                android:textColor="#FF0000"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/LEVEL2_SCORE"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="        "
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/LEVEL2_TIME"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow2">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:paddingRight="20dp" />
-
-        </TableRow>
-        <TableRow
-            android:layout_gravity="center"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/LEVEL3"
-                android:textColor="#FF0000"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/LEVEL3_SCORE"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:text="        "
-                android:textSize="20dip"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/LEVEL3_TIME"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow3">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:paddingRight="20dp" />
-
-        </TableRow>
-        <TableRow
-            android:layout_gravity="center"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/LEVEL4"
-                android:textColor="#FF0000"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/LEVEL4_SCORE"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:text="        "
-                android:textSize="20dip"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/LEVEL4_TIME"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow4">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:paddingRight="20dp" />
-
-        </TableRow>
-        <TableRow
-            android:layout_gravity="center"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="199dp"
-                android:layout_height="fill_parent"
-                android:text="@string/LEVEL5"
-                android:textColor="#FF0000"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/LEVEL5_SCORE"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:text="        "
-                android:textSize="20dip"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/LEVEL5_TIME"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:textColor="#0000FF"
-                android:textSize="20dip"
-                android:textStyle="bold" />
-        </TableRow>
-    </TableLayout>
-
-</RelativeLayout>
+</ScrollView>

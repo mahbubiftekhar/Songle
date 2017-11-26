@@ -49,26 +49,29 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     var words : List<List<String>> = arrayListOf()
     var FindClosestMarker = false
     private var start = 0L
+    var numberofsongs = 0
+    lateinit var SongTitles: Array<String?>
+    lateinit var SongLinks: Array<String?>
 
     fun SaveInt(key:String, value:Int) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         editor.putInt(key, value)
         editor.commit()
     }
     fun SaveLong(key:String, value:Long) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         editor.putLong(key, value)
         editor.commit()
     }
     fun LoadInt(key:String):Int {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val savedValue = sharedPreferences.getInt(key, 0)
         return savedValue
     }
     fun LoadLong(key:String):Long {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val savedValue = sharedPreferences.getLong(key, 0.toLong())
         return savedValue
     }
@@ -91,7 +94,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
-    override fun onBackPressed() { // override the back button, so they user reaslises they will end the game
+    override fun onBackPressed() { // override the back button, so they user realises they will end the game
         alert("End the game?") {
             positiveButton("Yes, end game") {
                 switchBackToMain()
@@ -110,8 +113,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         if(LEVEL.toInt() == 5){
             val a = LoadInt("EASY_LEVEL")
             SaveInt("EASY_LEVEL", a+1)
-            val time = (System.currentTimeMillis() - start)/1000
-            println("%%%%"+time)
+            val time:Long = (System.currentTimeMillis()-start)/1000
             val sd = LoadLong("BEST_TIME_EASY")
             if(time<sd || sd == 0.toLong()){
                 println("%% we are getting here yay ")
@@ -121,7 +123,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             val a = LoadInt("NORMAL_LEVEL")
             SaveInt("NORMAL_LEVEL", a+1)
             val time = (System.currentTimeMillis() - start)/1000
-            println("%%%%"+time)
             val sd = LoadLong("BEST_TIME_NORMAL")
             if(time<sd || sd == 0.toLong()){
                 SaveLong("BEST_TIME_NORMAL", time)
@@ -131,7 +132,6 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             SaveInt("HARD_LEVEL", a+1)
             val time = (System.currentTimeMillis() - start)/1000
             val sd = LoadLong("BEST_TIME_HARD")
-            println("%%%%"+time)
             if(time<sd || sd == 0.toLong()){
                 SaveLong("BEST_TIME_HARD", time)
             }
@@ -140,13 +140,16 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             SaveInt("INSANE_LEVEL", a+1)
             val time = (System.currentTimeMillis() - start)/1000
             val sd = LoadLong("BEST_TIME_INSANE")
-            println("%%%%"+time)
             if(time<sd || sd == 0.toLong()){
                 SaveLong("BEST_TIME_INSANE", time)
             }
         }else if(LEVEL.toInt() == 1){
             val a = LoadInt("IMPOSSIBLE_LEVEL")
+            println("%%%key before incremenet" + a)
             SaveInt("IMPOSSIBLE_LEVEL", a+1)
+            val b = LoadInt("IMPOSSIBLE_LEVEL")
+            println("%%%key before incremenet" + b)
+
             val time = (System.currentTimeMillis() - start)/1000
             println("%%%%"+time)
             val sd = LoadLong("BEST_TIME_IMPOSSIBLE")
@@ -164,6 +167,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         intent.putExtra("LEVEL", LEVEL)
         intent.putExtra("SONGYOUTUBELINK", YoutubeLinkOfCurrentSong)
         intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
+        intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
+        intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/
+        intent.putExtra("NUMBEROFSONGS", numberofsongs) /*PASS NUMBER OF SONGS*/
         startActivity(intent)
     }
     fun incorrectguess (LYRICLINK : String?) {
@@ -178,6 +184,9 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         intent.putExtra("LEVEL", LEVEL)
         intent.putExtra("SONGYOUTUBELINK", YoutubeLinkOfCurrentSong)
         intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
+        intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
+        intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/
+        intent.putExtra("NUMBEROFSONGS", numberofsongs) /*PASS NUMBER OF SONGS*/
         startActivity(intent)
     }
 
@@ -198,12 +207,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build()
-
-
-        // Run XML async task
-        val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
-        val XMLSongs = DownloadXmlTask(this)
-        XMLSongs.execute(XMLSONGS)
+        doBulkOfWork()
     }
     override fun onStart() {
         super.onStart()
@@ -256,7 +260,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
             )
 
         }
-        if (current != null && FindClosestMarker == true) { // null check to ensure we don't try to distance between null and an point
+        if (current != null && FindClosestMarker) { // null check to ensure we don't try to distance between null and an point
             distanceChecker(current.getLatitude(), current.getLongitude())
         }
     }
@@ -339,10 +343,8 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
     }
 
 
-    fun downloadCompleteXML(result1: List<Entry>){
-        //This part should execute by the call back from OnPostExecute
-        val numberofsongs = (result1.size) /*Number of songs in XML, please note 0 is the start */
-
+    fun doBulkOfWork(){
+        numberofsongs = intent.getIntExtra("NUMBEROFSONGS",1) /*Number of songs in XML, please note 0 is the start */
         RandomNumberinRange = (1..numberofsongs).random() // pick a random number
 
         val LEVEL = intent.getStringExtra("Level") // get the level the user selected
@@ -367,19 +369,13 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         }
 
         //Obtain SongTitles and SongLinks
-        val SongTitles = arrayOfNulls<String>(numberofsongs+1)
-        val SongLinks = arrayOfNulls<String>(numberofsongs+1)
-        for (i in 0..numberofsongs-1) {
-            val a = result1[i].link
-            SongLinks[i] = a
-        }
-        SongTitles[0] = "GUESS THE SONG!!"
-        for (i in 1..numberofsongs) {
-            val b = result1[i-1].title
-            SongTitles[i] = b
-        }
+        SongTitles = intent.getStringArrayExtra("SONGTITLES")
+        SongLinks = intent.getStringArrayExtra("SONGLINKS")
+       // println("%%%" + Arrays.toString(SongTitles))
+       // println("%%%"+Arrays.toString(SongLinks))
+
         //Prints for testing
-        println("HERE + $RandomNumberinRange")
+        println("%% + $RandomNumberinRange")
         println("%%" + SongTitles[RandomNumberinRange])
 
         //Set up the spinner to allow users to guess the song

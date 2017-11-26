@@ -10,6 +10,10 @@ import kotlinx.android.synthetic.main.activity_correct_splash.*
 import org.jetbrains.anko.alert
 
 class IncorrectSplash : AppCompatActivity() {
+    var numberofsongs = 0
+    lateinit var SongTitles: Array<String?>
+    lateinit var SongLinks: Array<String?>
+
     override fun onBackPressed() {
         /*Overriding on back pressed, otherwise user can go back to previous maps and we do not want that
         Send the user back to MainActivity */
@@ -33,6 +37,9 @@ class IncorrectSplash : AppCompatActivity() {
 
     fun bulkwork(Level: String, Timed: Boolean){
         val intent = Intent(this, MapsActivity()::class.java)
+        intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
+        intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/
+        intent.putExtra("NUMBEROFSONGS", numberofsongs) /*PASS NUMBER OF SONGS*/
         intent.putExtra("Level", Level) /*Pass the level*/
         intent.putExtra("Timed", Timed) /*Pass if timed or not*/
         startActivity(intent)
@@ -40,7 +47,9 @@ class IncorrectSplash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incorrect_splash)
-
+        SongTitles = intent.getStringArrayExtra("SONGTITLES")
+        SongLinks = intent.getStringArrayExtra("SONGLINKS")
+        numberofsongs = intent.getIntExtra("NUMBEROFSONGS",1)
         val SONGYOUTUBELINK = intent.getStringExtra("SONGYOUTUBELINK")
         val SONGLYRICLINK = intent.getStringExtra("SONGLYRICLINK")
         val LEVEL = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
@@ -66,7 +75,6 @@ class IncorrectSplash : AppCompatActivity() {
                 }
             }.show()
         }
-
 
     }
 }

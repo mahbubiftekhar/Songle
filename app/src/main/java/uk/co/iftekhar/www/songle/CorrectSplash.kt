@@ -11,6 +11,10 @@ import kotlinx.android.synthetic.main.activity_correct_splash.*
 import org.jetbrains.anko.alert
 
 class CorrectSplash : AppCompatActivity() {
+    var numberofsongs = 0
+    lateinit var SongTitles: Array<String?>
+    lateinit var SongLinks: Array<String?>
+
     override fun onBackPressed() {
         /*Overriding on back pressed, otherwise user can go back to previous maps and we do not want that
         super.onBackPressed() Send the user back to MainActivity */
@@ -32,10 +36,14 @@ class CorrectSplash : AppCompatActivity() {
             val intent = Intent(this, NetworkIssue()::class.java)
             startActivity(intent)
         }
+
     }
 
     fun bulkwork(Level: String, Timed: Boolean) {
         val intent = Intent(this, MapsActivity()::class.java)
+        intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
+        intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/
+        intent.putExtra("NUMBEROFSONGS", numberofsongs) /*PASS NUMBER OF SONGS*/
         intent.putExtra("Level", Level) /*Pass the level*/
         intent.putExtra("Timed", Timed) /*Pass if timed or not*/
         startActivity(intent)
@@ -44,6 +52,9 @@ class CorrectSplash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_correct_splash)
+        SongTitles = intent.getStringArrayExtra("SONGTITLES")
+        SongLinks = intent.getStringArrayExtra("SONGLINKS")
+        numberofsongs = intent.getIntExtra("NUMBEROFSONGS",1) /*Number of songs in XML, please note 0 is the start */
 
         /*get the song youtube link from MapsActivity */
         val SONGYOUTUBELINK = intent.getStringExtra("SONGYOUTUBELINK")

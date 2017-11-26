@@ -6,6 +6,10 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_network_issue.*
 
 class NetworkIssue : AppCompatActivity() {
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -11,7 +11,7 @@ import org.xmlpull.v1.XmlPullParser
 
 //THIS FILE HAS BEEN ADAPTED FROM THE SLIDES FOR CSLP TO WORK FOR THIS USE
 
-class DownloadXmlTask(private val caller: MapsActivity) : AsyncTask<String, Void, List<Entry>>() {
+class DownloadXmlTask(private val caller: MainActivity) : AsyncTask<String, Void, List<Entry>>() {
 
     override fun doInBackground(vararg urls: String): List<Entry> {
         return try {
@@ -142,7 +142,7 @@ private fun readNumber(parser: XmlPullParser): String {
 private fun readLink(parser: XmlPullParser): String {
     //println(">>>>>> in readLink()")
     parser.require(XmlPullParser.START_TAG, ns, "Link")
-    var link = readText(parser)
+    val link = readText(parser)
     parser.require(XmlPullParser.END_TAG, ns, "Link")
     //println(">>>>>>link: "+link)
     return link
