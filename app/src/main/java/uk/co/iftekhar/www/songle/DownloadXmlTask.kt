@@ -9,8 +9,6 @@ import java.net.URL
 import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 
-//THIS FILE HAS BEEN ADAPTED FROM THE SLIDES FOR CSLP TO WORK FOR THIS USE
-
 class DownloadXmlTask(private val caller: MainActivity) : AsyncTask<String, Void, List<Entry>>() {
 
     override fun doInBackground(vararg urls: String): List<Entry> {
@@ -72,18 +70,13 @@ private fun readFeed(parser: XmlPullParser): List<Entry> {
     //println(">>>>>> in readFeed() --- require feed ")
     parser.require(XmlPullParser.START_TAG, ns, "Songs")
     while (parser.next() != XmlPullParser.END_TAG) {
-        //println(">>>>>>"+ "Start Tag is " + XmlPullParser.START_TAG)
         if (parser.eventType != XmlPullParser.START_TAG) {
             continue
         }
-        //println(">>>>>> in readFeed() - found ${parser.name}")
-        // Starts by looking for the entry tag
-        //println(">>>>>>>>" + parser.name)
         if (parser.name == "Song") {
             entries.add(readEntry(parser))
         } else {
             skip(parser)
-            //      println(">>>>>> skipped here in readfeed")
         }
     }
     return entries
@@ -91,15 +84,12 @@ private fun readFeed(parser: XmlPullParser): List<Entry> {
 
 @Throws(XmlPullParserException::class, IOException::class)
 private fun readEntry(parser: XmlPullParser): Entry {
-    //println(">>>>>> in readEntry()")
-
     parser.require(XmlPullParser.START_TAG, ns, "Song")
     var number = ""
     var title = ""
     var artist = ""
     var link = ""
     while (parser.next() != XmlPullParser.END_TAG) {
-        //println(">>>>>"+parser.name)
         if (parser.eventType != XmlPullParser.START_TAG)
             continue
         when (parser.name) {
@@ -111,24 +101,20 @@ private fun readEntry(parser: XmlPullParser): Entry {
             else -> skip(parser)
         }
     }
-    //println(">>>>>>"+number+ artist+ title+ link)
     return Entry(number, artist, title, link)
 }
 
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readTitle(parser: XmlPullParser): String {
-    //println(">>>>>> in readTitle()")
     parser.require(XmlPullParser.START_TAG, ns, "Title")
     val title = readText(parser)
     parser.require(XmlPullParser.END_TAG, ns, "Title")
-    //println(">>>>>>title: "+title)
     return title
 }
 
 
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readNumber(parser: XmlPullParser): String {
-    //println(">>>>>> in readNumber()")
 
     parser.require(XmlPullParser.START_TAG, ns, "Number")
     val number = readText(parser)
@@ -139,28 +125,22 @@ private fun readNumber(parser: XmlPullParser): String {
 
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readLink(parser: XmlPullParser): String {
-    //println(">>>>>> in readLink()")
     parser.require(XmlPullParser.START_TAG, ns, "Link")
     val link = readText(parser)
     parser.require(XmlPullParser.END_TAG, ns, "Link")
-    //println(">>>>>>link: "+link)
     return link
 }
 
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readArtist(parser: XmlPullParser): String {
-    //println(">>>>>> in readArtist()")
-
     parser.require(XmlPullParser.START_TAG, ns, "Artist")
     val artist = readText(parser)
     parser.require(XmlPullParser.END_TAG, ns, "Artist")
-    //println(">>>>>>artist: "+artist)
     return artist
 }
 
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readText(parser: XmlPullParser): String {
-    //println(">>>>>> in readText()")
 
     var result = ""
     if (parser.next() == XmlPullParser.TEXT) {
@@ -172,8 +152,6 @@ private fun readText(parser: XmlPullParser): String {
 
 @Throws(XmlPullParserException::class, IOException::class)
 private fun skip(parser: XmlPullParser) {
-    //println(">>>>>> in skip()")
-
     if (parser.eventType != XmlPullParser.START_TAG) {
         throw IllegalStateException()
     }

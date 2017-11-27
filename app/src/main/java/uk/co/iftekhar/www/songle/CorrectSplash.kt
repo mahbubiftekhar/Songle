@@ -24,9 +24,9 @@ class CorrectSplash : AppCompatActivity() {
 
     private fun isNetworkConnected(): Boolean {
         /*function get network status*/
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
-        val networkInfo = connectivityManager.activeNetworkInfo // 2
-        return networkInfo != null && networkInfo.isConnected // 3
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
     fun networkChecker() {
@@ -54,7 +54,7 @@ class CorrectSplash : AppCompatActivity() {
         setContentView(R.layout.activity_correct_splash)
         SongTitles = intent.getStringArrayExtra("SONGTITLES")
         SongLinks = intent.getStringArrayExtra("SONGLINKS")
-        numberofsongs = intent.getIntExtra("NUMBEROFSONGS",1) /*Number of songs in XML, please note 0 is the start */
+        numberofsongs = intent.getIntExtra("NUMBEROFSONGS", 1) /*Number of songs in XML, please note 0 is the start */
 
         /*get the song youtube link from MapsActivity */
         val SONGYOUTUBELINK = intent.getStringExtra("SONGYOUTUBELINK")
@@ -64,19 +64,19 @@ class CorrectSplash : AppCompatActivity() {
 
         /*on click listerners for the different buttons */
         YOUTUBELINK.setOnClickListener {
-            networkChecker()
+            networkChecker() /* Check the nework status before continuing*/
             val url = "https://www.youtube.com/watch?v=" + (SONGYOUTUBELINK).drop(17)
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
         LYRICLINK.setOnClickListener {
-            networkChecker()
+            networkChecker() /* Check the nework status before continuing*/
             val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
         SAMELEVEL.setOnClickListener {
-            networkChecker()
-
+            networkChecker() /* Check the nework status before continuing*/
             alert("Want a challenge with timed play?") {
+                /* ask user if they wish to play timed*/
                 positiveButton("Yes, bring it on!") {
                     bulkwork(LEVEL, true)
                 }
@@ -98,24 +98,29 @@ class CorrectSplash : AppCompatActivity() {
                 was level 5, we simply let the user redo that level
                  */
                 alert("Want a challenge with timed play?") {
+                    /* ask user if they wish to play timed*/
                     positiveButton("Yes, bring it on!") {
                         bulkwork("5", true)
 
                     }
                     negativeButton("No Thanks!") {
                         bulkwork("5", false)
+                    }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
             } else if (LEVEL == "4") {
                 alert("Want a challenge with timed play?") {
+                    /* ask user if they wish to play timed*/
                     positiveButton("Yes, bring it on!") {
                         bulkwork("5", true)
                     }
                     negativeButton("No Thanks!") {
                         bulkwork("5", false)
-
-                        //Don't do anything as the user has changed there mind
-                        //
+                    }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
             } else if (LEVEL == "3") {
@@ -126,9 +131,9 @@ class CorrectSplash : AppCompatActivity() {
                     }
                     negativeButton("No Thanks!") {
                         bulkwork("4", false)
-
-                        //Don't do anything as the user has changed there mind
-                        //
+                    }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
             } else if (LEVEL == "2") {
@@ -138,9 +143,9 @@ class CorrectSplash : AppCompatActivity() {
                     }
                     negativeButton("No Thanks!") {
                         bulkwork("3", false)
-
-                        //Don't do anything as the user has changed there mind
-                        //
+                    }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
 
@@ -152,11 +157,12 @@ class CorrectSplash : AppCompatActivity() {
                     negativeButton("No Thanks!") {
                         bulkwork("2", false)
                     }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                    }
                 }.show()
             }
         }
 
     }
-
-
 }

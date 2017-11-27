@@ -82,12 +82,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun bulkwork(Level: String, Timed: Boolean) {
-        /*
-        Function that will be called from the different buttons,
+        /*Function that will be called from the different buttons,
         once passed the level and wheather the user wishes to play
         timed, the the function will launch the MapsActivity with the
-        appropriate level and timed values as specified by the user
-         */
+        appropriate level and timed values as specified by the user */
         val intent = Intent(this, MapsActivity()::class.java)
         intent.putExtra("Level", Level) /*Pass the level*/
         intent.putExtra("Timed", Timed) /*Pass if timed or not*/
@@ -98,12 +96,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun downloadCompleteXML(result1: List<Entry>) {
-        //This part should execute by the call back from OnPostExecute
+        /*This part should execute by the call back from OnPostExecute */
         val numberofsongs2 = (result1.size) /*Number of songs in XML, please note 0 is the start */
         println("ASYNC IN MAIN: " + numberofsongs2)
-        //Obtain SongTitles and SongLinks
         val SongTitles2 = arrayOfNulls<String>(numberofsongs2 + 1)
         val SongLinks2 = arrayOfNulls<String>(numberofsongs2 + 1)
+        /* Populate SongTitles and SongLinks */
         for (i in 0..numberofsongs2 - 1) {
             val a = result1[i].link
             SongLinks2[i] = a
@@ -123,7 +121,9 @@ class MainActivity : AppCompatActivity() {
             /* tell the user if new songs have been added */
             SaveInt("NUMSONGS", numberofsongs)
             if (a != 0) {
-                Toast.makeText(this@MainActivity, "New songs found!!", Toast.LENGTH_SHORT).show()
+                /* This check is to ensure that one the first load of the app this toast doesn't execute
+                * as it will be a bit odd to tell the user they have new songs on there first go*/
+                Toast.makeText(this@MainActivity, "New songs found!!", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -133,10 +133,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         networkChecker() /* check for data conection */
         okToContinue = false
-        // Run XML async task
         val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
         val XMLSongs = DownloadXmlTask(this)
-        XMLSongs.execute(XMLSONGS)
+        XMLSongs.execute(XMLSONGS)/* Run XML async task */
 
         LEVEL1_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
@@ -147,6 +146,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     negativeButton("No Thanks!") {
                         bulkwork("5", false) /*Easiest, most words with lots of classificatins */
+                    }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
             } else {
@@ -171,6 +173,9 @@ class MainActivity : AppCompatActivity() {
                         bulkwork("4", false)
                         //No timed play
                     }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                    }
                 }.show()
             } else {
                 if (!okToContinue) {
@@ -190,6 +195,9 @@ class MainActivity : AppCompatActivity() {
                     negativeButton("No Thanks!") {
                         bulkwork("3", false)
                         //No timed play
+                    }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
             } else {
@@ -211,6 +219,9 @@ class MainActivity : AppCompatActivity() {
                         bulkwork("2", false)
                         //No timed play
                     }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                    }
                 }.show()
             } else {
                 if (!okToContinue) {
@@ -224,12 +235,14 @@ class MainActivity : AppCompatActivity() {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("1", true)
-                        //timed play
                     }
                     negativeButton("No Thanks!") {
                         bulkwork("1", false)
-                        //No timed play
                     }
+                    neutralButton("Exit"){
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                    }
+
                 }.show()
             } else {
                 if (!okToContinue) {
@@ -267,9 +280,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "Downloading songs, please wait", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
-
         HOWTOPLAY.setOnClickListener {
             val intent = Intent(this, FAQ::class.java)
             startActivity(intent)

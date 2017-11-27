@@ -23,7 +23,6 @@ class DownloadKmlTask(private val caller: MapsActivity) : AsyncTask<String, Void
     }
 
     private fun loadKMLFromNetwork(urlString: String): List<EntryKml> {
-        //println("%%" + urlString )
         val stream = downloadUrl(urlString)
         val KMLSongsArrayList = parseKML(stream)
         return KMLSongsArrayList
@@ -33,16 +32,11 @@ class DownloadKmlTask(private val caller: MapsActivity) : AsyncTask<String, Void
     private fun downloadUrl(urlString: String): InputStream {
         val url = URL(urlString)
         val conn = url.openConnection() as HttpURLConnection
-        //println(">>>>> in downloadUrl --- setting parameters")
         conn.readTimeout = 10000 // milliseconds
         conn.connectTimeout = 15000 // milliseconds
         conn.requestMethod = "GET"
         conn.doInput = true
-        // Starts the query
-
-        //println(">>>>> in downloadUrl --- just before connect()")
         conn.connect()
-        //println(">>>>> in downloadUrl --- exiting and returning inputStream")
         return conn.inputStream
     }
 
@@ -70,18 +64,13 @@ fun parseKML(input: InputStream): List<EntryKml> {
 
 @Throws(XmlPullParserException::class, IOException::class)
 private fun readFeed(ParserKML: XmlPullParser): List<EntryKml> {
-    //println(">>>>>> in readFeed()")
     val entrieskml = ArrayList<EntryKml>()
-    //println(">>>>>> in readFeed() --- require feed ")
     ParserKML.require(XmlPullParser.START_TAG, ns, "kml")
     while (ParserKML.next() != XmlPullParser.END_TAG) {
-        //  println(">>>>>>"+ "Start Tag is " + XmlPullParser.START_TAG)
         if (ParserKML.eventType != XmlPullParser.START_TAG) {
             continue
         }
-        //println(">>>>>> in readFeed() - found ${ParserKML.name}")
-        // Starts by looking for the EntryKml tag
-        //println(">>>>>>>>" + ParserKML.name)
+
         if (ParserKML.name == "Document") {
             entrieskml.add(readEntryKml(ParserKML))
         } else if (ParserKML.name == "Placemark") {
@@ -97,14 +86,12 @@ private fun readFeed(ParserKML: XmlPullParser): List<EntryKml> {
 
 @Throws(XmlPullParserException::class, IOException::class)
 private fun readEntryKml(ParserKML: XmlPullParser): EntryKml {
-    //println(">>>>>> in readEntryKml()")
     ParserKML.require(XmlPullParser.START_TAG, ns, "Document")
     var name = ""
     var description = ""
     var styleUrl = ""
     var Point = ""
     while (ParserKML.next() != XmlPullParser.END_TAG) {
-        //  println(">>>>>" + ParserKML.name)
         if (ParserKML.eventType != XmlPullParser.START_TAG)
             continue
         if (ParserKML.name == "Placemark")
@@ -122,14 +109,12 @@ private fun readEntryKml(ParserKML: XmlPullParser): EntryKml {
 
 @Throws(XmlPullParserException::class, IOException::class)
 private fun readEntryKml2(ParserKML: XmlPullParser): EntryKml {
-    //println(">>>>>> in readEntryKml()")
     ParserKML.require(XmlPullParser.START_TAG, ns, "Placemark")
     var name = ""
     var description = ""
     var styleUrl = ""
     var Point = ""
     while (ParserKML.next() != XmlPullParser.END_TAG) {
-        //  println(">>>>>" + ParserKML.name)
         if (ParserKML.eventType != XmlPullParser.START_TAG)
             continue
         if (ParserKML.name == "Placemark")
@@ -147,22 +132,18 @@ private fun readEntryKml2(ParserKML: XmlPullParser): EntryKml {
 
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readName(ParserKML: XmlPullParser): String {
-    //println(">>>>>> in readName()")
     ParserKML.require(XmlPullParser.START_TAG, ns, "name")
     val name = readText(ParserKML)
     ParserKML.require(XmlPullParser.END_TAG, ns, "name")
-    //println(">>>>>>name: "+name)
     return name
 }
 
 
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readDescription(ParserKML: XmlPullParser): String {
-    //println(">>>>>> in readDescription()")
     ParserKML.require(XmlPullParser.START_TAG, ns, "description")
     val description = readText(ParserKML)
     ParserKML.require(XmlPullParser.END_TAG, ns, "description")
-    //println(">>>>>>description: "+description)
     return description
 }
 
@@ -181,7 +162,6 @@ private fun readPoint(parser: XmlPullParser): String {
             skip(parser)
         }
     }
-    //println(">>>>>>>>>Point"+coords)
     return coords
 }
 
@@ -195,18 +175,14 @@ private fun readCoordinates(parser: XmlPullParser): String {
 
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readStyleUrl(ParserKML: XmlPullParser): String {
-    //println(">>>>>> in readStyleUrl()")
-
     ParserKML.require(XmlPullParser.START_TAG, ns, "styleUrl")
     val StyleUrl = readText(ParserKML)
     ParserKML.require(XmlPullParser.END_TAG, ns, "styleUrl")
-    //println(">>>>>>StyleUrl: "+StyleUrl)
     return StyleUrl
 }
 
 @Throws(IOException::class, XmlPullParserException::class)
 private fun readText(ParserKML: XmlPullParser): String {
-    //println(">>>>>> in readText()")
     var result = ""
     if (ParserKML.next() == XmlPullParser.TEXT) {
         result = ParserKML.text
@@ -217,9 +193,7 @@ private fun readText(ParserKML: XmlPullParser): String {
 
 @Throws(XmlPullParserException::class, IOException::class)
 private fun skip(ParserKML: XmlPullParser) {
-    //println(">>>>>> in skip()")
     if (ParserKML.eventType != XmlPullParser.START_TAG) {
-        //throw IllegalStateException()
     }
     var depth = 1
     while (depth != 0) {

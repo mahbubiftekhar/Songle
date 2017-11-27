@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_editor_absoluteY="8dp"
-    tools:layout_editor_absoluteX="8dp"
     android:background="#2072A4"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="8dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_margin="20dp"
         android:layout_marginBottom="10dp"
-        android:background="#2072A4">
+        android:background="#2072A4"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -25,6 +24,7 @@
             android:textColor="#f5f5f5"
             android:textSize="20dp"
             android:textStyle="bold" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="40dp"
@@ -34,96 +34,118 @@
             android:id="@+id/LEVEL1_BUTTON"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/buttonxml"
             android:padding="10dp"
-            android:background="@drawable/buttonxml"
             android:text="@string/LEVEL1" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1" />
-        <Button android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/LEVEL2"
-            android:id="@+id/LEVEL2_BUTTON"
-            android:background="@drawable/buttonxml"
-            android:padding="10dp"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1" />
-        <Button android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/LEVEL3"
-            android:background="@drawable/buttonxml"
-            android:id="@+id/LEVEL3_BUTTON"
-            android:padding="10dp"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1" />
-        <Button android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/LEVEL4"
-            android:background="@drawable/buttonxml"
-            android:id="@+id/LEVEL4_BUTTON"
-            android:padding="10dp"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1" />
-        <Button android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/LEVEL5"
-            android:background="@drawable/buttonxml"
-            android:id="@+id/LEVEL5BUTTON"
-            android:padding="10dp"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="23dp"
-            android:layout_weight="1" />
-        <Button android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/MUSIC"
-            android:id="@+id/MUSICBUTTON"
-            android:background="@drawable/buttonxml"
-            android:padding="10dp"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1" />
-        <Button android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/SONYLYRICS"
-            android:background="@drawable/buttonxml"
-            android:id="@+id/SONGLYRICS"
-            android:padding="10dp"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1" />
-        <Button android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="SCORE BOARD"
-            android:background="@drawable/buttonxml"
-            android:id="@+id/SCORE"
-            android:padding="10dp"/>
+
         <View
             android:layout_width="0dp"
             android:layout_height="8dp"
             android:layout_weight="1" />
 
-        <Button android:layout_width="match_parent"
+        <Button
+            android:id="@+id/LEVEL2_BUTTON"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/EXPLAINGAME"
             android:background="@drawable/buttonxml"
+            android:padding="10dp"
+            android:text="@string/LEVEL2" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/LEVEL3_BUTTON"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttonxml"
+            android:padding="10dp"
+            android:text="@string/LEVEL3" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/LEVEL4_BUTTON"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttonxml"
+            android:padding="10dp"
+            android:text="@string/LEVEL4" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/LEVEL5BUTTON"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttonxml"
+            android:padding="10dp"
+            android:text="@string/LEVEL5" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="23dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/MUSICBUTTON"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttonxml"
+            android:padding="10dp"
+            android:text="@string/MUSIC" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/SONGLYRICS"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttonxml"
+            android:padding="10dp"
+            android:text="@string/SONYLYRICS" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/SCORE"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttonxml"
+            android:padding="10dp"
+            android:text="SCORE BOARD" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1" />
+
+        <Button
             android:id="@+id/HOWTOPLAY"
-            android:padding="10dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttonxml"
+            android:padding="10dp"
+            android:text="@string/EXPLAINGAME" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1" />
-
 
 
     </LinearLayout>

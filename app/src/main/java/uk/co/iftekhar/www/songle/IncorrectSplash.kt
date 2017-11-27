@@ -29,7 +29,7 @@ class IncorrectSplash : AppCompatActivity() {
 
     fun networkChecker (){
         if(!isNetworkConnected()){
-            Toast.makeText(this@IncorrectSplash, "Check your internet connection", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@IncorrectSplash, "Please check your internet connection", Toast.LENGTH_LONG).show()
             val intent = Intent(this, NetworkIssue()::class.java)
             startActivity(intent)
         }
@@ -37,6 +37,7 @@ class IncorrectSplash : AppCompatActivity() {
 
     fun bulkwork(Level: String, Timed: Boolean){
         val intent = Intent(this, MapsActivity()::class.java)
+        /* pass the required parameters by intents for the MapsActivity to function */
         intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
         intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/
         intent.putExtra("NUMBEROFSONGS", numberofsongs) /*PASS NUMBER OF SONGS*/
@@ -47,19 +48,24 @@ class IncorrectSplash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incorrect_splash)
+
+        /*obtain the parameters from the MapsActivity, needed if the user wants to play
+        again
+         */
         SongTitles = intent.getStringArrayExtra("SONGTITLES")
         SongLinks = intent.getStringArrayExtra("SONGLINKS")
         numberofsongs = intent.getIntExtra("NUMBEROFSONGS",1)
+
         val SONGYOUTUBELINK = intent.getStringExtra("SONGYOUTUBELINK")
         val SONGLYRICLINK = intent.getStringExtra("SONGLYRICLINK")
         val LEVEL = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
         YOUTUBELINK.setOnClickListener {
-            networkChecker()
+            networkChecker() /*Before continuing check the network status, change activity accordingly */
             val url = "https://www.youtube.com/watch?v=" + (SONGYOUTUBELINK).drop(17)
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
         LYRICLINK.setOnClickListener {
-            networkChecker()
+            networkChecker() /*Before continuing check the network status, change activity accordingly */
             println("%%" + SONGLYRICLINK)
             val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
@@ -69,7 +75,7 @@ class IncorrectSplash : AppCompatActivity() {
             startActivity(intent)
         }
         SAMELEVEL.setOnClickListener {
-            networkChecker()
+            networkChecker() /*Before continuing check the network status, change activity accordingly */
             alert("Want a challenge with timed play?") {
                 positiveButton("Yes, bring it on!") {
                     bulkwork(LEVEL, true)
@@ -77,8 +83,10 @@ class IncorrectSplash : AppCompatActivity() {
                 negativeButton("No Thanks!") {
                     bulkwork(LEVEL, false)
                 }
+                neutralButton("Exit"){
+                    Toast.makeText(this@IncorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                }
             }.show()
         }
-
     }
 }

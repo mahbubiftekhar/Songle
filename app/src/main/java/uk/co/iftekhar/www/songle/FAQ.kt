@@ -9,9 +9,9 @@ import kotlinx.android.synthetic.main.activity_faq.*
 
 class FAQ : AppCompatActivity() {
     private fun isNetworkConnected(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
-        val networkInfo = connectivityManager.activeNetworkInfo // 2
-        return networkInfo != null && networkInfo.isConnected // 3
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
     fun networkChecker() {
@@ -20,14 +20,14 @@ class FAQ : AppCompatActivity() {
         splash screen
          */
         if (!isNetworkConnected()) {
-            //If there is a network issue send uesr to network issue page
+            /*If there is a network issue send uesr to network issue page */
             val intent = Intent(this, NetworkIssue()::class.java)
             startActivity(intent)
         }
     }
 
     override fun onBackPressed() {
-        networkChecker()
+        networkChecker() /*Check network status*/
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }

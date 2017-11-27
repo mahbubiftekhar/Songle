@@ -40,8 +40,16 @@
 
         "Question: How many attempts do I get to guess the song? \n"
         "Answer:\n"
-        "You get 5 attempts, regardless of weather you play timed or non timed \n\n\n"
-
+        "You get 5 attempts, regardless if you play timed or not \n\n\n"
+        "Question: How is the score calculated? \n"
+        "Answer:\n"
+        "Each "success" at the different levels contributes in the following way
+        Easy - 1 points per success \n
+        Medium - 2 points per success \n
+        Hard - 3 points per success \n
+        Insane - 4 points per success \n
+        Impossible - 5 points per success \n
+        \n\n\n"
         "Question: What do I need to play this game? \n"
         "Answer:\n"
         "You need a working data connection (preferably 4G for speed) and GPS enabled,
@@ -52,11 +60,19 @@
         "Currently there are 22 songs, although we are adding new songs all the time!
         Don't worry, the app will update automatically when this happens :-)\n\n\n"
 
+
         "Question: Can this app work offline? \n"
         "Answer:\n"
         "Not exactly, if you have a connection until the markers are in place that is fine, but you can only complete that game,
         You cannot load another game - including reloading the same level - unless you have a data connection, you also need location
         services at all times (otherwise its not much of a location puzzle game)
+        \n\n\n"
+
+        "Question: I am still having issues/ how do I give feedback? \n"
+        "Answer:\n"
+        "Please email me on my email address:
+        mahbub@iftekhar.co.uk \n
+        I will be happy to get feedback and or help you with any issues you may be having. Please allow 2 working days for a reply.
         \n\n\n"
 
 

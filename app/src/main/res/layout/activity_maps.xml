@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:screenOrientation="landscape"
     tools:context="uk.co.iftekhar.www.songle.MapsActivity">
 
-    <Spinner android:id="@+id/spinner"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-        android:padding = "5dp"
-        android:textAlignment="center"
+    <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#FFFFFF"
-        android:textColor="#000001"
+        android:padding="5dp"
         android:scrollbarSize="10dp"
         android:text="GUESS THE SONG!!"
-        xmlns:android="http://schemas.android.com/apk/res/android" />
+        android:textAlignment="center"
+        android:textColor="#000001" />
+
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"/>
+        android:gravity="center" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
