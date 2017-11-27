@@ -113,6 +113,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
         if(LEVEL.toInt() == 5){
             val a = LoadInt("EASY_LEVEL")
             SaveInt("EASY_LEVEL", a+1)
+            println(a)
             val time:Long = (System.currentTimeMillis()-start)/1000
             val sd = LoadLong("BEST_TIME_EASY")
             if(time<sd || sd == 0.toLong()){

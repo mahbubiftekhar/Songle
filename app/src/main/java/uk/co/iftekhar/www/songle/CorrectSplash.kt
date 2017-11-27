@@ -87,6 +87,10 @@ class CorrectSplash : AppCompatActivity() {
                 }
             }.show()
         }
+        SCORE_BUTTON.setOnClickListener {
+            val intent = Intent(this, ScoreScreen()::class.java)
+            startActivity(intent)
+        }
         NEXTLEVEL.setOnClickListener {
             networkChecker()
             if (LEVEL == "5") {

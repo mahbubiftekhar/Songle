@@ -131,16 +131,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        networkChecker() /* check for data conection */
         okToContinue = false
         // Run XML async task
         val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
         val XMLSongs = DownloadXmlTask(this)
         XMLSongs.execute(XMLSONGS)
-        println("%%%" + okToContinue)
 
         LEVEL1_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected()) {
+            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("5", true) /*Easiest, most words with lots of classificatins */
@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity() {
         }
         LEVEL2_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected()) {
+            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("4", true)
@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
         LEVEL3_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected()) {
+            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("3", true)
@@ -201,7 +201,7 @@ class MainActivity : AppCompatActivity() {
         }
         LEVEL4_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected()) {
+            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("2", true)
@@ -220,7 +220,7 @@ class MainActivity : AppCompatActivity() {
         }
         LEVEL5BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected()) {
+            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("1", true)
@@ -239,7 +239,7 @@ class MainActivity : AppCompatActivity() {
         }
         MUSICBUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected()) {
+            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
                 val intent = Intent(this, MusicActivity()::class.java)
                 intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
                 intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/
@@ -253,9 +253,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         SONGLYRICS.setOnClickListener {
-            //networkChecker() /*Run the network checker */
-            println("%%%" + okToContinue)
-            if (okToContinue && isNetworkConnected()) {
+            println("%%%%HERE"+okToContinue)
+            println("%%%%HERE"+numberofsongs)
+            networkChecker() /*Run the network checker */
+            if (okToContinue && isNetworkConnected() && numberofsongs>0 ) {
                 val intent = Intent(this, SongLyricActivity()::class.java)
                 intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
                 intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/

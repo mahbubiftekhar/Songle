@@ -103,7 +103,7 @@
             android:layout_weight="1" />
         <Button android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Score"
+            android:text="SCORE BOARD"
             android:background="@drawable/buttonxml"
             android:id="@+id/SCORE"
             android:padding="10dp"/>

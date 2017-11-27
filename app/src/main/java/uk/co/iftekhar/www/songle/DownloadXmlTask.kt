@@ -46,7 +46,6 @@ class DownloadXmlTask(private val caller: MainActivity) : AsyncTask<String, Void
     override fun onPostExecute(result: List<Entry>) {
         super.onPostExecute(result)
         caller.downloadCompleteXML(result)
-
     }
 }
 

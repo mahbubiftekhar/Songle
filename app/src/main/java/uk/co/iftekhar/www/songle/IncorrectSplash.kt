@@ -64,6 +64,10 @@ class IncorrectSplash : AppCompatActivity() {
             val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
+        SCORE_BUTTON.setOnClickListener {
+            val intent = Intent(this, ScoreScreen()::class.java)
+            startActivity(intent)
+        }
         SAMELEVEL.setOnClickListener {
             networkChecker()
             alert("Want a challenge with timed play?") {

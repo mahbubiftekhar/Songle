@@ -1,84 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="uk.co.iftekhar.www.songle.CorrectSplash"
-    tools:layout_editor_absoluteY="81dp"
-    android:background="#2072A4">
+    android:background="#2072A4"
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="8dp">
 
-    <Button
-        android:id="@+id/YOUTUBELINK"
-        android:layout_width="164dp"
-        android:background="@drawable/buttonxml"
-        android:layout_height="74dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/listen_on_youtube"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LYRICLINK"
-        app:layout_constraintVertical_bias="0.154" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="#2072A4"
+        android:orientation="vertical"
+        android:textAlignment="center">
 
-    <Button
-        android:id="@+id/LYRICLINK"
-        android:layout_width="164dp"
-        android:layout_height="74dp"
-        android:background="@drawable/buttonxml"
-        android:layout_marginTop="24dp"
-        android:text="@string/song_lyrics"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SAMELEVEL" />
+        <TextView
+            android:id="@+id/textViewSplash1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/great_job"
+            android:textAlignment="center"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="40sp" />
 
-    <Button
-        android:id="@+id/SAMELEVEL"
-        android:layout_width="164dp"
-        android:layout_height="71dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/same_level"
-        android:background="@drawable/buttonxml"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSplash1" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/NEXTLEVEL"
-        android:layout_width="164dp"
-        android:layout_height="74dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/buttonxml"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/next_level"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/YOUTUBELINK"
-        app:layout_constraintVertical_bias="0.549" />
+        <Button
+            android:id="@+id/YOUTUBELINK"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/buttonxml"
+            android:text="@string/listen_on_youtube" />
 
-    <TextView
-        android:id="@+id/textViewSplash1"
-        android:layout_width="246dp"
-        android:layout_height="77dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/great_job"
-        android:textAlignment="center"
-        android:textColor="@color/common_google_signin_btn_text_dark_default"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/SAMELEVEL"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/LYRICLINK"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/buttonxml"
+            android:text="@string/song_lyrics" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/SAMELEVEL"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/buttonxml"
+            android:text="@string/same_level" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/NEXTLEVEL"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/buttonxml"
+            android:text="@string/next_level" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/SCORE_BUTTON"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/buttonxml"
+            android:text="SCORE" />
+
+    </LinearLayout>
+</ScrollView>
