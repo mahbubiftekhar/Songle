@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                     networkChecker()
                     launchXMLDownload()
                 }
-                negativeButton("No exit") {
+                negativeButton("No Thanks!") {
                     networkChecker()
                 }
             }.show()
