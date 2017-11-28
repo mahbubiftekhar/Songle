@@ -57,7 +57,6 @@ class MapStyleSelector : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mpa_style_selector)
         updateHeader()
-
         STYLE1.setOnClickListener {
             SaveString("MAPSTYLE", "STANDARD")
             updateHeader()

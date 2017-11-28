@@ -39,5 +39,8 @@ class NetworkIssue : AppCompatActivity() {
             val intent = Intent(this, ScoreScreen::class.java)
             startActivity(intent)
         }
-    }
+        MAPSTYLESELECTOR.setOnClickListener {
+            val intent = Intent(this, MapStyleSelector::class.java)
+            startActivity(intent) }
+        }
 }

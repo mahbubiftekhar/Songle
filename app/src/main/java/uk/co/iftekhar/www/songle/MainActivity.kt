@@ -63,25 +63,18 @@ class MainActivity : AppCompatActivity() {
         }.show()
     }
 
-    var run2 = 0
     private fun launchXMLDownload() {
         DownloadXMLCompleted = true
         val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
         val XMLSongs = DownloadXmlTask(this)
+        XMLSongs.execute(XMLSONGS)/* Run XML async task */
 
-        if (run2 < 3) {
-            XMLSongs.execute("0000" + XMLSONGS)/* Run XML async task */
-            run2++
-        } else {
-            XMLSongs.execute(XMLSONGS)/* Run XML async task */
-            run2++
-        }
     }
 
     private fun isNetworkConnected(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
-        val networkInfo = connectivityManager.activeNetworkInfo // 2
-        return networkInfo != null && networkInfo.isConnected // 3
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
     fun networkChecker() {
@@ -113,7 +106,12 @@ class MainActivity : AppCompatActivity() {
     fun downloadCompleteXML(result1: List<Entry>) {
         if (result1.isEmpty() || !DownloadXMLCompleted) {
             println("here" + result1.size)
-            alert(" Sorry \n Something went wrong \n Error Code: E552 \n Shall we retry?") {
+            /*
+            This check is here to ensure that if the XML has failed the download - e.g. Maybe due to poor network, I foudn
+            this issue myself if I was walking down stairs and the phone was hopping between different access points, this pop up
+            will appear to make the user aware that they
+             */
+            alert(" Sorry \n Downloading the songs failed \n Shall we retry?") {
                 positiveButton("Yes please!") {
                     networkChecker()
                     launchXMLDownload()
@@ -302,8 +300,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         SONGLYRICS.setOnClickListener {
-            println("%%%%HERE" + okToContinue)
-            println("%%%%HERE" + numberofsongs)
+            //println("%%%%HERE" + okToContinue)
+            //println("%%%%HERE" + numberofsongs)
             networkChecker() /*Run the network checker */
             if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 val intent = Intent(this, SongLyricActivity()::class.java)

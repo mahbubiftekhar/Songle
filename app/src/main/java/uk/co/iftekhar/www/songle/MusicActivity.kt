@@ -15,7 +15,7 @@ class MusicActivity : AppCompatActivity() {
         val SongTitles_music = intent.getStringArrayExtra("SONGTITLES")/*Array to store song titles */
         val SongLinks_music = intent.getStringArrayExtra("SONGLINKS") /*Array to store links titles */
 
-        val ll_main: LinearLayout = findViewById(R.id.ll_main_layout) //as LinearLayout
+        val ll_main: LinearLayout = findViewById(R.id.ll_main_layout) /* As LinearLayout */
         val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.setMargins(1, 35, 1, 0) /* Used to set spaces between each button */
         for (i in 1..NumberOfSongs_music) { /*creates enough buttons for each song, and says what the buttons do */

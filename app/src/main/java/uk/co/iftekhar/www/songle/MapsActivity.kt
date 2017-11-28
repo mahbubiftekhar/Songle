@@ -1,5 +1,4 @@
 package uk.co.iftekhar.www.songle
-
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -57,7 +56,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     var numberofsongs = 0
     lateinit var SongTitles: Array<String?>
     lateinit var SongLinks: Array<String?>
-    var run = 0
 
     private fun isNetworkConnected(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
@@ -77,29 +75,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         }
     }
 
-    var run2 = 0
     private fun launchKMLDownload(SongNumber: String, LEVEL1: String) {
         downloadKMLFinnished = true
         val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SongNumber/map$LEVEL1.kml"
         val KMLmap = DownloadKmlTask(this)
-        if (run2 == 0) {
-            KMLmap.execute("000" + KMLMAPSURL);run2 = 1
-        } else {
-            KMLmap.execute(KMLMAPSURL)
-            run2 = 1
-        }
+        KMLmap.execute(KMLMAPSURL)
     }
 
     private fun launchDOCdownload(SongNumber: String) {
         downloadDOCFinnished = true
         println("HERE IN launchDOCdonwload")
         val WordsDoc = DownloadDOC(this) /* Execute the Async task for downloading and parsing the words*/
-        if (run == 0) {
-            WordsDoc.execute("000" + SongNumber)
-            run = 1
-        } else {
-            WordsDoc.execute(SongNumber)
-        }
+        WordsDoc.execute(SongNumber)
     }
 
     fun vibrate() {
@@ -176,7 +163,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 switchBackToMain()
                 //Switch user to the main screen and end the game
             }
-            negativeButton("No!, Stay!") {
+            negativeButton("No! Stay!") {
                 //Do nothing, the user changed their minds.
             }
         }.show()
@@ -349,7 +336,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     }
 
     fun distanceChecker(Lat: Double, Long: Double) {
-
         fun distFrom(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Boolean {
             //This function gets the distance between two GPS coordinates
             val earthRadius = 6371000.0 //meters
@@ -358,7 +344,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
             val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
             val dist = (earthRadius * c).toFloat()
-            return (dist <= 50)/*return true if the distance is less than 10 */
+            return (dist <= 12)/*return true if the distance is less than 10 */
         }
         for (i in 0..markersformap.size - 1) {
             val marker = markersformap[i]
@@ -511,7 +497,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun downloadCompletDOC(result: List<List<String>>?) {
         /*executed after the DownloadDOC async task has finnished */
         if (!downloadDOCFinnished) {
-            alert(" Sorry \n Something went wrong \n Error Code: E542 \n Shall we retry?") {
+            alert(" Sorry \n Downloading the words went wrong \n Shall we retry?") {
                 positiveButton("Yes please!") {
                     networkChecker()
                     if (RandomNumberinRange < 10) {
@@ -552,7 +538,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun downloadCompleteKML(result: List<EntryKml>) {
         /*This part should execute by the call back from OnPostExecute */
         if (!downloadKMLFinnished) {
-            alert(" Sorry \n Something went wrong \n Error Code: E531 \n Shall we retry?") {
+            alert(" Sorry \n Downloading the markers went wrong \n Shall we retry?") {
                 positiveButton("Yes please!") {
                     networkChecker()
                     val LEVEL = intent.getStringExtra("Level") /* get the level the user selected */

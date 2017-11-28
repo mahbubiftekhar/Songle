@@ -64,14 +64,23 @@ class CorrectSplash : AppCompatActivity() {
 
         /*on click listerners for the different buttons */
         YOUTUBELINK.setOnClickListener {
-            networkChecker() /* Check the nework status before continuing*/
+            if(isNetworkConnected()){ /* Check the nework status before continuing
+            the reason I do not use the networkChecker() is that I want the user to be able to quickly fix the
+            issue, as if I take then to the networkIssue splash when they don't have a network, they can not review the
+            song afterwards by pressing back - as the back button on NetworkIssue is override to take the user back to main screen
+            only
+            */
             val url = "https://www.youtube.com/watch?v=" + (SONGYOUTUBELINK).drop(17)
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) } else {
+                Toast.makeText(this@CorrectSplash, "No data connection, please investigate", Toast.LENGTH_LONG).show()
+            }
         }
         LYRICLINK.setOnClickListener {
-            networkChecker() /* Check the nework status before continuing*/
+            if(isNetworkConnected())   {
             val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) } else {
+                Toast.makeText(this@CorrectSplash, "No data connection, please investigate", Toast.LENGTH_LONG).show()
+            }
         }
         SAMELEVEL.setOnClickListener {
             networkChecker() /* Check the nework status before continuing*/
@@ -106,7 +115,7 @@ class CorrectSplash : AppCompatActivity() {
                     negativeButton("No Thanks!") {
                         bulkwork("5", false)
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
@@ -119,7 +128,7 @@ class CorrectSplash : AppCompatActivity() {
                     negativeButton("No Thanks!") {
                         bulkwork("5", false)
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
@@ -132,7 +141,7 @@ class CorrectSplash : AppCompatActivity() {
                     negativeButton("No Thanks!") {
                         bulkwork("4", false)
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
@@ -144,7 +153,7 @@ class CorrectSplash : AppCompatActivity() {
                     negativeButton("No Thanks!") {
                         bulkwork("3", false)
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
@@ -157,7 +166,7 @@ class CorrectSplash : AppCompatActivity() {
                     negativeButton("No Thanks!") {
                         bulkwork("2", false)
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()

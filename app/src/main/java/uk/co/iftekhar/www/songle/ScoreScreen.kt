@@ -45,10 +45,12 @@ class ScoreScreen : AppCompatActivity() {
     }
 
     fun getText(text: String): String {
+        /* Function to add "Number of successes" in front of the number of successes*/
         return "Number of successes: $text"
     }
 
     fun getText2(text: String): String {
+        /* Function to add "Best Time: " in front of Time and "Secs behind it*/
         return "Best Time:  $text secs"
     }
 

@@ -60,15 +60,18 @@ class IncorrectSplash : AppCompatActivity() {
         val SONGLYRICLINK = intent.getStringExtra("SONGLYRICLINK")
         val LEVEL = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
         YOUTUBELINK.setOnClickListener {
-            networkChecker() /*Before continuing check the network status, change activity accordingly */
+            if(isNetworkConnected()) {
             val url = "https://www.youtube.com/watch?v=" + (SONGYOUTUBELINK).drop(17)
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) } else {
+                Toast.makeText(this@IncorrectSplash, "No data connection, please investigate", Toast.LENGTH_LONG).show()
+            }
         }
         LYRICLINK.setOnClickListener {
-            networkChecker() /*Before continuing check the network status, change activity accordingly */
-            println("%%" + SONGLYRICLINK)
+            if(isNetworkConnected()) {
             val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) } else {
+                Toast.makeText(this@IncorrectSplash, "No data connection, please investigate", Toast.LENGTH_LONG).show()
+            }
         }
         SCORE_BUTTON.setOnClickListener {
             val intent = Intent(this, ScoreScreen()::class.java)

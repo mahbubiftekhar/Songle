@@ -38,7 +38,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="10dp"
             android:layout_weight="1" />
 
         <Button
@@ -54,7 +54,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="15dp"
             android:layout_weight="1" />
 
         <Button
@@ -70,7 +70,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="15dp"
             android:layout_weight="1" />
 
         <Button
@@ -83,6 +83,20 @@
             android:text="@string/title_activity_faq"
             android:textAlignment="center"
             android:textColor="#000000" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:layout_weight="1" />
 
+        <Button
+            android:id="@+id/MAPSTYLESELECTOR"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/buttonxml"
+            android:text="@string/map_style"
+            android:textAlignment="center"
+            android:textColor="#000000" />
     </LinearLayout>
 </ScrollView>
