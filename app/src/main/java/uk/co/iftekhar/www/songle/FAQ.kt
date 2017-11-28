@@ -28,8 +28,7 @@ class FAQ : AppCompatActivity() {
 
     override fun onBackPressed() {
         networkChecker() /*Check network status*/
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        super.onBackPressed()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

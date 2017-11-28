@@ -27,7 +27,8 @@ import android.os.Vibrator
 import android.preference.PreferenceManager
 import com.google.android.gms.maps.model.*
 import org.jetbrains.anko.alert
-import java.util.*
+import java.util.Timer
+import java.util.Random
 import kotlin.concurrent.timerTask
 
 
@@ -75,15 +76,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             startActivity(intent)
         }
     }
-    var run2 =0
+
+    var run2 = 0
     private fun launchKMLDownload(SongNumber: String, LEVEL1: String) {
         downloadKMLFinnished = true
         val KMLMAPSURL = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SongNumber/map$LEVEL1.kml"
         val KMLmap = DownloadKmlTask(this)
-        if(run2==0){KMLmap.execute("000"+KMLMAPSURL);run2=1}
-        else {
+        if (run2 == 0) {
+            KMLmap.execute("000" + KMLMAPSURL);run2 = 1
+        } else {
             KMLmap.execute(KMLMAPSURL)
-            run2=1
+            run2 = 1
         }
     }
 
@@ -108,6 +111,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(300)
         }
     }
+
     fun LoadString(key: String): String {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val savedValue = sharedPreferences.getString(key, "STANDARD")
@@ -334,13 +338,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         } else {
             //mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(current.getLatitude(), current.getLongitude())))
             println("""[onLocationChanged] Lat/long now
-            (${current.getLatitude()},
-            ${current.getLongitude()})"""
+            (${current.latitude},
+            ${current.longitude})"""
             )
 
         }
         if (current != null && FindClosestMarker) { /* null check to ensure we don't try to distance between null and an point */
-            distanceChecker(current.getLatitude(), current.getLongitude())
+            distanceChecker(current.latitude, current.longitude)
         }
     }
 
@@ -354,7 +358,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
             val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
             val dist = (earthRadius * c).toFloat()
-            return (dist <= 12)/*return true if the distance is less than 10 */
+            return (dist <= 50)/*return true if the distance is less than 10 */
         }
         for (i in 0..markersformap.size - 1) {
             val marker = markersformap[i]
@@ -411,17 +415,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         mMap.setMaxZoomPreference(22.0f) /*maximum view is building level*/
         mMap.setMinZoomPreference(16.0f) /*minimum view is street level */
         val b = LoadString("MAPSTYLE")
-        if(b == "AUBERGINE"){
+        if (b == "AUBERGINE") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style1))
-        }else if (b == "RETRO"){
+        } else if (b == "RETRO") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style4))
-        }else if(b == "DARK"){
+        } else if (b == "DARK") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style3))
-        }else if(b == "NIGHT"){
+        } else if (b == "NIGHT") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style2))
-        }else if(b == "SILVER") {
+        } else if (b == "SILVER") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style5))
-        }else{
+        } else {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style6))
         }
 
@@ -547,7 +551,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
 
     fun downloadCompleteKML(result: List<EntryKml>) {
         /*This part should execute by the call back from OnPostExecute */
-        // println("HERE" + downloadKMLFinnished)
         if (!downloadKMLFinnished) {
             alert(" Sorry \n Something went wrong \n Error Code: E531 \n Shall we retry?") {
                 positiveButton("Yes please!") {
@@ -566,9 +569,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             }.show()
         } else {
             val numberofPoints = result.size
-            println("HERE" + numberofPoints)
             NumberOfMarkers = numberofPoints
-            println("))))" + numberofPoints) // Testing
+            println("%%% num of pointa" + numberofPoints)
             val PointsLong = arrayOfNulls<String>(numberofPoints + 1)
             val PointsLat = arrayOfNulls<String>(numberofPoints + 1)
             val classification = arrayOfNulls<String>(numberofPoints + 1)

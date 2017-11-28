@@ -76,12 +76,6 @@
         \n\n\n"
 
 
-
-
-
-
-
-
     </string>
     <string name="total_score">Total Score:</string>
     <string name="score_overview">SCORE OVERVIEW</string>
@@ -105,7 +99,4 @@
     <string name="score_board">SCORE BOARD</string>
     <string name="welcome_to_songle">Welcome to Songle!</string>
     <string name="score">SCORE</string>
-    <string name="score">SCORE</string>
-
-
 </resources>

@@ -29,8 +29,7 @@ class ScoreScreen : AppCompatActivity() {
 
     override fun onBackPressed() {
         networkChecker()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        super.onBackPressed()
     }
 
     fun LoadInt(key: String): Int {

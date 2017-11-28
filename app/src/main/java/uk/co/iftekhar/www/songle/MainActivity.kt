@@ -11,7 +11,6 @@ import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 
-
 class MainActivity : AppCompatActivity() {
     var okToContinue = false
     var numberofsongs = 0
@@ -70,11 +69,12 @@ class MainActivity : AppCompatActivity() {
         val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
         val XMLSongs = DownloadXmlTask(this)
 
-        if (run2 == 0) {
-            XMLSongs.execute("0000" + XMLSONGS)/* Run XML async task */;run2 = 1
+        if (run2 < 3) {
+            XMLSongs.execute("0000" + XMLSONGS)/* Run XML async task */
+            run2++
         } else {
             XMLSongs.execute(XMLSONGS)/* Run XML async task */
-            run2 = 1
+            run2++
         }
     }
 
@@ -156,6 +156,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -177,8 +178,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }.show()
             } else {
-                if (!okToContinue) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please wait", Toast.LENGTH_SHORT).show()
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
+                    launchXMLDownload()
                 }
             }
         }
@@ -188,7 +190,7 @@ class MainActivity : AppCompatActivity() {
         }
         LEVEL2_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
+            if (isNetworkConnected() && numberofsongs > 0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("4", true)
@@ -203,8 +205,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }.show()
             } else {
-                if (!okToContinue) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please wait", Toast.LENGTH_SHORT).show()
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
+                    launchXMLDownload()
+
                 }
             }
         }
@@ -226,8 +230,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }.show()
             } else {
-                if (!okToContinue) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please wait", Toast.LENGTH_SHORT).show()
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
+                    launchXMLDownload()
                 }
             }
 
@@ -249,8 +254,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }.show()
             } else {
-                if (!okToContinue) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please wait", Toast.LENGTH_SHORT).show()
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
+                    launchXMLDownload()
                 }
             }
         }
@@ -270,8 +276,9 @@ class MainActivity : AppCompatActivity() {
 
                 }.show()
             } else {
-                if (!okToContinue) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please wait", Toast.LENGTH_SHORT).show()
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
+                    launchXMLDownload()
                 }
             }
         }
@@ -284,8 +291,9 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("NUMBEROFSONGS", numberofsongs) /*PASS NUMBER OF SONGS*/
                 startActivity(intent)
             } else {
-                if (!okToContinue) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please wait", Toast.LENGTH_SHORT).show()
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
+                    launchXMLDownload()
                 }
             }
         }
@@ -304,8 +312,9 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("NUMBEROFSONGS", numberofsongs) /*PASS NUMBER OF SONGS*/
                 startActivity(intent)
             } else {
-                if (!okToContinue) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please wait", Toast.LENGTH_SHORT).show()
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
+                    launchXMLDownload()
                 }
             }
         }
