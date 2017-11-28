@@ -15,11 +15,12 @@
         android:background="#2072A4"
         android:orientation="vertical">
 
+
         <TextView
+            android:id="@+id/currentMAPSTYLE"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="0dp"
-            android:text="@string/welcome_to_songle"
             android:textAlignment="center"
             android:textColor="#f5f5f5"
             android:textSize="20sp"
@@ -27,137 +28,82 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="25dp"
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/LEVEL1_BUTTON"
+            android:id="@+id/STYLE1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/buttonxml"
             android:padding="10dp"
-            android:text="@string/LEVEL1" />
+            android:text="@string/standard" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="8dp"
+            android:layout_height="25dp"
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/LEVEL2_BUTTON"
+            android:id="@+id/STYLE2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/buttonxml"
             android:padding="10dp"
-            android:text="@string/LEVEL2" />
+            android:text="@string/silver" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="8dp"
+            android:layout_height="25dp"
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/LEVEL3_BUTTON"
+            android:id="@+id/STYLE3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/buttonxml"
             android:padding="10dp"
-            android:text="@string/LEVEL3" />
+            android:text="@string/retro" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="8dp"
+            android:layout_height="25dp"
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/LEVEL4_BUTTON"
+            android:id="@+id/STYLE4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/buttonxml"
             android:padding="10dp"
-            android:text="@string/LEVEL4" />
+            android:text="@string/dark" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="8dp"
+            android:layout_height="25dp"
             android:layout_weight="1" />
 
+
         <Button
-            android:id="@+id/LEVEL5BUTTON"
+            android:id="@+id/STYLE5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/buttonxml"
             android:padding="10dp"
-            android:text="@string/LEVEL5" />
+            android:text="@string/night" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="23dp"
+            android:layout_height="25dp"
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/MUSICBUTTON"
+            android:id="@+id/STYLE6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/buttonxml"
             android:padding="10dp"
-            android:text="@string/MUSIC" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/SONGLYRICS"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/buttonxml"
-            android:padding="10dp"
-            android:text="@string/SONYLYRICS" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/SCORE"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/buttonxml"
-            android:padding="10dp"
-            android:text="@string/score_board" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/HOWTOPLAY"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/buttonxml"
-            android:padding="10dp"
-            android:text="@string/EXPLAINGAME" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1" />
-        <Button
-            android:id="@+id/MAPSTYLE"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/buttonxml"
-            android:padding="10dp"
-            android:text="@string/map_style" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1" />
-
+            android:text="@string/aubergine" />
 
     </LinearLayout>
 </ScrollView>

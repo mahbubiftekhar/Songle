@@ -94,6 +94,18 @@
     <string name="please_check_your_network_connection">Please check your network connection</string>
     <string name="home">Home</string>
     <string name="you_required_gps_and_4g_3g_turned_on">Turn on 3G/4G, then click "Home" \n You also require GPS to be enabled</string>
+    <string name="aubergine">AUBERGINE</string>
+    <string name="night">NIGHT</string>
+    <string name="dark">DARK</string>
+    <string name="retro">RETRO</string>
+    <string name="silver">SILVER</string>
+    <string name="standard">STANDARD</string>
+    <string name="guess_the_song">GUESS THE SONG!!</string>
+    <string name="map_style">MAP STYLE</string>
+    <string name="score_board">SCORE BOARD</string>
+    <string name="welcome_to_songle">Welcome to Songle!</string>
+    <string name="score">SCORE</string>
+    <string name="score">SCORE</string>
 
 
 </resources>

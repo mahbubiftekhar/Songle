@@ -16,9 +16,11 @@ class DownloadXmlTask(private val caller: MainActivity) : AsyncTask<String, Void
             loadXmlFromNetwork(urls[0])
         } catch (e: IOException) {
             e.printStackTrace()
+            caller.DownloadXMLCompleted = false
             emptyList<Entry>()
         } catch (e: XmlPullParserException) {
             e.printStackTrace()
+            caller.DownloadXMLCompleted = false
             emptyList<Entry>()
         }
     }

@@ -17,16 +17,17 @@ class MainActivity : AppCompatActivity() {
     var numberofsongs = 0
     lateinit var SongTitles: Array<String?>
     lateinit var SongLinks: Array<String?>
+    var DownloadXMLCompleted = true
 
     fun SaveInt(key: String, value: Int) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         editor.putInt(key, value)
         editor.apply()
     }
 
     fun LoadInt(key: String): Int {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val savedValue = sharedPreferences.getInt(key, 0)
         return savedValue
     }
@@ -63,6 +64,20 @@ class MainActivity : AppCompatActivity() {
         }.show()
     }
 
+    var run2 = 0
+    private fun launchXMLDownload() {
+        DownloadXMLCompleted = true
+        val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
+        val XMLSongs = DownloadXmlTask(this)
+
+        if (run2 == 0) {
+            XMLSongs.execute("0000" + XMLSONGS)/* Run XML async task */;run2 = 1
+        } else {
+            XMLSongs.execute(XMLSONGS)/* Run XML async task */
+            run2 = 1
+        }
+    }
+
     private fun isNetworkConnected(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
         val networkInfo = connectivityManager.activeNetworkInfo // 2
@@ -96,50 +111,60 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun downloadCompleteXML(result1: List<Entry>) {
-        /*This part should execute by the call back from OnPostExecute */
-        val numberofsongs2 = (result1.size) /*Number of songs in XML, please note 0 is the start */
-        println("ASYNC IN MAIN: " + numberofsongs2)
-        val SongTitles2 = arrayOfNulls<String>(numberofsongs2 + 1)
-        val SongLinks2 = arrayOfNulls<String>(numberofsongs2 + 1)
-        /* Populate SongTitles and SongLinks */
-        for (i in 0..numberofsongs2 - 1) {
-            val a = result1[i].link
-            SongLinks2[i] = a
-        }
-        SongTitles2[0] = "GUESS THE SONG!!"
-        for (i in 1..numberofsongs2) {
-            val b = result1[i - 1].title
-            SongTitles2[i] = b
-        }
-        numberofsongs = numberofsongs2
-        SongTitles = SongTitles2
-        SongLinks = SongLinks2
-        okToContinue = true
+        if (result1.isEmpty() || !DownloadXMLCompleted) {
+            println("here" + result1.size)
+            alert(" Sorry \n Something went wrong \n Error Code: E552 \n Shall we retry?") {
+                positiveButton("Yes please!") {
+                    networkChecker()
+                    launchXMLDownload()
+                }
+                negativeButton("No exit") {
+                    networkChecker()
+                }
+            }.show()
+        } else {
+            println("here" + result1.size)
+            /*This part should execute by the call back from OnPostExecute */
+            val numberofsongs2 = (result1.size) /*Number of songs in XML, please note 0 is the start */
+            println("ASYNC IN MAIN: " + numberofsongs2)
+            val SongTitles2 = arrayOfNulls<String>(numberofsongs2 + 1)
+            val SongLinks2 = arrayOfNulls<String>(numberofsongs2 + 1)
+            /* Populate SongTitles and SongLinks */
+            for (i in 0..numberofsongs2 - 1) {
+                val a = result1[i].link
+                SongLinks2[i] = a
+            }
+            SongTitles2[0] = "GUESS THE SONG!!"
+            for (i in 1..numberofsongs2) {
+                val b = result1[i - 1].title
+                SongTitles2[i] = b
+            }
+            numberofsongs = numberofsongs2
+            SongTitles = SongTitles2
+            SongLinks = SongLinks2
+            okToContinue = true
 
-        val a = LoadInt("NUMSONGS")
-        if (a < numberofsongs) {
-            /* tell the user if new songs have been added */
-            SaveInt("NUMSONGS", numberofsongs)
-            if (a != 0) {
-                /* This check is to ensure that one the first load of the app this toast doesn't execute
+            val a = LoadInt("NUMSONGS")
+            if (a < numberofsongs) {
+                /* tell the user if new songs have been added */
+                SaveInt("NUMSONGS", numberofsongs)
+                if (a != 0) {
+                    /* This check is to ensure that one the first load of the app this toast doesn't execute
                 * as it will be a bit odd to tell the user they have new songs on there first go*/
-                Toast.makeText(this@MainActivity, "New songs found!!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivity, "New songs found!!", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         networkChecker() /* check for data conection */
         okToContinue = false
-        val XMLSONGS = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/songs.xml" //link for xml file, will not change - if it does im screwed
-        val XMLSongs = DownloadXmlTask(this)
-        XMLSongs.execute(XMLSONGS)/* Run XML async task */
-
+        launchXMLDownload()
         LEVEL1_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("5", true) /*Easiest, most words with lots of classificatins */
@@ -147,7 +172,7 @@ class MainActivity : AppCompatActivity() {
                     negativeButton("No Thanks!") {
                         bulkwork("5", false) /*Easiest, most words with lots of classificatins */
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
@@ -163,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         }
         LEVEL2_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("4", true)
@@ -173,7 +198,7 @@ class MainActivity : AppCompatActivity() {
                         bulkwork("4", false)
                         //No timed play
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
@@ -186,7 +211,7 @@ class MainActivity : AppCompatActivity() {
 
         LEVEL3_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("3", true)
@@ -196,7 +221,7 @@ class MainActivity : AppCompatActivity() {
                         bulkwork("3", false)
                         //No timed play
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
@@ -209,7 +234,7 @@ class MainActivity : AppCompatActivity() {
         }
         LEVEL4_BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("2", true)
@@ -219,7 +244,7 @@ class MainActivity : AppCompatActivity() {
                         bulkwork("2", false)
                         //No timed play
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
@@ -231,7 +256,7 @@ class MainActivity : AppCompatActivity() {
         }
         LEVEL5BUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
                         bulkwork("1", true)
@@ -239,7 +264,7 @@ class MainActivity : AppCompatActivity() {
                     negativeButton("No Thanks!") {
                         bulkwork("1", false)
                     }
-                    neutralButton("Exit"){
+                    neutralButton("Exit") {
                         Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
                     }
 
@@ -252,7 +277,7 @@ class MainActivity : AppCompatActivity() {
         }
         MUSICBUTTON.setOnClickListener {
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected() && numberofsongs>0) {
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 val intent = Intent(this, MusicActivity()::class.java)
                 intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
                 intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/
@@ -264,12 +289,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
+        MAPSTYLE.setOnClickListener {
+            val intent = Intent(this, MapStyleSelector()::class.java)
+            startActivity(intent)
+        }
         SONGLYRICS.setOnClickListener {
-            println("%%%%HERE"+okToContinue)
-            println("%%%%HERE"+numberofsongs)
+            println("%%%%HERE" + okToContinue)
+            println("%%%%HERE" + numberofsongs)
             networkChecker() /*Run the network checker */
-            if (okToContinue && isNetworkConnected() && numberofsongs>0 ) {
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 val intent = Intent(this, SongLyricActivity()::class.java)
                 intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
                 intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/

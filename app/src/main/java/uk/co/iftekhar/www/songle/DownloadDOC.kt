@@ -16,9 +16,11 @@ class DownloadDOC(private val caller: MapsActivity) : AsyncTask<String, Void, Li
             loadXmlFromNetwork("http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/" + urls[0] + "/words.txt")
         } catch (e: IOException) {
             e.printStackTrace()
+            caller.downloadDOCFinnished = false
             return emptyList()
         } catch (e: XmlPullParserException) {
             e.printStackTrace()
+            caller.downloadDOCFinnished = false
             return emptyList()
         }
     }

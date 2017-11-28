@@ -70,7 +70,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ScoreScreen"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MapStyleSelector"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>
