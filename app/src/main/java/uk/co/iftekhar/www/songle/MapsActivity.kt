@@ -33,7 +33,7 @@ import kotlin.concurrent.timerTask
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
-    private var RandomNumberinRange = 0 //defining RandomNumberInRange to allow both AsyncTasks to access it.
+    private var RandomNumberinRange = 0 /* defining RandomNumberInRange to allow both AsyncTasks to access it. */
     var YoutubeLinkOfCurrentSong = ""
     var LyricLinkOfCurrentSong = ""
     private var numberOfTriesLeft = 5
@@ -323,7 +323,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             Toast.makeText(this@MapsActivity, "Please enable GPS", Toast.LENGTH_LONG).show()
             println("[onLocationChanged] Location unknown")
         } else {
-            //mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(current.getLatitude(), current.getLongitude())))
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(current.latitude, current.longitude)))
             println("""[onLocationChanged] Lat/long now
             (${current.latitude},
             ${current.longitude})"""
@@ -349,23 +349,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         for (i in 0..markersformap.size - 1) {
             val marker = markersformap[i]
             if (distFrom(marker.position.latitude, marker.position.longitude, Lat, Long)) {
-
                 //println("!! THIS IS THE START")
                 val markerTag = markersformap[i].tag.toString()
                 val splitedTag: List<String> = markerTag.split(":").map { it.trim() } /*String into List, for getting long and lat  */
                 val lineNumber = splitedTag[0].toInt()
                 val positionNumber = splitedTag[1].toInt()
-                val word = words[lineNumber - 1][positionNumber - 1]
-                val markerClassification = markersformap[i].title // Gets the classification
-                vibrate()
-                Toast.makeText(this@MapsActivity, "Classification: $markerClassification  Word: $word", Toast.LENGTH_LONG).show()
-                println("!! WORD $word")
-                println("!! CLASSIFICATIOM $markerClassification")
-                println("!! CLASSIFICATIOM $markerTag")
-                markersformap[i].remove() /* remove from map*/
-                markersformap.removeAt(i) /* remove from ArrayList */
-                println("!! THIS IS THE END")
-                break
+                try {
+                    val word = words[lineNumber - 1][positionNumber - 1]
+                    val markerClassification = markersformap[i].title // Gets the classification
+                    vibrate()
+                    Toast.makeText(this@MapsActivity, "Classification: $markerClassification  Word: $word", Toast.LENGTH_LONG).show()
+                    println("!! WORD $word")
+                    println("!! CLASSIFICATIOM $markerClassification")
+                    println("!! CLASSIFICATIOM $markerTag")
+                    markersformap[i].remove() /* remove from map*/
+                    markersformap.removeAt(i) /* remove from ArrayList */
+                    println("!! THIS IS THE END OF THIS WORD")
+                    break
+
+                }
+                catch (e: IndexOutOfBoundsException) {
+                    /*This catch is to ensure that if the download of the Words from the Txt file fails but the KML download
+                    succedded and the user doesn't head the advise of the pop up and try again to download or exit and
+                    the user clicks on the map and they continue, they will not get a null pointer and fail.
+
+                    This should be an exceptional case but If it occurs I am ready
+                    */
+                    Toast.makeText(this@MapsActivity, "Words not found, please restart game", Toast.LENGTH_LONG).show()
+                    break
+                }
+
             }
         }
     }
@@ -568,8 +581,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 val result2: List<String> = input.split(",").map { it.trim() } /*String into List, for getting long and lat  */
                 PointsLong[i] = result2[0]
                 PointsLat[i] = result2[1]
-                val theDescription = result[i].description
-                classification[i] = theDescription
+                val theClassification = result[i].description
+                classification[i] = theClassification
                 val theName = result[i].name
                 name[i] = theName
             }

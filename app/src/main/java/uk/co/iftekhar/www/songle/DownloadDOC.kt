@@ -13,7 +13,7 @@ class DownloadDOC(private val caller: MapsActivity) : AsyncTask<String, Void, Li
 
     override fun doInBackground(vararg urls: String): List<List<String>> {
         return try {
-            loadXmlFromNetwork("http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/" + urls[0] + "/words.txt")
+            loadXmlFromNetwork("http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/0" + urls[0] + "/words.txt")
         } catch (e: IOException) {
             e.printStackTrace()
             caller.downloadDOCFinnished = false

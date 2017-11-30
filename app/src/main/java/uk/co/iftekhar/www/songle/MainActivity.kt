@@ -300,8 +300,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         SONGLYRICS.setOnClickListener {
-            //println("%%%%HERE" + okToContinue)
-            //println("%%%%HERE" + numberofsongs)
             networkChecker() /*Run the network checker */
             if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 val intent = Intent(this, SongLyricActivity()::class.java)
