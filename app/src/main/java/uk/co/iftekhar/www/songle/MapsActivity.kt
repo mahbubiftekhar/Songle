@@ -1,4 +1,5 @@
 package uk.co.iftekhar.www.songle
+
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -170,7 +171,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     }
 
     fun ClosedRange<Int>.random() = Random().nextInt(endInclusive - start) + start
-    fun correctguess(LYRICLINK: String?) {
+    fun correectGuess(LYRICLINK: String?) {
         endTimer()
         FindClosestMarker = false // So no new markers are collected
         val LEVEL = intent.getStringExtra("Level")
@@ -367,8 +368,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                     println("!! THIS IS THE END OF THIS WORD")
                     break
 
-                }
-                catch (e: IndexOutOfBoundsException) {
+                } catch (e: IndexOutOfBoundsException) {
                     /*This catch is to ensure that if the download of the Words from the Txt file fails but the KML download
                     succedded and the user doesn't head the advise of the pop up and try again to download or exit and
                     the user clicks on the map and they continue, they will not get a null pointer and fail.
@@ -442,11 +442,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         numberofsongs = intent.getIntExtra("NUMBEROFSONGS", 1) /*Number of songs in XML, please note 0 is the start */
         RandomNumberinRange = (1..numberofsongs).random() /* pick a random number */
         val LEVEL = intent.getStringExtra("Level") /* get the level the user selected */
-        if (RandomNumberinRange < 10) {
-            launchDOCdownload("0" + RandomNumberinRange.toString())
-        } else {
-            launchDOCdownload(RandomNumberinRange.toString())
-        }
 
         /* Execute KML Async */
         if (RandomNumberinRange < 10) {
@@ -478,39 +473,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         Spinner.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, SongTitles)
         Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                /*Do nothing on nothing selected*/
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (SongTitles[position] == SongTitles[0]) {
-                    vibrate()
-                } else if (SongTitles[RandomNumberinRange] == SongTitles[position]) {
-                    vibrate()
-                    Toast.makeText(this@MapsActivity, "Correct! Well done", Toast.LENGTH_SHORT).show()
-                    if (RandomNumberinRange < 10) {
-                        correctguess("0" + RandomNumberinRange.toString()) // Call function to switch activities
-                    } else {
-                        correctguess(RandomNumberinRange.toString()) // Call function to switch activities
-                    }
-
-                } else if (numberOfTriesLeft == 1) {
-                    if (RandomNumberinRange < 10) {
-                        incorrectguess("0" + RandomNumberinRange.toString()) // Call function to switch activities
-                    } else {
-                        incorrectguess(RandomNumberinRange.toString()) // Call function to switch activities
-                    }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) = if (SongTitles[position] == SongTitles[0]) {
+                vibrate()
+            } else if (SongTitles[RandomNumberinRange] == SongTitles[position]) {
+                /* If the user has guessed correctly */
+                vibrate()
+                Toast.makeText(this@MapsActivity, "Correct! Well done", Toast.LENGTH_SHORT).show()
+                if (RandomNumberinRange < 10) {
+                    correectGuess("0" + RandomNumberinRange.toString()) /* Call function to switch activities */
                 } else {
-                    numberOfTriesLeft -= 1
-                    Toast.makeText(this@MapsActivity, "Incorrect, $numberOfTriesLeft tries left", Toast.LENGTH_SHORT).show()
-                    vibrate()
+                    correectGuess(RandomNumberinRange.toString()) /* Call function to switch activities */
                 }
+
+            } else if (numberOfTriesLeft == 1) {
+                /*If the user guessed incorrectly, but has no tries left boot them out of the game*/
+                if (RandomNumberinRange < 10) {
+                    incorrectguess("0" + RandomNumberinRange.toString()) /* Call function to switch activities */
+                } else {
+                    incorrectguess(RandomNumberinRange.toString()) /* Call function to switch activities */
+                }
+            } else {
+                /* If the user guessed incorrectly, but has tries left*/
+                numberOfTriesLeft -= 1
+                Toast.makeText(this@MapsActivity, "Incorrect, $numberOfTriesLeft tries left", Toast.LENGTH_SHORT).show()
+                vibrate()
             }
         }
     }
 
     fun downloadCompletDOC(result: List<List<String>>?) {
-        /*executed after the DownloadDOC async task has finnished */
+        /*executed after the DownloadDOC async task has finished */
         if (!downloadDOCFinnished) {
-            alert(" Sorry \n Downloading the words went wrong \n Shall we retry?") {
+            alert(" Sorry \n  Downloading words failed \n Shall we retry?") {
                 positiveButton("Yes please!") {
                     networkChecker()
                     if (RandomNumberinRange < 10) {
@@ -527,19 +524,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         } else {
 
             /*If the user has selected timed, the timer will be started depending on the level they selected
-    , if the user didn't select timed, the timer will not start in the first place. */
+            if the user didn't select timed, the timer will not start in the first place. */
             val LEVEL = intent.getStringExtra("Level")
             val TIMER = intent.getBooleanExtra("Timed", false)
             if (LEVEL == "5" && TIMER) {
+                /*Giving users an extra 200 to offset any delays in loading after we start the timer*/
                 startTimer(1200000 + 200)
             } else if (LEVEL == "4" && TIMER) {
                 startTimer(1080000 + 200)
             } else if (LEVEL == "3" && TIMER) {
                 startTimer(960000 + 200)
             } else if (LEVEL == "2" && TIMER) {
-                startTimer(840000 + 200) //15 minutes
+                startTimer(840000 + 200)
             } else if (TIMER) {
-                startTimer(720000 + 200) //14 minutes
+                startTimer(720000 + 200)
             }
             start = System.currentTimeMillis()
             words = result!!
@@ -551,7 +549,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun downloadCompleteKML(result: List<EntryKml>) {
         /*This part should execute by the call back from OnPostExecute */
         if (!downloadKMLFinnished) {
-            alert(" Sorry \n Downloading the markers went wrong \n Shall we retry?") {
+            alert(" Sorry \n  Downloading markers failed \n Shall we retry?") {
                 positiveButton("Yes please!") {
                     networkChecker()
                     val LEVEL = intent.getStringExtra("Level") /* get the level the user selected */
@@ -567,6 +565,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 }
             }.show()
         } else {
+            /*If we are getting here the KML download has completed
+             thus we can now launch the DOC download,
+             if this fails due to network issues, then appropriate steps will
+             be taken to make the user aware and recover*/
+            if (RandomNumberinRange < 10) {
+                launchDOCdownload("0" + RandomNumberinRange.toString())
+            } else {
+                launchDOCdownload(RandomNumberinRange.toString())
+            }
+
             val numberofPoints = result.size
             NumberOfMarkers = numberofPoints
             println("%%% num of pointa" + numberofPoints)

@@ -39,7 +39,7 @@ class CorrectSplash : AppCompatActivity() {
 
     }
 
-    fun bulkwork(Level: String, Timed: Boolean) {
+    fun bulkWork(Level: String, Timed: Boolean) {
         val intent = Intent(this, MapsActivity()::class.java)
         intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
         intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/
@@ -62,7 +62,7 @@ class CorrectSplash : AppCompatActivity() {
         val SONGLYRICLINK = intent.getStringExtra("SONGLYRICLINK")
         val LEVEL = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
 
-        /*on click listerners for the different buttons */
+        /*on click listeners for the different buttons */
         YOUTUBELINK.setOnClickListener {
             if(isNetworkConnected()){ /* Check the nework status before continuing
             the reason I do not use the networkChecker() is that I want the user to be able to quickly fix the
@@ -87,10 +87,10 @@ class CorrectSplash : AppCompatActivity() {
             alert("Want a challenge with timed play?") {
                 /* ask user if they wish to play timed*/
                 positiveButton("Yes, bring it on!") {
-                    bulkwork(LEVEL, true)
+                    bulkWork(LEVEL, true)
                 }
                 negativeButton("No Thanks!") {
-                    bulkwork(LEVEL, false)
+                    bulkWork(LEVEL, false)
 
 
                 }
@@ -109,11 +109,11 @@ class CorrectSplash : AppCompatActivity() {
                 alert("Want a challenge with timed play?") {
                     /* ask user if they wish to play timed*/
                     positiveButton("Yes, bring it on!") {
-                        bulkwork("5", true)
+                        bulkWork("5", true)
 
                     }
                     negativeButton("No Thanks!") {
-                        bulkwork("5", false)
+                        bulkWork("5", false)
                     }
                     neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
@@ -123,10 +123,10 @@ class CorrectSplash : AppCompatActivity() {
                 alert("Want a challenge with timed play?") {
                     /* ask user if they wish to play timed*/
                     positiveButton("Yes, bring it on!") {
-                        bulkwork("5", true)
+                        bulkWork("5", true)
                     }
                     negativeButton("No Thanks!") {
-                        bulkwork("5", false)
+                        bulkWork("5", false)
                     }
                     neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
@@ -135,11 +135,11 @@ class CorrectSplash : AppCompatActivity() {
             } else if (LEVEL == "3") {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
-                        bulkwork("4", true)
+                        bulkWork("4", true)
 
                     }
                     negativeButton("No Thanks!") {
-                        bulkwork("4", false)
+                        bulkWork("4", false)
                     }
                     neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
@@ -148,10 +148,10 @@ class CorrectSplash : AppCompatActivity() {
             } else if (LEVEL == "2") {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
-                        bulkwork("3", true)
+                        bulkWork("3", true)
                     }
                     negativeButton("No Thanks!") {
-                        bulkwork("3", false)
+                        bulkWork("3", false)
                     }
                     neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
@@ -161,10 +161,10 @@ class CorrectSplash : AppCompatActivity() {
             } else {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
-                        bulkwork("2", true)
+                        bulkWork("2", true)
                     }
                     negativeButton("No Thanks!") {
-                        bulkwork("2", false)
+                        bulkWork("2", false)
                     }
                     neutralButton("Exit") {
                         Toast.makeText(this@CorrectSplash, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()

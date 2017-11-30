@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        networkChecker() /* check for data conection */
+        networkChecker() /* check for data connection */
         okToContinue = false
         launchXMLDownload()
         LEVEL1_BUTTON.setOnClickListener {
@@ -166,10 +166,10 @@ class MainActivity : AppCompatActivity() {
             if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
                 alert("Want a challenge with timed play?") {
                     positiveButton("Yes, bring it on!") {
-                        bulkwork("5", true) /*Easiest, most words with lots of classificatins */
+                        bulkwork("5", true) /*Easiest, most words with lots of classifications */
                     }
                     negativeButton("No Thanks!") {
-                        bulkwork("5", false) /*Easiest, most words with lots of classificatins */
+                        bulkwork("5", false) /*Easiest, most words with lots of classifications */
                     }
                     neutralButton("Exit") {
                         Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
@@ -309,7 +309,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             } else {
                 if (!DownloadXMLCompleted || numberofsongs == 0) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a moment", Toast.LENGTH_SHORT).show()
                     launchXMLDownload()
                 }
             }

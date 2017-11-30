@@ -50,7 +50,8 @@ class MapStyleSelector : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun updateHeader() {
         val textView: TextView = findViewById(R.id.currentMAPSTYLE)
-        textView.text = "Selected style:  " + LoadString("MAPSTYLE")
+        val ab = LoadString("MAPSTYLE")
+        textView.text = "Selected style: $ab"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
