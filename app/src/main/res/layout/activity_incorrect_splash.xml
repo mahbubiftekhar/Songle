@@ -31,7 +31,7 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/YOUTUBELINK"
+            android:id="@+id/YOUTUBELINK2"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/buttonxml"
@@ -43,7 +43,7 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/LYRICLINK"
+            android:id="@+id/LYRICLINK2"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/buttonxml"
@@ -55,7 +55,7 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/SAMELEVEL"
+            android:id="@+id/SAMELEVEL2"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/buttonxml"
@@ -67,11 +67,28 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/SCORE_BUTTON"
+            android:id="@+id/SCORE_BUTTON2"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/buttonxml"
-            android:text="@string/score" />
+            android:text="@string/score_board" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/HOMEBUTTON"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/buttonxml"
+            android:text="@string/home_BUTTON" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="68dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
 </ScrollView>

@@ -49,6 +49,13 @@
         Hard - 3 points per success \n
         Insane - 4 points per success \n
         Impossible - 5 points per success \n
+        If you played timed you will also get extra "Timed bonus" points \n
+        Easy - 1 points timed bonus per success \n
+        Medium - 2 points timed bonus per success \n
+        Hard - 3 points timed bonus per success \n
+        Insane - 4 points timed bonus per success \n
+        Impossible - 5 points timed bonus per success \n
+
         \n\n\n"
         "Question: What do I need to play this game? \n"
         "Answer:\n"
@@ -65,13 +72,16 @@
         "Answer:\n"
         "Not exactly, if you have a connection until the markers are in place that is fine, but you can only complete that game,
         You cannot load another game - including reloading the same level - unless you have a data connection, you also need location
-        services at all times (otherwise its not much of a location puzzle game)
+        services at all times (otherwise its not much of a location puzzle game). Its recommended you have a 4G data connection and GPS on
+        at all times
         \n\n\n"
 
         "Question: I am still having issues/ how do I give feedback? \n"
         "Answer:\n"
-        "Please email me on my email address:
-        mahbub@iftekhar.co.uk \n
+        "Please email me on my email address or call me on my business line: \n
+         Email: mahbub@iftekhar.co.uk \n
+         Phone: +44 131 581 8775 \n
+        \n
         I will be happy to get feedback and or help you with any issues you may be having. Please allow 2 working days for a reply.
         \n\n\n"
 
@@ -99,4 +109,6 @@
     <string name="score_board">SCORE BOARD</string>
     <string name="welcome_to_songle">Welcome to Songle!</string>
     <string name="score">SCORE</string>
+    <string name="home_BUTTON">HOME</string>
+    <string name="timed_bonus">Timed Bonus</string>
 </resources>

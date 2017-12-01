@@ -146,6 +146,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1" />
+
         <Button
             android:id="@+id/MAPSTYLE"
             android:layout_width="match_parent"
@@ -153,6 +154,7 @@
             android:background="@drawable/buttonxml"
             android:padding="10dp"
             android:text="@string/map_style" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="40dp"

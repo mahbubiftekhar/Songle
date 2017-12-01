@@ -27,7 +27,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:layout_weight="1" />
 
         <Button
@@ -39,7 +39,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_weight="1" />
 
         <Button
@@ -51,7 +51,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_weight="1" />
 
         <Button
@@ -63,7 +63,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_weight="1" />
 
         <Button
@@ -75,7 +75,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_weight="1" />
 
         <Button
@@ -83,7 +83,23 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/buttonxml"
-            android:text="@string/score" />
+            android:text="@string/score_board" />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/HOMEBUTTON"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/buttonxml"
+            android:text="@string/home_BUTTON" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="68dp"
+            android:layout_weight="1" />
     </LinearLayout>
 </ScrollView>

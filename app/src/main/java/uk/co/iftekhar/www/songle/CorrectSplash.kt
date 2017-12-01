@@ -11,14 +11,17 @@ import kotlinx.android.synthetic.main.activity_correct_splash.*
 import org.jetbrains.anko.alert
 
 class CorrectSplash : AppCompatActivity() {
-    var numberofsongs = 0
-    lateinit var SongTitles: Array<String?>
-    lateinit var SongLinks: Array<String?>
+    var numberofsongs = 0 /*Number of songs, this will be updated later*/
+    lateinit var SongTitles: Array<String?> /*To Store SongTitles*/
+    lateinit var SongLinks: Array<String?> /*To Store SongTitles*/
 
     override fun onBackPressed() {
         /*Overriding on back pressed, otherwise user can go back to previous maps and we do not want that
         super.onBackPressed() Send the user back to MainActivity */
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("SONGLINKS", SongLinks) /* PASS ALL SONG LINKS*/
+        intent.putExtra("SONGTITLES", SongTitles) /*PASS ALL SONG TITLES*/
+        intent.putExtra("NUMBEROFSONGS", numberofsongs) /*PASS NUMBER OF SONGS*/
         startActivity(intent)
     }
 
@@ -62,6 +65,11 @@ class CorrectSplash : AppCompatActivity() {
         val SONGLYRICLINK = intent.getStringExtra("SONGLYRICLINK")
         val LEVEL = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
 
+        HOMEBUTTON.setOnClickListener {
+            networkChecker()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
         /*on click listeners for the different buttons */
         YOUTUBELINK.setOnClickListener {
             if(isNetworkConnected()){ /* Check the nework status before continuing

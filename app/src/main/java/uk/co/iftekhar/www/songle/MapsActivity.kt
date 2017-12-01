@@ -94,7 +94,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         if (Build.VERSION.SDK_INT > 25) { /*If the SDK version is >25, use the newer one*/
             (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(VibrationEffect.createOneShot(300, 10))
         } else {
-            /*for old device comparability*/
+            /*for backward comparability*/
             @Suppress("DEPRECATION")
             (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(300)
         }
@@ -173,12 +173,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun ClosedRange<Int>.random() = Random().nextInt(endInclusive - start) + start
     fun correectGuess(LYRICLINK: String?) {
         endTimer()
-        FindClosestMarker = false // So no new markers are collected
         val LEVEL = intent.getStringExtra("Level")
+        val timedBonusVALUE = LoadInt("TIMED_BONUS")
+        val TIMER = intent.getBooleanExtra("Timed", false)
+        FindClosestMarker = false /* So no new markers are collected */
         if (LEVEL.toInt() == 5) {
+            if (TIMER) {
+                /*If the user has successfully completed timed, update Timed bonus appropriately*/
+                SaveInt("TIMED_BONUS", timedBonusVALUE + 1)
+            }
             val a = LoadInt("EASY_LEVEL")
             SaveInt("EASY_LEVEL", a + 1)
-            //println(a)
             val time: Long = (System.currentTimeMillis() - start) / 1000
             val sd = LoadLong("BEST_TIME_EASY")
             if (time < sd || sd == 0.toLong()) {
@@ -186,6 +191,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 SaveLong("BEST_TIME_EASY", time)
             }
         } else if (LEVEL.toInt() == 4) {
+            if (TIMER) {
+                /*If the user has successfully completed timed, update Timed bonus appropriately*/
+                SaveInt("TIMED_BONUS", timedBonusVALUE + 2)
+            }
             val a = LoadInt("NORMAL_LEVEL")
             SaveInt("NORMAL_LEVEL", a + 1)
             val time = (System.currentTimeMillis() - start) / 1000
@@ -194,6 +203,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 SaveLong("BEST_TIME_NORMAL", time)
             }
         } else if (LEVEL.toInt() == 3) {
+            if (TIMER) {
+                /*If the user has successfully completed timed, update Timed bonus appropriately*/
+                SaveInt("TIMED_BONUS", timedBonusVALUE + 3)
+            }
             val a = LoadInt("HARD_LEVEL")
             SaveInt("HARD_LEVEL", a + 1)
             val time = (System.currentTimeMillis() - start) / 1000
@@ -202,6 +215,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 SaveLong("BEST_TIME_HARD", time)
             }
         } else if (LEVEL.toInt() == 2) {
+            if (TIMER) {
+                /*If the user has successfully completed timed, update Timed bonus appropriately*/
+                SaveInt("TIMED_BONUS", timedBonusVALUE + 4)
+            }
             val a = LoadInt("INSANE_LEVEL")
             SaveInt("INSANE_LEVEL", a + 1)
             val time = (System.currentTimeMillis() - start) / 1000
@@ -210,14 +227,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 SaveLong("BEST_TIME_INSANE", time)
             }
         } else if (LEVEL.toInt() == 1) {
+            if (TIMER) {
+                /*If the user has successfully completed timed, update Timed bonus appropriately*/
+                SaveInt("TIMED_BONUS", timedBonusVALUE + 5)
+            }
             val a = LoadInt("IMPOSSIBLE_LEVEL")
-            println("%%%key before incremenet" + a)
             SaveInt("IMPOSSIBLE_LEVEL", a + 1)
-            val b = LoadInt("IMPOSSIBLE_LEVEL")
-            println("%%%key before incremenet" + b)
-
             val time = (System.currentTimeMillis() - start) / 1000
-            println("%%%%" + time)
             val sd = LoadLong("BEST_TIME_IMPOSSIBLE")
             if (time < sd || sd == 0.toLong()) {
                 SaveLong("BEST_TIME_IMPOSSIBLE", time)
@@ -414,6 +430,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         mMap.setMaxZoomPreference(22.0f) /*maximum view is building level*/
         mMap.setMinZoomPreference(16.0f) /*minimum view is street level */
         val b = LoadString("MAPSTYLE")
+
+        /*Set the MAP Style, defaults to standard if the user has not changed the setting*/
         if (b == "AUBERGINE") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style1))
         } else if (b == "RETRO") {
@@ -565,10 +583,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 }
             }.show()
         } else {
-            /*If we are getting here the KML download has completed
+            /* If we are getting here the KML download has completed
              thus we can now launch the DOC download,
              if this fails due to network issues, then appropriate steps will
-             be taken to make the user aware and recover*/
+             be taken to make the user aware and recover */
             if (RandomNumberinRange < 10) {
                 launchDOCdownload("0" + RandomNumberinRange.toString())
             } else {

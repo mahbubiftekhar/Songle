@@ -1,5 +1,6 @@
 package uk.co.iftekhar.www.songle
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -55,6 +56,7 @@ class ScoreScreen : AppCompatActivity() {
         return "Best Time:  $text secs"
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_score_screen)
@@ -80,9 +82,14 @@ class ScoreScreen : AppCompatActivity() {
         textView5.text = getText(E)
 
         /*Calculate total score*/
-        val TOTALSCORE = (a.toInt() + B.toInt() * 2 + C.toInt() * 3 + D.toInt() * 4 + E.toInt() * 5).toString()
+
+        val F1 = LoadInt("TIMED_BONUS").toString() /*Set the timed bonus value*/
+        val textView61: TextView = findViewById(R.id.TIMEDBONUSVALUE)
+        textView61.text = "Timed Bonus: $F1"
+
+        val totalSCORE = (a.toInt() + B.toInt() * 2 + C.toInt() * 3 + D.toInt() * 4 + E.toInt() * 5 + F1.toInt()).toString()
         val textView6: TextView = findViewById(R.id.Score)
-        textView6.text = TOTALSCORE /*set total score*/
+        textView6.text = totalSCORE /*set total score*/
 
         val a1 = LoadLong("BEST_TIME_EASY").toString() /*set easy level best time*/
         val textView1: TextView = findViewById(R.id.LEVEL1_TIME)
