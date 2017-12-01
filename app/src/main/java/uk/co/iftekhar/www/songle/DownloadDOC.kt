@@ -13,7 +13,7 @@ class DownloadDOC(private val caller: MapsActivity) : AsyncTask<String, Void, Li
 
     override fun doInBackground(vararg urls: String): List<List<String>> {
         return try {
-            loadXmlFromNetwork("http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/"+urls[0]+"/words.txt")
+            loadXmlFromNetwork("http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/" + urls[0] + "/words.txt")
         } catch (e: IOException) {
             e.printStackTrace()
             caller.downloadDOCFinnished = false
@@ -55,7 +55,7 @@ class DownloadDOC(private val caller: MapsActivity) : AsyncTask<String, Void, Li
     }
 
     private fun parseDOC(song: String): List<List<String>> {
-        val lines = song.split("\\r?\\n".toRegex()) //first split on new lines
+        val lines = song.split("\\r?\\n".toRegex()) /*first split on new lines */
         val words = ArrayList<List<String>>()
         for (line in lines) { // then we need to split further
             val splitLine = line.split("[^a-zA-Z0-9'-]+".toRegex())

@@ -74,8 +74,7 @@ class IncorrectSplash : AppCompatActivity() {
         }
         YOUTUBELINK2.setOnClickListener {
             if (LEVEL == 1.toString() || LEVEL == 2.toString()) {
-                val LEVELdisplay2 = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
-                Toast.makeText(this@IncorrectSplash, "Sorry, this is not available at level: $LEVELdisplay2", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@IncorrectSplash, "Sorry, this is not available at this level", Toast.LENGTH_LONG).show()
             } else {
                 if (isNetworkConnected()) {
                     val url = "https://www.youtube.com/watch?v=" + (SONGYOUTUBELINK).drop(17)
@@ -88,8 +87,7 @@ class IncorrectSplash : AppCompatActivity() {
         LYRICLINK2.setOnClickListener {
             if (LEVEL == 1.toString() || LEVEL == 2.toString()) {
                 /* If the user has been unsuccessful, at*/
-                val LEVELdisplay = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
-                Toast.makeText(this@IncorrectSplash, "Sorry, this is not available at level: $LEVELdisplay", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@IncorrectSplash, "Sorry, this is not available at this level", Toast.LENGTH_LONG).show()
             } else {
                 if (isNetworkConnected()) {
                     val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"

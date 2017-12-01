@@ -14,22 +14,26 @@ class NetworkIssue : AppCompatActivity() {
         val networkInfo = connectivityManager.activeNetworkInfo // 2
         return networkInfo != null && networkInfo.isConnected // 3
     }
+
     override fun onBackPressed() {
-        if(isNetworkConnected()){
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent) } else {
+        if (isNetworkConnected()) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        } else {
             Toast.makeText(this@NetworkIssue, "No data connection, please investigate", Toast.LENGTH_SHORT).show()
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_network_issue)
         NETWORKISSUEBUTTON.setOnClickListener {
-            if(!isNetworkConnected()){
+            if (!isNetworkConnected()) {
                 Toast.makeText(this@NetworkIssue, "No data connection, please investigate", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent) /*Start the main activity when button clicked*/
             }
-            else {val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent) /*Start the main activity when button clicked*/ }
         }
         HOWTOPLAYNETWORKISSUE.setOnClickListener {
             val intent = Intent(this, uk.co.iftekhar.www.songle.FAQ::class.java)
@@ -41,6 +45,7 @@ class NetworkIssue : AppCompatActivity() {
         }
         MAPSTYLESELECTOR.setOnClickListener {
             val intent = Intent(this, MapStyleSelector::class.java)
-            startActivity(intent) }
+            startActivity(intent)
         }
+    }
 }
