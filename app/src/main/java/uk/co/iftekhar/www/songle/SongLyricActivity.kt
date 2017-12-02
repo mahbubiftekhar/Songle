@@ -10,13 +10,14 @@ import android.net.Uri
 
 
 class SongLyricActivity : AppCompatActivity() {
-    fun AddLyricsText(Title: String): String{
+    fun AddLyricsText(Title: String): String {
         /*function to add "-Lyrics" to a string and return that string */
         return """$Title - Lyrics"""
     }
+
     fun addButtonSongLyrics() {
         /* This will execute upon the async task being finnished */
-        val NumberOfSongs_music = intent.getIntExtra("NUMBEROFSONGS",1) /*Number of songs*/
+        val NumberOfSongs_music = intent.getIntExtra("NUMBEROFSONGS", 1) /*Number of songs*/
         val SongTitles_music = intent.getStringArrayExtra("SONGTITLES")/*Array to store song titles */
 
         val ll_main: LinearLayout = findViewById(R.id.ll_main_layout) /*as LinearLayout */
@@ -29,7 +30,7 @@ class SongLyricActivity : AppCompatActivity() {
             val button_dynamic = Button(this)
             /* setting layout_width and layout_height using layout parameters */
             button_dynamic.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            button_dynamic.text = AddLyricsText(SongTitles_music[IndexCount+1])
+            button_dynamic.text = AddLyricsText(SongTitles_music[IndexCount + 1])
             button_dynamic.setBackgroundResource(R.drawable.buttonxml)
             button_dynamic.layoutParams = params
 
@@ -46,7 +47,7 @@ class SongLyricActivity : AppCompatActivity() {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }
             IndexCount++
-            ll_main.addView(button_dynamic)
+            ll_main.addView(button_dynamic) /*Add each button*/
         }
     }
 

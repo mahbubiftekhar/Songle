@@ -50,8 +50,8 @@ class MapStyleSelector : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun updateHeader() {
         val textView: TextView = findViewById(R.id.currentMAPSTYLE)
-        val ab = LoadString("MAPSTYLE")
-        textView.text = "Selected style: $ab"
+        val UserSelectedMapStyle = LoadString("MAPSTYLE")
+        textView.text = "Selected style: $UserSelectedMapStyle"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,29 +59,29 @@ class MapStyleSelector : AppCompatActivity() {
         setContentView(R.layout.activity_mpa_style_selector)
         updateHeader()
         STYLE1.setOnClickListener {
-            SaveString("MAPSTYLE", "STANDARD")
-            updateHeader()
+            SaveString("MAPSTYLE", "STANDARD") /* update the MAPSTYLE TO STANDARD*/
+            updateHeader() /*Update the text saying which map style is selected*/
         }
         STYLE2.setOnClickListener {
-            SaveString("MAPSTYLE", "SILVER")
-            updateHeader()
+            SaveString("MAPSTYLE", "SILVER")/* update the MAPSTYLE TO SILVER*/
+            updateHeader() /*Update the text saying which map style is selected*/
 
         }
         STYLE3.setOnClickListener {
-            SaveString("MAPSTYLE", "RETRO")
-            updateHeader()
+            SaveString("MAPSTYLE", "RETRO")/* update the MAPSTYLE TO RETRO*/
+            updateHeader() /*Update the text saying which map style is selected*/
         }
         STYLE4.setOnClickListener {
-            SaveString("MAPSTYLE", "DARK")
-            updateHeader()
+            SaveString("MAPSTYLE", "DARK")/* update the MAPSTYLE TO DARK*/
+            updateHeader() /*Update the text saying which map style is selected*/
         }
         STYLE5.setOnClickListener {
-            SaveString("MAPSTYLE", "NIGHT")
-            updateHeader()
+            SaveString("MAPSTYLE", "NIGHT")/* update the MAPSTYLE TO NIGHT*/
+            updateHeader() /*Update the text saying which map style is selected*/
         }
         STYLE6.setOnClickListener {
-            SaveString("MAPSTYLE", "AUBERGINE")
-            updateHeader()
+            SaveString("MAPSTYLE", "AUBERGINE")/* update the MAPSTYLE TO AUBERGINE*/
+            updateHeader() /*Update the text saying which map style is selected*/
         }
 
 

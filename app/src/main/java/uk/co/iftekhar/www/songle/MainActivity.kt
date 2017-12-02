@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     var DownloadXMLCompleted = true
 
     fun SaveInt(key: String, value: Int) {
+        /* Function to save an SharedPreference value which holds an Int*/
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         editor.putInt(key, value)
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun LoadInt(key: String): Int {
+        /*Function to load an SharedPreference value which holds an Int*/
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val savedValue = sharedPreferences.getInt(key, 0)
         return savedValue
@@ -49,15 +51,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() { // override the back button, so the user is promted when they wish to leave the app
+    override fun onBackPressed() {
+        /* override the back button, so the user is promted when they wish to leave the app */
         alert("Are you sure you want to exit?") {
             yesButton {
+                /*The user wishes to close the app, so be it*/
                 val startMain = Intent(Intent.ACTION_MAIN)
                 startMain.addCategory(Intent.CATEGORY_HOME)
                 startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(startMain)
             }
             noButton {
+                /*If the user changes their minds, thank them for changing their mind */
                 Toast.makeText(this@MainActivity, "Glad you changed your mind!", Toast.LENGTH_SHORT).show()
             }
         }.show()
@@ -72,6 +77,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isNetworkConnected(): Boolean {
+        /*Function to check if a data connection is available, if a data connection is
+              * return true, otherwise false*/
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
@@ -107,9 +114,13 @@ class MainActivity : AppCompatActivity() {
         if (result1.isEmpty() || !DownloadXMLCompleted) {
             println("here" + result1.size)
             /*
-            This check is here to ensure that if the XML has failed the download - e.g. Maybe due to poor network, I foudn
+            This check is here to ensure that if the XML has failed the download - e.g. Maybe due to poor network, I found
             this issue myself if I was walking down stairs and the phone was hopping between different access points, this pop up
-            will appear to make the user aware that they
+            will appear to make the user aware that they.
+
+            This issue particular appears with phones due to phones latching onto
+            wifi connections are you walk around campus as they want to reduce 4g data used, even if the wifi connection is of an very
+            poor quality. Thus this check should help recover from such an issue.
              */
             alert(" Sorry \n Downloading the songs failed \n Shall we retry?") {
                 positiveButton("Yes please!") {
@@ -121,8 +132,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }.show()
         } else {
-            println("here" + result1.size)
-            /*This part should execute by the call back from OnPostExecute */
+            /*This part should execute by the call back from OnPostExecute iff the download was a success */
             val numberofsongs2 = (result1.size) /*Number of songs in XML, please note 0 is the start */
             println("ASYNC IN MAIN: " + numberofsongs2)
             val SongTitles2 = arrayOfNulls<String>(numberofsongs2 + 1)
@@ -142,13 +152,13 @@ class MainActivity : AppCompatActivity() {
             SongLinks = SongLinks2
             okToContinue = true
 
-            val a = LoadInt("NUMSONGS")
+            val a = LoadInt("NUMSONGS") /*Load the previous number of songs, this will be 0 on the first opening of the app*/
             if (a < numberofsongs) {
                 /* tell the user if new songs have been added */
                 SaveInt("NUMSONGS", numberofsongs)
                 if (a != 0) {
                     /* This check is to ensure that one the first load of the app this toast doesn't execute
-                * as it will be a bit odd to tell the user they have new songs on there first go*/
+                    * as it will be a bit odd to tell the user they have new songs on there first go*/
                     Toast.makeText(this@MainActivity, "New songs found!!", Toast.LENGTH_LONG).show()
                 }
             }
@@ -177,8 +187,8 @@ class MainActivity : AppCompatActivity() {
                 }.show()
             } else {
                 if (!DownloadXMLCompleted || numberofsongs == 0) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
                     launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -204,9 +214,8 @@ class MainActivity : AppCompatActivity() {
                 }.show()
             } else {
                 if (!DownloadXMLCompleted || numberofsongs == 0) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
                     launchXMLDownload()
-
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -229,8 +238,8 @@ class MainActivity : AppCompatActivity() {
                 }.show()
             } else {
                 if (!DownloadXMLCompleted || numberofsongs == 0) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
                     launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -253,8 +262,8 @@ class MainActivity : AppCompatActivity() {
                 }.show()
             } else {
                 if (!DownloadXMLCompleted || numberofsongs == 0) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
                     launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -275,8 +284,8 @@ class MainActivity : AppCompatActivity() {
                 }.show()
             } else {
                 if (!DownloadXMLCompleted || numberofsongs == 0) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
                     launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -290,12 +299,14 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             } else {
                 if (!DownloadXMLCompleted || numberofsongs == 0) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in 10 seconds", Toast.LENGTH_SHORT).show()
                     launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
                 }
             }
         }
         MAPSTYLE.setOnClickListener {
+            /*Change to MAPSTYLE activity, no checks requried as this activity
+            * will work offiline*/
             val intent = Intent(this, MapStyleSelector()::class.java)
             startActivity(intent)
         }
@@ -309,12 +320,14 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             } else {
                 if (!DownloadXMLCompleted || numberofsongs == 0) {
-                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a moment", Toast.LENGTH_SHORT).show()
                     launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
                 }
             }
         }
         HOWTOPLAY.setOnClickListener {
+            /*Change to FAQ activity, no checks requried as this activity
+            * will work offiline*/
             val intent = Intent(this, FAQ::class.java)
             startActivity(intent)
         }

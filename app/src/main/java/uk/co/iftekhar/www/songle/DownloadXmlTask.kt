@@ -16,10 +16,14 @@ class DownloadXmlTask(private val caller: MainActivity) : AsyncTask<String, Void
             loadXmlFromNetwork(urls[0])
         } catch (e: IOException) {
             e.printStackTrace()
+            /*If we encounter an issue, set downloadXML finished as false, thus the user
+            * will be able to retry the download from the MapsActivity*/
             caller.DownloadXMLCompleted = false
             emptyList<Entry>()
         } catch (e: XmlPullParserException) {
             e.printStackTrace()
+            /*If we encounter an issue, set downloadXML finished as false, thus the user
+           * will be able to retry the download from the MapsActivity*/
             caller.DownloadXMLCompleted = false
             emptyList<Entry>()
         }

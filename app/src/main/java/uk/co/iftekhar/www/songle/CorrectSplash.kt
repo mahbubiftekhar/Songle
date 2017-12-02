@@ -57,7 +57,7 @@ class CorrectSplash : AppCompatActivity() {
         setContentView(R.layout.activity_correct_splash)
         SongTitles = intent.getStringArrayExtra("SONGTITLES")
         SongLinks = intent.getStringArrayExtra("SONGLINKS")
-        numberofsongs = intent.getIntExtra("NUMBEROFSONGS", 1) /*Number of songs in XML, please note 0 is the start */
+        numberofsongs = intent.getIntExtra("NUMBEROFSONGS", 1) /*Number of songs in XM*/
 
         /*get the song youtube link from MapsActivity */
         val SONGYOUTUBELINK = intent.getStringExtra("SONGYOUTUBELINK")
@@ -65,28 +65,33 @@ class CorrectSplash : AppCompatActivity() {
         val SONGLYRICLINK = intent.getStringExtra("SONGLYRICLINK")
         val LEVEL = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
 
+        /*On click listeners for the different buttons */
         HOMEBUTTON.setOnClickListener {
-            networkChecker()
+            networkChecker() /*Run network checker*/
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        /*on click listeners for the different buttons */
         YOUTUBELINK.setOnClickListener {
-            if(isNetworkConnected()){ /* Check the nework status before continuing
+            if (isNetworkConnected()) {
+                /* Check the nework status before continuing
             the reason I do not use the networkChecker() is that I want the user to be able to quickly fix the
             issue, as if I take then to the networkIssue splash when they don't have a network, they can not review the
             song afterwards by pressing back - as the back button on NetworkIssue is override to take the user back to main screen
             only
             */
-            val url = "https://www.youtube.com/watch?v=" + (SONGYOUTUBELINK).drop(17)
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) } else {
+                val url = "https://www.youtube.com/watch?v=" + (SONGYOUTUBELINK).drop(17)
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            } else {
+                /*Notify the user of network issue with a quick toast*/
                 Toast.makeText(this@CorrectSplash, "No data connection, please investigate", Toast.LENGTH_LONG).show()
             }
         }
         LYRICLINK.setOnClickListener {
-            if(isNetworkConnected())   {
-            val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) } else {
+            if (isNetworkConnected()) {
+                val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            } else {
+                /*Notify the user of network issue with a quick toast*/
                 Toast.makeText(this@CorrectSplash, "No data connection, please investigate", Toast.LENGTH_LONG).show()
             }
         }

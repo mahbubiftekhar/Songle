@@ -9,27 +9,25 @@ import kotlinx.android.synthetic.main.activity_faq.*
 
 class FAQ : AppCompatActivity() {
     private fun isNetworkConnected(): Boolean {
+        /*Function to check if a data connection is available, if a data connection is
+        * return true, otherwise false*/
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
     }
 
-    fun networkChecker() {
-        /*function to check if network is available - using isNetworkConnected -
-        if network is not available, the user will be taken to the network not available
-        splash screen
-         */
-        if (!isNetworkConnected()) {
-            /*If there is a network issue send uesr to network issue page */
+
+    override fun onBackPressed() {
+        if (isNetworkConnected()) {
+            /*If a network connection is avaialble call super.onBackPressed*/
+            super.onBackPressed()
+        } else {
+            /*otherwise, send the user to NetworkIssue splash page */
             val intent = Intent(this, NetworkIssue()::class.java)
             startActivity(intent)
         }
     }
 
-    override fun onBackPressed() {
-        networkChecker() /*Check network status*/
-        super.onBackPressed()
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_faq)

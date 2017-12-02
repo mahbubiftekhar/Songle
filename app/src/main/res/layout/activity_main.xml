@@ -22,7 +22,8 @@
             android:text="@string/welcome_to_songle"
             android:textAlignment="center"
             android:textColor="#f5f5f5"
-            android:textSize="20sp"
+            android:textSize="35sp"
+            android:textColorHint="@color/colorAccent"
             android:textStyle="bold" />
 
         <View

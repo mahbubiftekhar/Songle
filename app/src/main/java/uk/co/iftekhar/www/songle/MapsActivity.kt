@@ -91,7 +91,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     }
 
     fun vibrate() {
-        if (Build.VERSION.SDK_INT > 25) { /*If the SDK version is >25, use the newer one*/
+        if (Build.VERSION.SDK_INT > 25) { /*Attempt to not use the deprecated version if possible, if the SDK version is >25, use the newer one*/
             (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(VibrationEffect.createOneShot(300, 10))
         } else {
             /*for backward comparability*/
@@ -499,7 +499,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             } else if (SongTitles[RandomNumberinRange] == SongTitles[position]) {
                 /* If the user has guessed correctly */
                 vibrate()
-                Toast.makeText(this@MapsActivity, "Correct! Well done", Toast.LENGTH_SHORT).show()
                 if (RandomNumberinRange < 10) {
                     correectGuess("0" + RandomNumberinRange.toString()) /* Call function to switch activities */
                 } else {
@@ -525,6 +524,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun downloadCompletDOC(result: List<List<String>>?) {
         /*executed after the DownloadDOC async task has finished */
         if (!downloadDOCFinnished) {
+            /*
+            This check is here to ensure that if the .txt has failed the download - e.g. Maybe due to poor network, I found
+            this issue myself if I was walking down stairs and the phone was hopping between different access points, this pop up
+            will appear to make the user aware that they.
+
+            This issue particular appears with phones due to phones latching onto
+            wifi connections are you walk around campus as they want to reduce 4g data used, even if the wifi connection is of an very
+            poor quality. Thus this check should help recover from such an issue.
+             */
             alert(" Sorry \n  Downloading words failed \n Shall we retry?") {
                 positiveButton("Yes please!") {
                     networkChecker()
@@ -567,6 +575,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun downloadCompleteKML(result: List<EntryKml>) {
         /*This part should execute by the call back from OnPostExecute */
         if (!downloadKMLFinnished) {
+            /*
+            This check is here to ensure that if the KML has failed the download - e.g. Maybe due to poor network, I found
+            this issue myself if I was walking down stairs and the phone was hopping between different access points, this pop up
+            will appear to make the user aware that they.
+
+            This issue particular appears with phones due to phones latching onto
+            wifi connections are you walk around campus as they want to reduce 4g data used, even if the wifi connection is of an very
+            poor quality. Thus this check should help recover from such an issue.
+             */
             alert(" Sorry \n  Downloading markers failed \n Shall we retry?") {
                 positiveButton("Yes please!") {
                     networkChecker()

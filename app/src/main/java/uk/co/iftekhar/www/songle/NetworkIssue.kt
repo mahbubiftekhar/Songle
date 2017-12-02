@@ -10,6 +10,10 @@ import kotlinx.android.synthetic.main.activity_network_issue.*
 
 class NetworkIssue : AppCompatActivity() {
     private fun isNetworkConnected(): Boolean {
+        /*function to check if network is available - using isNetworkConnected -
+       if network is not available, the user will be taken to the network not available
+       splash screen
+        */
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
         val networkInfo = connectivityManager.activeNetworkInfo // 2
         return networkInfo != null && networkInfo.isConnected // 3
@@ -35,6 +39,7 @@ class NetworkIssue : AppCompatActivity() {
                 startActivity(intent) /*Start the main activity when button clicked*/
             }
         }
+        /*The following buttons do NOT require data, hence no further checks will be required*/
         HOWTOPLAYNETWORKISSUE.setOnClickListener {
             val intent = Intent(this, uk.co.iftekhar.www.songle.FAQ::class.java)
             startActivity(intent)

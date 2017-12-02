@@ -90,11 +90,11 @@
     <string name="total_score">Total Score:</string>
     <string name="score_overview">SCORE OVERVIEW</string>
     <string name="listen_on_youtube">LISTEN ON YOUTUBE</string>
-    <string name="same_level">SAME LEVEL</string>
-    <string name="next_level">NEXT LEVEL</string>
-    <string name="great_job">WELL DONE!!</string>
+    <string name="same_level">PLAY SAME LEVEL</string>
+    <string name="next_level">PLAY NEXT LEVEL</string>
+    <string name="great_job">Well Done</string>
     <string name="song_lyrics">SONG LYRICS</string>
-    <string name="try_again">Try again</string>
+    <string name="try_again">Sorry,try again</string>
     <string name="please_check_your_network_connection">Please check your network connection</string>
     <string name="home">Home</string>
     <string name="you_required_gps_and_4g_3g_turned_on">Turn on 3G/4G, then click "Home" \n You also require GPS to be enabled</string>
@@ -110,5 +110,5 @@
     <string name="welcome_to_songle">Welcome to Songle!</string>
     <string name="score">SCORE</string>
     <string name="home_BUTTON">HOME</string>
-    <string name="timed_bonus">Timed Bonus</string>
+    <string name="timed_bonus">Timed bonus</string>
 </resources>

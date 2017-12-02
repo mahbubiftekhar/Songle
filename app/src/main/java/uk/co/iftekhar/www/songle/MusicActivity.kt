@@ -30,13 +30,13 @@ class MusicActivity : AppCompatActivity() {
             button_dynamic.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }
-            ll_main.addView(button_dynamic)
+            ll_main.addView(button_dynamic) /*Add button to the layout*/
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music)
-        addButtons()
+        addButtons() /*Add buttons to the layout*/
     }
 }
