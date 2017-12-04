@@ -35,6 +35,7 @@ class MapStyleSelector : AppCompatActivity() {
     }
 
     fun SaveString(key: String, value: String) {
+        /*Function to update a string sharedPreference*/
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         editor.putString(key, value)
@@ -42,6 +43,7 @@ class MapStyleSelector : AppCompatActivity() {
     }
 
     fun LoadString(key: String): String {
+        /*Function to load a string sharedPreference*/
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val savedValue = sharedPreferences.getString(key, "STANDARD")
         return savedValue
@@ -49,6 +51,7 @@ class MapStyleSelector : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun updateHeader() {
+        /*Update selected style text on screen*/
         val textView: TextView = findViewById(R.id.currentMAPSTYLE)
         val UserSelectedMapStyle = LoadString("MAPSTYLE")
         textView.text = "Selected style: $UserSelectedMapStyle"
@@ -83,7 +86,5 @@ class MapStyleSelector : AppCompatActivity() {
             SaveString("MAPSTYLE", "AUBERGINE")/* update the MAPSTYLE TO AUBERGINE*/
             updateHeader() /*Update the text saying which map style is selected*/
         }
-
-
     }
 }

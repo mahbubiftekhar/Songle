@@ -25,7 +25,7 @@ class IncorrectSplash : AppCompatActivity() {
 
     private fun isNetworkConnected(): Boolean {
         /*Function to check if a data connection is available, if a data connection is
-      * return true, otherwise false*/
+         * return true, otherwise false*/
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
@@ -53,10 +53,7 @@ class IncorrectSplash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incorrect_splash)
-
-        /*obtain the parameters from the MapsActivity, needed if the user wants to play
-        again
-         */
+        /*obtain the parameters from the MapsActivity, needed if the user wants to play again */
         SongTitles = intent.getStringArrayExtra("SONGTITLES")
         SongLinks = intent.getStringArrayExtra("SONGLINKS")
         numberofsongs = intent.getIntExtra("NUMBEROFSONGS", 1)
@@ -65,6 +62,9 @@ class IncorrectSplash : AppCompatActivity() {
         val SONGLYRICLINK = intent.getStringExtra("SONGLYRICLINK")
         val LEVEL = intent.getStringExtra("LEVEL") /*GET THE LEVEL NUMBER */
         if (LEVEL == 1.toString() || LEVEL == 2.toString()) {
+            /*If the user has failed to guess the song correctly whilst playing insane or impossible
+            * then we shall grey out the Youtube video button and the lyric link button
+            * so the user visually knows they cannot use this button*/
             YOUTUBELINK2.setBackgroundResource(R.drawable.buttonsgreyed)
             LYRICLINK2.setBackgroundResource(R.drawable.buttonsgreyed)
         }
@@ -76,9 +76,11 @@ class IncorrectSplash : AppCompatActivity() {
         }
         YOUTUBELINK2.setOnClickListener {
             if (LEVEL == 1.toString() || LEVEL == 2.toString()) {
+                /* If the user has been unsuccessful, at Insane or Impossible, they will not be allowed to view the Lyrics */
                 Toast.makeText(this@IncorrectSplash, "Sorry, this is not available at this level", Toast.LENGTH_LONG).show()
             } else {
                 if (isNetworkConnected()) {
+                    /*If the user's connected to the internet*/
                     val url = "https://www.youtube.com/watch?v=" + (SONGYOUTUBELINK).drop(17)
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                 } else {
@@ -88,10 +90,11 @@ class IncorrectSplash : AppCompatActivity() {
         }
         LYRICLINK2.setOnClickListener {
             if (LEVEL == 1.toString() || LEVEL == 2.toString()) {
-                /* If the user has been unsuccessful, at*/
+                /* If the user has been unsuccessful, at Insane or Impossible, they will not be allowed to view the Lyrics */
                 Toast.makeText(this@IncorrectSplash, "Sorry, this is not available at this level", Toast.LENGTH_LONG).show()
             } else {
                 if (isNetworkConnected()) {
+                    /*If the user's connected to the internet*/
                     val url = "http://www.inf.ed.ac.uk/teaching/courses/cslp/data/songs/$SONGLYRICLINK/words.txt"
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                 } else {

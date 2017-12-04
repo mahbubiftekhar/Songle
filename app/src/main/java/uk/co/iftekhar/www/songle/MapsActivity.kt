@@ -59,16 +59,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     lateinit var SongLinks: Array<String?>
 
     private fun isNetworkConnected(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager// 1
-        val networkInfo = connectivityManager.activeNetworkInfo // 2
-        return networkInfo != null && networkInfo.isConnected // 3
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
     fun networkChecker() {
-        /*function to check if network is available - using isNetworkConnected -
+        /* Function to check if network is available - using isNetworkConnected -
         if network is not available, the user will be taken to the network not available
-        splash screen
-         */
+        splash screen */
         if (!isNetworkConnected()) {
             /*If there is a network issue send user to network issue page */
             val intent = Intent(this, NetworkIssue()::class.java)
@@ -107,6 +106,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     }
 
     fun SaveInt(key: String, value: Int) {
+        /*Function to save a shared preference int*/
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         editor.putInt(key, value)
@@ -114,6 +114,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     }
 
     fun SaveLong(key: String, value: Long) {
+        /*Function to save a shared preference long*/
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         editor.putLong(key, value)
@@ -121,12 +122,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     }
 
     fun LoadInt(key: String): Int {
+        /*Function to load a shared preference int*/
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val savedValue = sharedPreferences.getInt(key, 0)
         return savedValue
     }
 
     fun LoadLong(key: String): Long {
+        /*Function to load a shared preference long*/
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val savedValue = sharedPreferences.getLong(key, 0.toLong())
         return savedValue
@@ -152,26 +155,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         timer.cancel()
     }
 
-    fun switchBackToMain() { /*unction to change activity to main activity*/
+    fun switchBackToMain() { /*function to change activity to main activity*/
         endTimer() /*end the timer */
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
-    override fun onBackPressed() { // override the back button, so they user realises they will end the game
+    override fun onBackPressed() { /* override the back button, so they user realises they will end the game */
         alert("End the game?") {
             positiveButton("Yes, end game") {
                 switchBackToMain()
-                //Switch user to the main screen and end the game
+                /*Switch user to the main screen and end the game */
             }
             negativeButton("No! Stay!") {
-                //Do nothing, the user changed their minds.
+                /*Do nothing, the user changed their minds. */
             }
         }.show()
     }
 
     fun ClosedRange<Int>.random() = Random().nextInt(endInclusive - start) + start
-    fun correectGuess(LYRICLINK: String?) {
+    fun correctGuess(LYRICLINK: String?) {
         endTimer()
         val LEVEL = intent.getStringExtra("Level")
         val timedBonusVALUE = LoadInt("TIMED_BONUS")
@@ -182,12 +185,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 /*If the user has successfully completed timed, update Timed bonus appropriately*/
                 SaveInt("TIMED_BONUS", timedBonusVALUE + 1)
             }
-            val a = LoadInt("EASY_LEVEL")
-            SaveInt("EASY_LEVEL", a + 1)
+            val a = LoadInt("EASY_LEVEL") /*Get previous number of successes*/
+            SaveInt("EASY_LEVEL", a + 1) /*Increment and save number of successes*/
             val time: Long = (System.currentTimeMillis() - start) / 1000
             val sd = LoadLong("BEST_TIME_EASY")
             if (time < sd || sd == 0.toLong()) {
-                println("%% we are getting here yay ")
+                /*Update best time if the previous best time was beat*/
                 SaveLong("BEST_TIME_EASY", time)
             }
         } else if (LEVEL.toInt() == 4) {
@@ -200,6 +203,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             val time = (System.currentTimeMillis() - start) / 1000
             val sd = LoadLong("BEST_TIME_NORMAL")
             if (time < sd || sd == 0.toLong()) {
+                /*Update best time if the previous best time was beat*/
                 SaveLong("BEST_TIME_NORMAL", time)
             }
         } else if (LEVEL.toInt() == 3) {
@@ -212,6 +216,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             val time = (System.currentTimeMillis() - start) / 1000
             val sd = LoadLong("BEST_TIME_HARD")
             if (time < sd || sd == 0.toLong()) {
+                /*Update best time if the previous best time was beat*/
                 SaveLong("BEST_TIME_HARD", time)
             }
         } else if (LEVEL.toInt() == 2) {
@@ -224,6 +229,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             val time = (System.currentTimeMillis() - start) / 1000
             val sd = LoadLong("BEST_TIME_INSANE")
             if (time < sd || sd == 0.toLong()) {
+                /*Update best time if the previous best time was beat*/
                 SaveLong("BEST_TIME_INSANE", time)
             }
         } else if (LEVEL.toInt() == 1) {
@@ -236,6 +242,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             val time = (System.currentTimeMillis() - start) / 1000
             val sd = LoadLong("BEST_TIME_IMPOSSIBLE")
             if (time < sd || sd == 0.toLong()) {
+                /*Update best time if the previous best time was beat*/
                 SaveLong("BEST_TIME_IMPOSSIBLE", time)
             }
         }
@@ -258,9 +265,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         val LEVEL = intent.getStringExtra("Level")
         val SONGLYRICLINK = LYRICLINK
         val intent = Intent(this, IncorrectSplash::class.java)
-        /*
-        Pass some parameters to the new activity for the buttons to allow the user to watch video online, lyrics and same level
-         */
+        /* Pass some parameters to the new activity for the buttons to allow
+        the user to watch video online, lyrics and same level */
         intent.putExtra("LEVEL", LEVEL)
         intent.putExtra("SONGYOUTUBELINK", YoutubeLinkOfCurrentSong)
         intent.putExtra("SONGLYRICLINK", SONGLYRICLINK)
@@ -345,7 +351,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             (${current.latitude},
             ${current.longitude})"""
             )
-
         }
         if (current != null && FindClosestMarker) { /* null check to ensure we don't try to distance between null and an point */
             distanceChecker(current.latitude, current.longitude)
@@ -386,11 +391,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
 
                 } catch (e: IndexOutOfBoundsException) {
                     /*This catch is to ensure that if the download of the Words from the Txt file fails but the KML download
-                    succedded and the user doesn't head the advise of the pop up and try again to download or exit and
+                    succeeded and the user doesn't head the advise of the pop up and try again to download or exit and
                     the user clicks on the map and they continue, they will not get a null pointer and fail.
 
-                    This should be an exceptional case but If it occurs I am ready
-                    */
+                    This should be an exceptionally unlikely case but If it occurs, the app is ready */
                     Toast.makeText(this@MapsActivity, "Words not found, please restart game", Toast.LENGTH_LONG).show()
                     break
                 }
@@ -474,8 +478,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         SongLinks = intent.getStringArrayExtra("SONGLINKS")
 
         /*Prints for testing */
-        println("%% + $RandomNumberinRange")
-        println("%%" + SongTitles[RandomNumberinRange])
+        /*println("%% + $RandomNumberinRange")
+          println("%%" + SongTitles[RandomNumberinRange]) */
 
         /*Set up the spinner to allow users to guess the song */
         YoutubeLinkOfCurrentSong = SongLinks[RandomNumberinRange - 1] as String
@@ -483,7 +487,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         Spinner = findViewById<View>(R.id.spinner) as Spinner
         result = findViewById<View>(R.id.tv_result) as TextView
         Spinner.bringToFront()
-        /*set an adapter with strings array*/
+        /*set an adapter with strings -where the string array is the name of the songs -  array*/
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, SongTitles)
         Spinner.adapter = adapter
@@ -500,9 +504,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 /* If the user has guessed correctly */
                 vibrate()
                 if (RandomNumberinRange < 10) {
-                    correectGuess("0" + RandomNumberinRange.toString()) /* Call function to switch activities */
+                    correctGuess("0" + RandomNumberinRange.toString()) /* Call function to switch activities */
                 } else {
-                    correectGuess(RandomNumberinRange.toString()) /* Call function to switch activities */
+                    correctGuess(RandomNumberinRange.toString()) /* Call function to switch activities */
                 }
 
             } else if (numberOfTriesLeft == 1) {
@@ -530,9 +534,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             will appear to make the user aware that they.
 
             This issue particular appears with phones due to phones latching onto
-            wifi connections are you walk around campus as they want to reduce 4g data used, even if the wifi connection is of an very
+            wifi connections as you walk around campus as they want to reduce 4g data used,
+            even if the wifi connection is of an very
             poor quality. Thus this check should help recover from such an issue.
              */
+            vibrate() /*Vibrate to notify the user*/
             alert(" Sorry \n  Downloading words failed \n Shall we retry?") {
                 positiveButton("Yes please!") {
                     networkChecker()
@@ -548,7 +554,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                 }
             }.show()
         } else {
-
             /*If the user has selected timed, the timer will be started depending on the level they selected
             if the user didn't select timed, the timer will not start in the first place. */
             val LEVEL = intent.getStringExtra("Level")
@@ -567,7 +572,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             }
             start = System.currentTimeMillis()
             words = result!!
-            println("%%" + words)
             FindClosestMarker = true
         }
     }
@@ -581,9 +585,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             will appear to make the user aware that they.
 
             This issue particular appears with phones due to phones latching onto
-            wifi connections are you walk around campus as they want to reduce 4g data used, even if the wifi connection is of an very
-            poor quality. Thus this check should help recover from such an issue.
-             */
+            wifi connections as you walk around campus as they want to reduce 4G data used, even if the wifi connection is of an very
+            poor quality. Thus this check should help recover from such an issue. */
+            vibrate() /* Vibrate to notify the user that the download has failed*/
             alert(" Sorry \n  Downloading markers failed \n Shall we retry?") {
                 positiveButton("Yes please!") {
                     networkChecker()

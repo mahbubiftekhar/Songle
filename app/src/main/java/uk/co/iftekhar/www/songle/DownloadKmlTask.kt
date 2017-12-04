@@ -15,13 +15,13 @@ class DownloadKmlTask(private val caller: MapsActivity) : AsyncTask<String, Void
             loadKMLFromNetwork(urls[0])
         } catch (e: IOException) {
             /*If we encounter an issue, set downloadKML finished as false, thus the user
-            * will be able to retry the download from the MapsActivity*/
+            * will be able to retry the download from the MapsActivity */
             caller.downloadKMLFinnished = false
             e.printStackTrace()
             emptyList<EntryKml>()
         } catch (e: XmlPullParserException) {
             /*If we encounter an issue, set downloadKML finished as false, thus the user
-            * will be able to retry the download from the MapsActivity*/
+            * will be able to retry the download from the MapsActivity */
             caller.downloadKMLFinnished = false
             e.printStackTrace()
             emptyList<EntryKml>()
