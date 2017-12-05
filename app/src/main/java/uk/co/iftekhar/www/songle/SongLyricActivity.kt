@@ -10,6 +10,8 @@ import android.net.Uri
 
 
 class SongLyricActivity : AppCompatActivity() {
+    var SongNum = ""
+
     fun AddLyricsText(Title: String): String {
         /*function to add "-Lyrics" to a string and return that string */
         return """$Title - Lyrics"""
@@ -35,7 +37,6 @@ class SongLyricActivity : AppCompatActivity() {
             button_dynamic.layoutParams = params
 
             /*if the song number is single digit, we need to ensure that a 0 is in front e.g. 9 -> 09*/
-            var SongNum = ""
             if (SongNumber < 10) {
                 SongNum = "0" + (SongNumber).toString()
             } else {

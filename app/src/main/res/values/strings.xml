@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Songle</string>
     <string name="title_home">Welcome to Songle!</string>
-
     <string name="title_playGame">Play Game</string>
     <string name="title_songs">Songs</string>
     <string name="title_activity_maps">Map</string>
@@ -19,11 +18,9 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_android_maps">Map</string>
-
     <string name="title_activity_correct_guess_screen">CorrectGuessScreen</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
     <string name="title_activity_correct_splash">CorrectSplash</string>
     <string name="title_activity_faq">FAQ</string>
     <string name="large_text">
@@ -41,6 +38,7 @@
         "Question: How many attempts do I get to guess the song? \n"
         "Answer:\n"
         "You get 5 attempts, regardless if you play timed or not \n\n\n"
+
         "Question: How is the score calculated? \n"
         "Answer:\n"
         "Each "success" at the different levels contributes in the following way
@@ -48,7 +46,7 @@
         Medium - 2 points per success \n
         Hard - 3 points per success \n
         Insane - 4 points per success \n
-        Impossible - 5 points per success \n
+        Impossible - 5 points per success \n\n
         If you played timed you will also get extra "Timed bonus" points \n
         Easy - 1 points timed bonus per success \n
         Medium - 2 points timed bonus per success \n
@@ -65,7 +63,7 @@
         "Question: How many songs are there? \n"
         "Answer:\n"
         "Currently there are 22 songs, although we are adding new songs all the time!
-        Don't worry, the app will update automatically when this happens :-)\n\n\n"
+        Don't worry, the app will update automatically when this happens, you will also be notified when their are new songs :-)\n\n\n"
 
 
         "Question: Can this app work offline? \n"
@@ -76,13 +74,14 @@
         at all times
         \n\n\n"
 
-        "Question: I am still having issues/ how do I give feedback? \n"
+        "Question: I am still having issues/how do I give feedback? \n"
         "Answer:\n"
         "Please email me on my email address or call me on my business line: \n
          Email: mahbub@iftekhar.co.uk \n
-         Phone: +44 131 581 8775 \n
+         Phone: +44 131 581 8775 \n(9am - 6pm , Mon - Sat) \n
         \n
-        I will be happy to get feedback and or help you with any issues you may be having. Please allow 2 working days for a reply.
+        I will be happy to get feedback and or help you with any issues you may be having. Please allow 2 working days for a reply by email.
+        Please note all calls are recorded for monitoring purposes
         \n\n\n"
 
 

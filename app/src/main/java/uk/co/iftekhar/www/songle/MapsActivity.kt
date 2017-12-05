@@ -383,7 +383,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                     Toast.makeText(this@MapsActivity, "Classification: $markerClassification  Word: $word", Toast.LENGTH_LONG).show()
                     println("!! WORD $word")
                     println("!! CLASSIFICATIOM $markerClassification")
-                    println("!! CLASSIFICATIOM $markerTag")
+                    println("!! TAG  $markerTag")
+                    println("-------------------------------------------------")
                     markersformap[i].remove() /* remove from map*/
                     markersformap.removeAt(i) /* remove from ArrayList */
                     println("!! THIS IS THE END OF THIS WORD")
@@ -463,6 +464,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun doBulkOfWork() {
         numberofsongs = intent.getIntExtra("NUMBEROFSONGS", 1) /*Number of songs in XML, please note 0 is the start */
         RandomNumberinRange = (1..numberofsongs).random() /* pick a random number */
+        RandomNumberinRange = 2
         val LEVEL = intent.getStringExtra("Level") /* get the level the user selected */
 
         /* Execute KML Async */

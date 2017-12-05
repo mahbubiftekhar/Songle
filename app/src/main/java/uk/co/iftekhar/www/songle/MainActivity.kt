@@ -12,8 +12,7 @@ import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import android.support.v4.app.ActivityCompat
-import android.content.pm.PackageManager
-import android.support.v4.content.ContextCompat
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,15 +22,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var SongLinks: Array<String?>
     var DownloadXMLCompleted = true
 
-    private fun havePermission(permission: String): Boolean {
-        /*Function to check if permission is enabled*/
-        try {
-            val permissionCheckResult = ContextCompat.checkSelfPermission(this, permission)
-            return permissionCheckResult == PackageManager.PERMISSION_GRANTED
-        } catch (e: SecurityException) {
-            return false
-        }
-    }
 
     private fun requestPermission(permission: String) {
         /*Function to request permission */
@@ -39,6 +29,7 @@ class MainActivity : AppCompatActivity() {
             val permissions = arrayOf(permission)
             ActivityCompat.requestPermissions(this, permissions, 1)
         } catch(e: SecurityException) {
+            /*Catch any Security Exceptions*/
         }
     }
 
@@ -138,8 +129,7 @@ class MainActivity : AppCompatActivity() {
     fun downloadCompleteXML(result1: List<Entry>) {
         if (result1.isEmpty() || !DownloadXMLCompleted) {
             println("here" + result1.size)
-            /*
-            This check is here to ensure that if the XML has failed the download - e.g. Maybe due to poor network, I found
+            /* This check is here to ensure that if the XML has failed the download - e.g. Maybe due to poor network, I found
             this issue myself if I was walking down stairs and the phone was hopping between different access points, this pop up
             will appear to make the user aware that they.
 
@@ -199,29 +189,24 @@ class MainActivity : AppCompatActivity() {
         launchXMLDownload()
 
         LEVEL1_BUTTON.setOnClickListener {
-            if (havePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                networkChecker() /*Run the network checker */
-                if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
-                    alert("Want a challenge with timed play?") {
-                        positiveButton("Yes, bring it on!") {
-                            bulkwork("5", true) /*Easiest, most words with lots of classifications */
-                        }
-                        negativeButton("No Thanks!") {
-                            bulkwork("5", false) /*Easiest, most words with lots of classifications */
-                        }
-                        neutralButton("Exit") {
-                            Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
-                        }
-                    }.show()
-                } else {
-                    if (!DownloadXMLCompleted || numberofsongs == 0) {
-                        launchXMLDownload()
-                        Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+            networkChecker() /*Run the network checker */
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
+                alert("Want a challenge with timed play?") {
+                    positiveButton("Yes, bring it on!") {
+                        bulkwork("5", true) /*Easiest, most words with lots of classifications */
                     }
-                }
+                    negativeButton("No Thanks!") {
+                        bulkwork("5", false) /*Easiest, most words with lots of classifications */
+                    }
+                    neutralButton("Exit") {
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                    }
+                }.show()
             } else {
-                Toast.makeText(this@MainActivity, "Please select allow to play", Toast.LENGTH_SHORT).show()
-                requestPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         SCORE.setOnClickListener {
@@ -229,117 +214,95 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         LEVEL2_BUTTON.setOnClickListener {
-            if (havePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                networkChecker() /*Run the network checker */
-                if (isNetworkConnected() && numberofsongs > 0) {
-                    alert("Want a challenge with timed play?") {
-                        positiveButton("Yes, bring it on!") {
-                            bulkwork("4", true)
-                            //timed play
-                        }
-                        negativeButton("No Thanks!") {
-                            bulkwork("4", false)
-                            //No timed play
-                        }
-                        neutralButton("Exit") {
-                            Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
-                        }
-                    }.show()
-                } else {
-                    if (!DownloadXMLCompleted || numberofsongs == 0) {
-                        launchXMLDownload()
-                        Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+            networkChecker() /*Run the network checker */
+            if (isNetworkConnected() && numberofsongs > 0) {
+                alert("Want a challenge with timed play?") {
+                    positiveButton("Yes, bring it on!") {
+                        bulkwork("4", true)
+                        /*timed play */
                     }
-                }
+                    negativeButton("No Thanks!") {
+                        bulkwork("4", false)
+                        /*No timed play*/
+                    }
+                    neutralButton("Exit") {
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                    }
+                }.show()
             } else {
-                Toast.makeText(this@MainActivity, "Please select allow to play", Toast.LENGTH_SHORT).show()
-                requestPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
         LEVEL3_BUTTON.setOnClickListener {
-            if (havePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                networkChecker() /*Run the network checker */
-                if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
-                    alert("Want a challenge with timed play?") {
-                        positiveButton("Yes, bring it on!") {
-                            bulkwork("3", true)
-                            //timed play
-                        }
-                        negativeButton("No Thanks!") {
-                            bulkwork("3", false)
-                            //No timed play
-                        }
-                        neutralButton("Exit") {
-                            Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
-                        }
-                    }.show()
-                } else {
-                    if (!DownloadXMLCompleted || numberofsongs == 0) {
-                        launchXMLDownload()
-                        Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+            networkChecker() /*Run the network checker */
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
+                alert("Want a challenge with timed play?") {
+                    positiveButton("Yes, bring it on!") {
+                        bulkwork("3", true)
+                        //timed play
                     }
-                }
+                    negativeButton("No Thanks!") {
+                        bulkwork("3", false)
+                        //No timed play
+                    }
+                    neutralButton("Exit") {
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                    }
+                }.show()
             } else {
-                Toast.makeText(this@MainActivity, "Please select allow to play", Toast.LENGTH_SHORT).show()
-                requestPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+                }
             }
-
         }
         LEVEL4_BUTTON.setOnClickListener {
-            if (havePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                networkChecker() /*Run the network checker */
-                if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
-                    alert("Want a challenge with timed play?") {
-                        positiveButton("Yes, bring it on!") {
-                            bulkwork("2", true)
-                            //timed play
-                        }
-                        negativeButton("No Thanks!") {
-                            bulkwork("2", false)
-                            //No timed play
-                        }
-                        neutralButton("Exit") {
-                            Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
-                        }
-                    }.show()
-                } else {
-                    if (!DownloadXMLCompleted || numberofsongs == 0) {
-                        launchXMLDownload()
-                        Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+            networkChecker() /*Run the network checker */
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
+                alert("Want a challenge with timed play?") {
+                    positiveButton("Yes, bring it on!") {
+                        bulkwork("2", true)
+                        //timed play
                     }
-                }
+                    negativeButton("No Thanks!") {
+                        bulkwork("2", false)
+                        //No timed play
+                    }
+                    neutralButton("Exit") {
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                    }
+                }.show()
             } else {
-                Toast.makeText(this@MainActivity, "Please select allow to play", Toast.LENGTH_SHORT).show()
-                requestPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         LEVEL5BUTTON.setOnClickListener {
-            if (havePermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                networkChecker() /*Run the network checker */
-                if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
-                    alert("Want a challenge with timed play?") {
-                        positiveButton("Yes, bring it on!") {
-                            bulkwork("1", true)
-                        }
-                        negativeButton("No Thanks!") {
-                            bulkwork("1", false)
-                        }
-                        neutralButton("Exit") {
-                            Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
-                        }
-
-                    }.show()
-                } else {
-                    if (!DownloadXMLCompleted || numberofsongs == 0) {
-                        launchXMLDownload()
-                        Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+            networkChecker() /*Run the network checker */
+            if (okToContinue && isNetworkConnected() && numberofsongs > 0) {
+                alert("Want a challenge with timed play?") {
+                    positiveButton("Yes, bring it on!") {
+                        bulkwork("1", true)
                     }
-                }
+                    negativeButton("No Thanks!") {
+                        bulkwork("1", false)
+                    }
+                    neutralButton("Exit") {
+                        Toast.makeText(this@MainActivity, "Read the FAQ if you need help", Toast.LENGTH_SHORT).show()
+                    }
+
+                }.show()
             } else {
-                Toast.makeText(this@MainActivity, "Please select allow to play", Toast.LENGTH_SHORT).show()
-                requestPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                if (!DownloadXMLCompleted || numberofsongs == 0) {
+                    launchXMLDownload()
+                    Toast.makeText(this@MainActivity, "Downloading songs, please retry in a bit", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         MUSICBUTTON.setOnClickListener {

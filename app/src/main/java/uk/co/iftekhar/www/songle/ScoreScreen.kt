@@ -61,54 +61,54 @@ class ScoreScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_score_screen)
 
-        val a = LoadInt("EASY_LEVEL").toString() /*Set easy level score*/
+        val EASY_LEVEL_SCORE = LoadInt("EASY_LEVEL").toString() /*Set easy level score*/
         val textView: TextView = findViewById(R.id.LEVEL1_SCORE)
-        textView.text = getText(a)
+        textView.text = getText(EASY_LEVEL_SCORE)
 
-        val B = LoadInt("NORMAL_LEVEL").toString() /*Set normal level score*/
+        val NORMAL_LEVEL_SCORE = LoadInt("NORMAL_LEVEL").toString() /*Set normal level score*/
         val textView2: TextView = findViewById(R.id.LEVEL2_SCORE)
-        textView2.text = getText(B)
+        textView2.text = getText(NORMAL_LEVEL_SCORE)
 
-        val C = LoadInt("HARD_LEVEL").toString() /*Set hard level score*/
+        val HARD_LEVEL_SCORE = LoadInt("HARD_LEVEL").toString() /*Set hard level score*/
         val textView3: TextView = findViewById(R.id.LEVEL3_SCORE)
-        textView3.text = getText(C)
+        textView3.text = getText(HARD_LEVEL_SCORE)
 
-        val D = LoadInt("INSANE_LEVEL").toString() /*Set insane level score*/
+        val INSANE_LEVEL_SCORE = LoadInt("INSANE_LEVEL").toString() /*Set insane level score*/
         val textView4: TextView = findViewById(R.id.LEVEL4_SCORE)
-        textView4.text = getText(D)
+        textView4.text = getText(INSANE_LEVEL_SCORE)
 
-        val E = LoadInt("IMPOSSIBLE_LEVEL").toString() /*Set impossible level score*/
+        val IMPOSSIBLE_LEVEL_SCORE = LoadInt("IMPOSSIBLE_LEVEL").toString() /*Set impossible level score*/
         val textView5: TextView = findViewById(R.id.LEVEL5_SCORE)
-        textView5.text = getText(E)
+        textView5.text = getText(IMPOSSIBLE_LEVEL_SCORE)
 
         /*Calculate total score*/
 
-        val F1 = LoadInt("TIMED_BONUS").toString() /*Set the timed bonus value*/
+        val TIMED_BONUS = LoadInt("TIMED_BONUS").toString() /*Set the timed bonus value*/
         val textView61: TextView = findViewById(R.id.TIMEDBONUSVALUE)
-        textView61.text = "Timed Bonus: $F1"
+        textView61.text = "Timed Bonus: $TIMED_BONUS"
 
-        val totalSCORE = (a.toInt() + B.toInt() * 2 + C.toInt() * 3 + D.toInt() * 4 + E.toInt() * 5 + F1.toInt()).toString()
+        val TOTAL_SCORE = (EASY_LEVEL_SCORE.toInt() + NORMAL_LEVEL_SCORE.toInt() * 2 + HARD_LEVEL_SCORE.toInt() * 3 + INSANE_LEVEL_SCORE.toInt() * 4 + IMPOSSIBLE_LEVEL_SCORE.toInt() * 5 + TIMED_BONUS.toInt()).toString()
         val textView6: TextView = findViewById(R.id.Score)
-        textView6.text = totalSCORE /*set total score*/
+        textView6.text = TOTAL_SCORE /*set total score*/
 
-        val a1 = LoadLong("BEST_TIME_EASY").toString() /*set easy level best time*/
+        val BEST_TIME_EASY = LoadLong("BEST_TIME_EASY").toString() /*set easy level best time*/
         val textView1: TextView = findViewById(R.id.LEVEL1_TIME)
-        textView1.text = getText2(a1)
+        textView1.text = getText2(BEST_TIME_EASY)
 
-        val B1 = LoadLong("BEST_TIME_NORMAL").toString() /*set normal level best time*/
+        val BEST_TIME_NORMAL = LoadLong("BEST_TIME_NORMAL").toString() /*set normal level best time*/
         val textView21: TextView = findViewById(R.id.LEVEL2_TIME)
-        textView21.text = getText2(B1)
+        textView21.text = getText2(BEST_TIME_NORMAL)
 
-        val C1 = LoadLong("BEST_TIME_HARD").toString() /*set hard level best time*/
+        val BEST_TIME_HARD = LoadLong("BEST_TIME_HARD").toString() /*set hard level best time*/
         val textView31: TextView = findViewById(R.id.LEVEL3_TIME)
-        textView31.text = getText2(C1)
+        textView31.text = getText2(BEST_TIME_HARD)
 
-        val D1 = LoadLong("BEST_TIME_INSANE").toString() /*set insane level best time*/
+        val BEST_TIME_INSANE = LoadLong("BEST_TIME_INSANE").toString() /*set insane level best time*/
         val textView41: TextView = findViewById(R.id.LEVEL4_TIME)
-        textView41.text = getText2(D1)
+        textView41.text = getText2(BEST_TIME_INSANE)
 
-        val E1 = LoadLong("BEST_TIME_IMPOSSIBLE").toString() /*set impossible level best time*/
+        val BEST_TIME_IMPOSSIBLE = LoadLong("BEST_TIME_IMPOSSIBLE").toString() /*set impossible level best time*/
         val textView51: TextView = findViewById(R.id.LEVEL5_TIME)
-        textView51.text = getText2(E1)
+        textView51.text = getText2(BEST_TIME_IMPOSSIBLE)
     }
 }
