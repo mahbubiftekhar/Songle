@@ -360,13 +360,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun distanceChecker(Lat: Double, Long: Double) {
         fun distFrom(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Boolean {
             //This function gets the distance between two GPS coordinates
-            val earthRadius = 6371000.0 //meters
+            val earthRadius = 6371000.0 /* meters */
             val dLat = Math.toRadians((lat2 - lat1))
             val dLng = Math.toRadians((lng2 - lng1))
             val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
             val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
             val dist = (earthRadius * c).toFloat()
-            return (dist <= 12)/*return true if the distance is less than 10 */
+            return (dist <= 15)/*return true if the distance is less than 15 */
         }
         for (i in 0..markersformap.size - 1) {
             val marker = markersformap[i]
@@ -478,8 +478,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         SongLinks = intent.getStringArrayExtra("SONGLINKS")
 
         /*Prints for testing */
-        /*println("%% + $RandomNumberinRange")
-          println("%%" + SongTitles[RandomNumberinRange]) */
+        println("%% + $RandomNumberinRange")
+        println("%%" + SongTitles[RandomNumberinRange])
 
         /*Set up the spinner to allow users to guess the song */
         YoutubeLinkOfCurrentSong = SongLinks[RandomNumberinRange - 1] as String
