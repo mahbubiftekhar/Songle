@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             println("here" + result1.size)
             /* This check is here to ensure that if the XML has failed the download - e.g. Maybe due to poor network, I found
             this issue myself if I was walking down stairs and the phone was hopping between different access points, this pop up
-            will appear to make the user aware that they.
+            will appear to make the user aware that this issue has occurred, and to let them recover.
 
             This issue particular appears with phones due to phones latching onto
             wifi connections are you walk around campus as they want to reduce 4g data used, even if the wifi connection is of an very

@@ -144,18 +144,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
              * Below we are editing the RandomNumberInRange and calling incorrectGuess with the
               * randomNumberInRange in the require format e.g. 9 -> 09*/
             if (RandomNumberinRange < 10) {
-                incorrectguess("0" + LyricLinkOfCurrentSong)
+                incorrectGuess("0" + LyricLinkOfCurrentSong)
             } else {
-                incorrectguess(LyricLinkOfCurrentSong)
+                incorrectGuess(LyricLinkOfCurrentSong)
             }
         }, seconds)
     }
 
-    private fun endTimer() { /* function to end the timer */
+    private fun endTimer() {
+        /* function to simply end the timer */
         timer.cancel()
     }
 
-    fun switchBackToMain() { /*function to change activity to main activity*/
+    fun switchBackToMain() {
+        /*function to change activity to main activity*/
         endTimer() /*end the timer */
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -259,8 +261,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         startActivity(intent)
     }
 
-    fun incorrectguess(LYRICLINK: String?) {
-        endTimer()// end the timer
+    fun incorrectGuess(LYRICLINK: String?) {
+        endTimer()
         FindClosestMarker = false
         val LEVEL = intent.getStringExtra("Level")
         val SONGLYRICLINK = LYRICLINK
@@ -313,8 +315,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         val mLocationRequest = LocationRequest()
         mLocationRequest.interval = 5000 // preferably every 5 seconds
         mLocationRequest.fastestInterval = 1000 // at most every second
-        mLocationRequest.priority =
-                LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         /* Can we access the user’s current location? */
         val permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
@@ -381,10 +382,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
                     val markerClassification = markersformap[i].title // Gets the classification
                     vibrate()
                     Toast.makeText(this@MapsActivity, "Classification: $markerClassification  Word: $word", Toast.LENGTH_LONG).show()
-                    println("!! WORD $word")
-                    println("!! CLASSIFICATIOM $markerClassification")
-                    println("!! TAG  $markerTag")
-                    println("-------------------------------------------------")
+                    /* println("!! WORD $word")
+                     println("!! CLASSIFICATIOM $markerClassification")
+                     println("!! TAG  $markerTag")
+                     println("-------------------------------------------------") */
                     markersformap[i].remove() /* remove from map*/
                     markersformap.removeAt(i) /* remove from ArrayList */
                     println("!! THIS IS THE END OF THIS WORD")
@@ -434,18 +435,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         mMap.setMaxZoomPreference(22.0f) /*maximum view is building level*/
         mMap.setMinZoomPreference(16.0f) /*minimum view is street level */
-        val b = LoadString("MAPSTYLE")
+        val userSelectedStyle = LoadString("MAPSTYLE")
 
         /*Set the MAP Style, defaults to standard if the user has not changed the setting*/
-        if (b == "AUBERGINE") {
+        if (userSelectedStyle == "AUBERGINE") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style1))
-        } else if (b == "RETRO") {
+        } else if (userSelectedStyle == "RETRO") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style4))
-        } else if (b == "DARK") {
+        } else if (userSelectedStyle == "DARK") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style3))
-        } else if (b == "NIGHT") {
+        } else if (userSelectedStyle == "NIGHT") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style2))
-        } else if (b == "SILVER") {
+        } else if (userSelectedStyle == "SILVER") {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style5))
         } else {
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style6))
@@ -464,7 +465,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun doBulkOfWork() {
         numberofsongs = intent.getIntExtra("NUMBEROFSONGS", 1) /*Number of songs in XML, please note 0 is the start */
         RandomNumberinRange = (1..numberofsongs).random() /* pick a random number */
-        RandomNumberinRange = 2
         val LEVEL = intent.getStringExtra("Level") /* get the level the user selected */
 
         /* Execute KML Async */
@@ -514,9 +514,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             } else if (numberOfTriesLeft == 1) {
                 /*If the user guessed incorrectly, but has no tries left boot them out of the game*/
                 if (RandomNumberinRange < 10) {
-                    incorrectguess("0" + RandomNumberinRange.toString()) /* Call function to switch activities */
+                    incorrectGuess("0" + RandomNumberinRange.toString()) /* Call function to switch activities */
                 } else {
-                    incorrectguess(RandomNumberinRange.toString()) /* Call function to switch activities */
+                    incorrectGuess(RandomNumberinRange.toString()) /* Call function to switch activities */
                 }
             } else {
                 /* If the user guessed incorrectly, but has tries left*/
@@ -530,16 +530,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
     fun downloadCompletDOC(result: List<List<String>>?) {
         /*executed after the DownloadDOC async task has finished */
         if (!downloadDOCFinnished) {
-            /*
-            This check is here to ensure that if the .txt has failed the download - e.g. Maybe due to poor network, I found
+            /* This check is here to ensure that if the .txt has failed the download - e.g. Maybe due to poor network, I found
             this issue myself if I was walking down stairs and the phone was hopping between different access points, this pop up
-            will appear to make the user aware that they.
+            will appear to make the user aware that this issue has occurred, and to let them recover.
 
             This issue particular appears with phones due to phones latching onto
             wifi connections as you walk around campus as they want to reduce 4g data used,
             even if the wifi connection is of an very
-            poor quality. Thus this check should help recover from such an issue.
-             */
+            poor quality. Thus this check should help recover from such an issue. */
             vibrate() /*Vibrate to notify the user*/
             alert(" Sorry \n  Downloading words failed \n Shall we retry?") {
                 positiveButton("Yes please!") {
@@ -584,7 +582,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             /*
             This check is here to ensure that if the KML has failed the download - e.g. Maybe due to poor network, I found
             this issue myself if I was walking down stairs and the phone was hopping between different access points, this pop up
-            will appear to make the user aware that they.
+            will appear to make the user aware that this issue has occurred, and to let them recover.
 
             This issue particular appears with phones due to phones latching onto
             wifi connections as you walk around campus as they want to reduce 4G data used, even if the wifi connection is of an very

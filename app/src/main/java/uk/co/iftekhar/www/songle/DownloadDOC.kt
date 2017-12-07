@@ -40,8 +40,8 @@ class DownloadDOC(private val caller: MapsActivity) : AsyncTask<String, Void, Li
     private fun downloadUrl(urlString: String): InputStream {
         val url = URL(urlString)
         val conn = url.openConnection() as HttpURLConnection
-        conn.readTimeout = 10000 // milliseconds
-        conn.connectTimeout = 15000 // milliseconds
+        conn.readTimeout = 10000 /* milliseconds */
+        conn.connectTimeout = 15000 /* milliseconds */
         conn.requestMethod = "GET"
         conn.doInput = true
         conn.connect()
