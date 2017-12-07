@@ -367,7 +367,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Co
             val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
             val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
             val dist = (earthRadius * c).toFloat()
-            return (dist <= 15)/*return true if the distance is less than 15 */
+            return (dist <= 20)/*return true if the distance is less than 15 */
         }
         for (i in 0..markersformap.size - 1) {
             val marker = markersformap[i]

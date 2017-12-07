@@ -93,7 +93,7 @@
     <string name="next_level">PLAY NEXT LEVEL</string>
     <string name="great_job">Well Done</string>
     <string name="song_lyrics">SONG LYRICS</string>
-    <string name="try_again">Sorry,try again</string>
+    <string name="try_again">Sorry, try again!</string>
     <string name="please_check_your_network_connection">Please check your network connection</string>
     <string name="home">Home</string>
     <string name="you_required_gps_and_4g_3g_turned_on">Turn on 3G/4G, then click "Home" \n You also require GPS to be enabled</string>
